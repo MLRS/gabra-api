@@ -1,0 +1,23 @@
+{
+  "description": "Part of Speech",
+  "type": "string",
+  "enum": [
+    "ADJ",
+    "ADP",
+    "ADV",
+    "AUX",
+    "CONJ",
+    "DET",
+    "INTJ",
+    "NOUN",
+    "NUM",
+    "PART",
+    "PRON",
+    "PROPN",
+    "PUNCT",
+    "SCONJ",
+    "SYM",
+    "VERB",
+    "X"
+  ]
+}

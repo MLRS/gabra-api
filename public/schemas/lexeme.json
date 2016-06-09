@@ -1,0 +1,188 @@
+{
+  "title": "Lexeme",
+  "type": "object",
+  "required" : [
+    "lemma",
+    "pos"
+  ],
+  "properties": {
+    "_id": {
+      "title": "ID",
+      "type": "string",
+      "propertyOrder": 1
+    },
+    "lemma": {
+      "type": "string",
+      "propertyOrder": 2
+    },
+    "alternatives": {
+      "type": "array",
+      "format": "table",
+      "items": {
+        "title": "alternative",
+        "type": "string"
+      },
+      "propertyOrder": 3
+    },
+    "pos": {
+      "description": "Part of Speech",
+      "type": "string",
+      "enum": [
+        "ADJ",
+        "ADP",
+        "ADV",
+        "AUX",
+        "CONJ",
+        "DET",
+        "INTJ",
+        "NOUN",
+        "NUM",
+        "PART",
+        "PRON",
+        "PROPN",
+        "PUNCT",
+        "SCONJ",
+        "SYM",
+        "VERB",
+        "X"
+      ],
+      "propertyOrder": 4
+    },
+    "sources": {
+      "type": "array",
+      "format": "table",
+      "items": {
+        "title": "source",
+        "type": "string"
+      },
+      "propertyOrder": 5
+    },
+    "gloss": {
+      "type": "string",
+      "description": "English gloss. One sense per line (do not number).",
+      "format": "textarea",
+      "propertyOrder": 6
+    },
+    "root": {
+      "type": "object",
+      "properties": {
+        "radicals": {
+          "type": "string",
+          "description": "c-c-c or c-c-c-c"
+        },
+        "variant": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "headword": {
+      "type": "object",
+      "required": [
+        "lemma"
+      ],
+      "properties": {
+        "lemma": {
+          "type": "string",
+          "description": "Lemma of head word"
+        },
+        "pos": {
+          "description": "Part of Speech of head word (recommended)",
+          "type": "string",
+          "enum": [
+            "",
+            "ADJ",
+            "ADP",
+            "ADV",
+            "AUX",
+            "CONJ",
+            "DET",
+            "INTJ",
+            "NOUN",
+            "NUM",
+            "PART",
+            "PRON",
+            "PROPN",
+            "PUNCT",
+            "SCONJ",
+            "SYM",
+            "VERB",
+            "X"
+          ]
+        },
+        "lexeme_id": {
+          "type": "string",
+          "description": "ID of head word (optional)"
+        }
+      }
+    },
+    "derived_form": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "m",
+        "f"
+      ]
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "common",
+        "uncommon",
+        "rare"
+      ]
+    },
+    "transitive": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "intransitive": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "ditransitive": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "hypothetical": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "archaic": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "pending": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "not_duplicate": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "phonetic": {
+      "type": "string"
+    },
+    "apertium_paradigm": {
+      "type": "string"
+    },
+    "onomastic_type": {
+      "type": "string"
+    },
+    "feedback": {
+      "type": "string"
+    },
+    "created": {
+      "type": "string",
+      "format": "datetime"
+    },
+    "modified": {
+      "type": "string",
+      "format": "datetime"
+    }
+  }
+}

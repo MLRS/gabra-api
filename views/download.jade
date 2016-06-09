@@ -1,0 +1,32 @@
+extends layout
+
+block content
+
+  h2 Download
+  p
+    | If you want to download the database contents to use on your own machine, you can find some database snapshots below. The data is in BSON format, which you can use directly in the 
+    a(href='http://www.mongodb.org/') MongoDB database engine
+    | , or convert to other formats using the 
+    a(href='http://docs.mongodb.org/manual/reference/program/bsondump/') bsondump
+    |  tool.
+
+  table.table.table-striped
+    thead
+      tr
+        th File name
+        th Size
+        th Modified
+    tbody
+      - var i = 0
+      for f in files
+        - i++
+        tr
+          td
+            a(href='#{gabraURL}/files/'+f.name )= f.name
+            if i === 1
+              |  
+              span.label.label-primary Latest
+          td= (f.size / (1024 * 1024)).toFixed(2)
+            |  MB
+          td= f.mtime
+  

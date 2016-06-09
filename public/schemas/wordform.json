@@ -1,0 +1,140 @@
+{
+  "title": "Wordform",
+  "type": "object",
+  "required" : [
+    "lexeme_id",
+    "surface_form"
+  ],
+  "properties": {
+    "_id": {
+      "title": "ID",
+      "type": "string",
+      "propertyOrder": 1
+    },
+    "lexeme_id": {
+      "type": "string",
+      "propertyOrder": 2
+    },
+    "surface_form": {
+      "type": "string",
+      "propertyOrder": 3
+    },
+    "alternatives": {
+      "type": "array",
+      "format": "table",
+      "items": {
+        "title": "alternative",
+        "type": "string"
+      },
+      "propertyOrder": 4
+    },
+    "gloss": {
+      "type": "string",
+      "description": "English gloss",
+      "propertyOrder": 10
+    },
+    "sources": {
+      "type": "array",
+      "format": "table",
+      "items": {
+        "title": "source",
+        "type": "string"
+      },
+      "propertyOrder": 1005
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "m",
+        "f",
+        "mf"
+      ],
+      "propertyOrder": 5
+    },
+    "number": {
+      "type": "string",
+      "enum": [
+        "sg",
+        "dl",
+        "pl",
+        "sgv",
+        "coll",
+        "sp",
+        "pl_ind",
+        "pl_det",
+        "pl_pl"
+      ],
+      "propertyOrder": 6
+    },
+    "plural_form": {
+      "type": "string",
+      "enum": [
+        "counted"
+      ]
+    },
+    "subject": {
+      "$ref": "#{baseURL}/schemas/agr.json",
+      "title": "subject"
+    },
+    "dir_obj": {
+      "$ref": "#{baseURL}/schemas/agr.json",
+      "title": "direct object"
+    },
+    "ind_obj": {
+      "$ref": "#{baseURL}/schemas/agr.json",
+      "title": "indirect object"
+    },
+    "form": {
+      "description": "General morphological form",
+      "type": "string",
+      "enum": [
+        "comparative",
+        "superlative",
+        "diminutive",
+        "interrogative",
+        "mimated",
+        "verbalnoun"
+      ]
+    },
+    "aspect": {
+      "type": "string",
+      "enum": [
+        "perf",
+        "impf",
+        "imp",
+        "pastpart",
+        "prespart"
+      ]
+    },
+    "polarity": {
+      "type": "string",
+      "enum": [
+        "pos",
+        "neg"
+      ]
+    },
+    "full": {
+      "type": "string"
+    },
+    "stem": {
+      "type": "string"
+    },
+    "phonetic": {
+      "type": "string"
+    },
+    "pattern": {
+      "type": "string"
+    },
+    "generated": {
+      "type": "boolean"
+    },
+    "created": {
+      "type": "string",
+      "format": "datetime"
+    },
+    "modified": {
+      "type": "string",
+      "format": "datetime"
+    }
+  }
+}

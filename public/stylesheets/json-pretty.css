@@ -1,0 +1,15 @@
+.json {}
+.json .json-object {}
+.json .json-row {}
+.json .json-key {
+  color: #333;
+  font-weight: bold;
+}
+.json .json-colon {
+  padding: 5px;
+}
+.json .json-value {
+  display: inline-block;
+  vertical-align: top;
+  color: #888;
+}
