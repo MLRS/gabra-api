@@ -5,7 +5,7 @@ module.exports = {
   useCDN: false,
   developmentMode: true,
   maintenanceMode: false,
-  gabraURL: 'http://localhost/gabra',
+  gabraURL: 'http://mlrs.research.um.edu.mt/resources/gabra',
   salt: '',
   dbUrl: 'localhost:27017/gabra',
   dbOptions: {
