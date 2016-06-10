@@ -3,6 +3,10 @@ API for Ġabra
 
 Ġabra is an open lexicon for Maltese.
 
+This repository contains the source code for the Ġabra API at
+<http://mlrs.research.um.edu.mt/resources/gabra-api/>
+
+
 ## Installation
 
 ### Web app
