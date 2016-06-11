@@ -2,7 +2,7 @@
 server-config.js
 
 # Data dumps
-public/data/*
+public/data/gabra_data*.tar.gz
 
 # Logs
 logs
