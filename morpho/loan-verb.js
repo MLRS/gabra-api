@@ -36,7 +36,7 @@ module.exports = {
 		    }
 		}
 	    }
-	    
+
 //	    for (var aspect in tables) {
 //		for (var subject in tables[aspect]) {
 //		    var sf = tables[aspect][subject]
@@ -161,7 +161,7 @@ function conjPerf (mamma) {
 
     if (/ixxa$/.test(mamma)) { // DEPENDS ON SYLLABLE COUNT OF STEM
 	var stem = mamma.slice(0, -4);
-	var syllables = countSyllables(stem); 
+	var syllables = countSyllables(stem);
 
 	if (syllables >= 3) { // ISSUGGER-IXXA
 	    return {
@@ -190,7 +190,7 @@ function conjPerf (mamma) {
 
 
 	// ending in 'ista', and stem is > 2syll
-    } else if(/ista$/.test(mamma) && countSyllables(mamma.slice(0, -4)) >= 2) { 								
+    } else if(/ista$/.test(mamma) && countSyllables(mamma.slice(0, -4)) >= 2) {
 	var stem = mamma.slice(0, -1) // irrezist- interced- etc
 
 	return {
@@ -201,7 +201,7 @@ function conjPerf (mamma) {
 	    'p1 pl': stem + 'ejna',  // Aħna IRREZISTEJNA
 	    'p2 pl': stem + 'ejtu',  // Intom IRREZISTEJTU
 	    'p3 pl': stem + 'ew'  // Huma IRREZISTEW
-	}  
+	}
 
     } else { // ABBOZZA, IPPARKJA ETC
 	var ipparkja = mamma
@@ -213,8 +213,8 @@ function conjPerf (mamma) {
 	    'p1 pl': ipparkja + 'jna',  // Aħna IPPARKJAJNA
 	    'p2 pl': ipparkja + 'jtu',  // Intom IPPARKJAJTU
 	    'p3 pl': ipparkja + 'w'  // Huma IPPARKJAW
-	}  
-    } 
+	}
+    }
 }
 
 function conjImpf (imp_sg, imp_pl) {
@@ -358,6 +358,6 @@ function objectProns (sf) {
 function polarity (sf) {
     return {
 	'pos': sf,
-	'neg': (sf.slice(-1) === 'a') ? sf.slice(0, -1) + 'iex' : sf + 'x'
+	'neg': (sf.slice(-1) == 'a') ? sf.slice(0, -1) + 'iex' : sf + 'x'
     }
 }
