@@ -44,11 +44,11 @@ Non-public API for editing. These methods generally require authorisation.
 
 | Method   | URL                 | Description | Payload*        | Return Value |
 |----------|---------------------|-------------|-----------------|--------------|
-| `POST`   | `/feedback/suggest` | Add suggestion (checks for matches) | Entire document | Document     |
+| `POST`   | `/feedback/suggest` | Add suggestion (checks for matches) | Entire document - for security only the fields `lemma`, `gloss` and `pos` are used. | Document     |
 
 ## Morphological generation
 
 | Method   | URL                 | Description | Payload*        | Return Value |
 |----------|---------------------|-------------|-----------------|--------------|
-| `POST`   | `/morpho/generate/:paradigm`  | Generate inflections | { lemma: '...' } | Documents     |
-| `POST`   | `/morpho/generate/:paradigm/:lexeme_id`  | Generate & insert inflections | { lemma: '...' } | -     |
+| `POST`   | `/morpho/generate/:paradigm`  | Generate inflections | `{ lemma: '...' }` | Documents     |
+| `POST`   | `/morpho/generate/:paradigm/:lexeme_id`  | Generate & insert inflections | `{ lemma: '...' }` | -     |

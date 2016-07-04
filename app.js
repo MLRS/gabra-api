@@ -44,7 +44,7 @@ app.use(function (req, res, next) {
 
 // Stop if maintenance mode
 app.use(function (req, res, next) {
-  if (res.locals.maintenanceMode) {
+  if (config.maintenanceMode) {
     res.status('503')
     res.header('Retry-After', 120) // two minutes
     res.send('Down for maintenance')
