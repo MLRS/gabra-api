@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
 })
 
 // Database
-var monk = require('monkii')
+var monk = require('monk')
 var db = monk(config.dbUrl, config.dbOptions)
 // Make our db accessible to our router
 app.use(function (req, res, next) {

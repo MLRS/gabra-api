@@ -12,10 +12,11 @@ Since the database is based on JSON, this is not a schema in the traditional sen
 | Field             | Type                         | Description                            | Example/allowed values                                       |
 |-------------------|------------------------------|----------------------------------------|--------------------------------------------------------------|
 | _id               | ObjectId                     |                                        | ObjectId("522d85f86f3bad5137000989")                         |
-| root              | Object { radicals, variant } | Root of entry, when applicable         | { radicals: "k-t-b", variant: 1 }                            |
-| headword          | Object { lemma, pos, lexeme_id } | Headword for entry. `pos`/`lexeme_id` optional | { lemma: "abbozz", pos: "NOUN" }                          |
+| root              | Object { radicals, variant } | Root of entry, when applicable. Generally include `_id` but not strictly needed. | { radicals: "k-t-b", variant: 1 }                            |
+| headword          | Object { lemma, pos, lexeme_id } | Headword for entry. `pos`/`lexeme_id` optional. | { lemma: "abbozz", pos: "NOUN" }                 |
 | pos               | String                       | POS tag                                | See Universal POS tag set below                              |
 | derived_form      | Int                          | Derived form of verb                   | 1-10                                                         |
+| form              | String                       | General form                           | mimated / comparative / verbalnoun / diminutive / participle / accretive |
 | frequency         | String                       |                                        | common / uncommon / rare                                     |
 | transitive        | Bool                         |                                        |                                                              |
 | intransitive      | Bool                         |                                        |                                                              |
@@ -87,7 +88,7 @@ Since the database is based on JSON, this is not a schema in the traditional sen
 | collection | String   |                   | lexemes / wordforms / roots          |
 | object_id  | ObjectId | Must be a valid ID in collection | ObjectId("522d85f86f3bad5137000489") |
 | date       | Date     | Date/time of edit | ISODate("2015-09-05T12:39:07.468Z")  |
-| new_value  | Document | New docuemnt (`null` means deletion) |                   |
+| new_value  | Document | New document (`null` means deletion) |                   |
 | username   | String   | Username of user making the edit     | "john.camilleri"  |
 
 ## Universal POS tag set
