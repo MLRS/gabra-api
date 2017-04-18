@@ -28,10 +28,10 @@ for ( j = 0; j < lids.length; j++ ) {
 			entry = db.glosses.findOne({'gloss': g})
 
 			if(entry == null ) {
-				db.glosses.insert({'gloss' : g, 'length': g.length, 'lexemes': [lex_id.str]})
+				db.glosses.insert({'gloss' : g, 'length': g.length, 'lexemes': [ lex_id ]})
 			
 			} else {
-				db.glosses.update({'gloss': g}, {$push: { 'lexemes': lex_id.str } })
+				db.glosses.update({'gloss': g}, {$push: { 'lexemes': lex_id } })
 			}
 
 		}
