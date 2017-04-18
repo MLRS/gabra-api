@@ -13,6 +13,103 @@ const min_length_l = 2
 const min_length_g = 3
 const min_length_wf = 3
 
+
+/*
+ * GET search for glosses
+ */
+router.get('/gloss', function (req, res) {
+  var db = req.db
+  var glosses_coll = db.get('glosses')
+  var lexemes_coll = db.get('lexemes')
+  var queryObj = getQuery(req)
+
+  if (queryObj.page < 1) {
+    res.status(400).send('Invalid page number')
+    return
+  }
+
+  var conds_l = searchConditions(queryObj)
+  var pagesize = queryObj.page_size
+  var opts = {
+      'limit': pagesize,
+      'skip': pagesize * (queryObj.page - 1)
+  }
+
+  //opts: sorting for glosses is by textscore and length
+  opts['fields'] = {'score': {'$meta': 'textScore'}}
+  opts['sort'] = {'score': {'$meta': 'textScore'}, 'length': 1}
+
+
+  // Do final search and return
+  function ret () {
+    glosses_coll.find(conds_l, opts, function (err, docs) {
+      
+      if (err) {
+        console.log(err)
+        res.status(500).end()
+        return
+      }
+
+      //extract lexeme IDs first
+      var lex_ids = []
+
+      //collect all lexeme IDs in the order returned
+      //duplicates omitted
+      for(i = 0; i < docs.length; i++) {
+
+        if (docs[i].hasOwnProperty('lexemes')) {   
+        
+          lex_ids = lex_ids.concat( 
+            docs[i]['lexemes'].filter( function (item) {
+              return lex_ids.indexOf( item ) < 0;
+            } ) );
+        }
+      } //end for
+
+      lexemes_coll.find( { '_id': { $in: lex_ids } }, function (err, results) {
+
+        if ( err ) {
+          console.log(err);
+          res.status(500).end()        
+          return
+        }
+
+        // wrap in 'lexeme'
+        var docs2 = results.map( function (doc) {
+          return {
+            'lexeme': doc
+          }
+        })
+      });//end find
+
+      var show_count = true // always
+      // var show_count = queryObj.page === 1 // first page
+      // var show_count = false // never
+
+      if (show_count) {
+        glosses_coll.count(conds_l, function (err, count) {
+          if (err) {
+            console.log(err)
+          }
+          queryObj.result_count = count
+          res.json({
+            'results': docs2,
+            'query': queryObj
+          })
+        })
+      } else {
+        // When page > 1 don't count
+        queryObj.result_count = null
+        res.json({
+          'results': docs2,
+          'query': queryObj
+        })
+      }
+    })
+  } //end ret
+})
+
+
 /*
  * GET search
  */
@@ -104,7 +201,7 @@ router.get('/search', function (req, res) {
 })
 
 /*
- * GET lexeme wordforms
+ * GET lexeme wordforms:
  */
 router.get('/wordforms/:id', function (req, res) {
   var db = req.db
