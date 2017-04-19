@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v2.8.1 <small>Updated 2016-03-07</small></h1>
+<h1>Ġabra API v2.9 <small>Updated 2017-04-19</small></h1>
 </div>
 
 <div class="well">
@@ -26,16 +26,16 @@ This returns the lexeme entries (although it searches in wordforms too by defaul
 
 > [/lexemes/search?s=ktibt](#{baseURL}/lexemes/search?s=ktibt)
 
-| Argument | Description                       | Example                                | Notes |
-|----------|-----------------------------------|----------------------------------------|-------|
-| `s`      | Search query                      | `kiteb`                                |       |
-| `l`      | Search in lemmas?                 | `0` or `1` (default)                   | Mininum length 2 |
-| `wf`     | Search in wordforms?              | `0` or `1` (default)                   | Mininum length 3; prefix matching only |
-| `g`      | Search in gloss?                  | `0` or `1` (default)                   | Mininum length 3 |
-| `pos`    | Part of speech                    | `NOUN` (see [here](#{baseURL}/schema)) |       |
-| `source` | Source                            | `Ellul2013`                            |       |
-| `pending`| Include pending entries?          | `0` (default) or `1`                   |       |
-| `page`   | Page number                       | `1` (default), `2`, ...                | &nbsp; |
+| Argument  | Description              | Example                                | Notes                                  |
+|:----------|:-------------------------|:---------------------------------------|:---------------------------------------|
+| `s`       | Search query             | `kiteb`                                |                                        |
+| `l`       | Search in lemmas?        | `0` or `1` (default)                   | Mininum length 2                       |
+| `wf`      | Search in wordforms?     | `0` or `1` (default)                   | Mininum length 3; prefix matching only |
+| `g`       | Search in gloss?         | `0` or `1` (default)                   | Mininum length 3                       |
+| `pos`     | Part of speech           | `NOUN` (see [here](#{baseURL}/schema)) |                                        |
+| `source`  | Source                   | `Ellul2013`                            |                                        |
+| `pending` | Include pending entries? | `0` (default) or `1`                   |                                        |
+| `page`    | Page number              | `1` (default), `2`, ...                | &nbsp;                                 |
 
 #### Paging
 
@@ -47,15 +47,30 @@ The results are paged. This works as follows:
 - The first page of results is numbered 1. Anything below 1 in the `page` parameter will give you an error (HTTP 400).
 - There is no upper limit on the page number, but after the last page you will get back an empty `results` field.
 
+### Search lexeme glosses <small>Since v2.9</small>
+
+Unlike `/lexemes/search`, this command uses a special text index on the glosses to return results which are sorted based on text-closeness.
+It also performs stemming and stop-word removal on your query.
+If only searching by English gloss, this command will return better results.
+For more flexibility and additional filtering, use the command above (with the `g` flag).
+
+> [/lexemes/search-gloss?s=find](#{baseURL}/lexemes/search-gloss?s=find)
+
+| Argument | Description  | Example           | Notes                |
+|:---------|:-------------|:------------------|:---------------------|
+| `s`      | Search query | `find` (required) | Should be in English |
+
+Paging should work as above.
+
 ### Load lexeme
 
 Load a lexeme from its ID.
 
 > [/lexemes/5200a366e36f237975000f26](#{baseURL}/lexemes/5200a366e36f237975000f26)
 
-| Argument | Description                           | Example                               |
-|----------|---------------------------------------|---------------------------------------|
-| `:id`    | Lexeme ID                             | `5200a366e36f237975000f26` (required) |
+| Argument | Description | Example                               |
+|:---------|:------------|:--------------------------------------|
+| `:id`    | Lexeme ID   | `5200a366e36f237975000f26` (required) |
 
 ### Load wordforms
 
@@ -63,13 +78,13 @@ Load the wordforms for a particular lexeme.
 
 > [/lexemes/wordforms/5200a366e36f237975000f26](#{baseURL}/lexemes/wordforms/5200a366e36f237975000f26)
 
-| Argument | Description                           | Example                               |
-|----------|---------------------------------------|---------------------------------------|
-| `:id`    | Lexeme ID                             | `5200a366e36f237975000f26` (required) |
-| `match`  | Limit to surface forms matching substring | `kom`                             |
-| `pending`| Include pending entries?          | `0` (default) or `1`                   |       |
-| `exclude_sources` | Exclude wordforms from given sources | 'Camilleri2013,Apertium2014'  |
-| `sort` | Sort wordforms | `0` or `1` (default) |
+| Argument          | Description                               | Example                                  |
+|:------------------|:------------------------------------------|:-----------------------------------------|
+| `:id`             | Lexeme ID                                 | `5200a366e36f237975000f26` (required)    |
+| `match`           | Limit to surface forms matching substring | `kom`                                    |
+| `pending`         | Include pending entries?                  | `0` (default) or `1`                   | |
+| `exclude_sources` | Exclude wordforms from given sources      | 'Camilleri2013,Apertium2014'             |
+| `sort`            | Sort wordforms                            | `0` or `1` (default)                     |
 
 ### Load related lexemes <small>Since v2.4</small>
 
@@ -79,9 +94,9 @@ The results are sorted by part of speech and derived form, and will not include 
 
 > [/lexemes/related/5200a366e36f237975000f26](#{baseURL}/lexemes/related/5200a366e36f237975000f26)
 
-| Argument | Description                           | Example                               |
-|----------|---------------------------------------|---------------------------------------|
-| `:id`    | Lexeme ID                             | `5200a366e36f237975000f26` (required) |
+| Argument | Description | Example                               |
+|:---------|:------------|:--------------------------------------|
+| `:id`    | Lexeme ID   | `5200a366e36f237975000f26` (required) |
 
 ### Search suggest
 
@@ -89,9 +104,9 @@ List variations in spelling (diacritics, character case) of a search term, from 
 
 > [/lexemes/search_suggest?s=Hareg](#{baseURL}/lexemes/search_suggest?s=Hareg)
 
-| Argument | Description          | Example            |
-|----------|----------------------|--------------------|
-| `s`      | Search query         | `Hareg` (required) |
+| Argument | Description  | Example            |
+|:---------|:-------------|:-------------------|
+| `s`      | Search query | `Hareg` (required) |
 
 ### Lemmatise
 
@@ -99,9 +114,9 @@ Similar to `lexemes/search` but also returns matching wordform info.
 
 > [/lexemes/lemmatise?s=ktibniehom](#{baseURL}/lexemes/lemmatise?s=ktibniehom)
 
-| Argument   | Description           | Example                  |
-|------------|-----------------------|--------------------------|
-| `s`        | Surface form (regex)  | `ktibnie?hom` (required) |
+| Argument | Description          | Example                  |
+|:---------|:---------------------|:-------------------------|
+| `s`      | Surface form (regex) | `ktibnie?hom` (required) |
 
 ### Search for root
 
@@ -112,9 +127,9 @@ Example:
 > [/roots/search?c1=k&c3=b](#{baseURL}/roots/search?c1=k&c3=b)
 
 | Argument            | Description                               | Example                                                                         |
-|---------------------|-------------------------------------------|---------------------------------------------------------------------------------|
+|:--------------------|:------------------------------------------|:--------------------------------------------------------------------------------|
 | `s`                 | Search query (regex)                      | `k-t-b`, `s-r-v-j`, `^b-.-[jw]$` (required)                                     |
-| `c1`,`c2`,`c3`,`c4` | Radicals at positions 1–4 (overrides `s`) | `għ`                                                                          |
+| `c1`,`c2`,`c3`,`c4` | Radicals at positions 1–4 (overrides `s`) | `għ`                                                                            |
 | `r`                 | Search in radicals?                       | `0` or `1` (default)                                                            |
 | `l`                 | Search in lemma?                          | `0` or `1` (default)                                                            |
 | `g`                 | Search in gloss?                          | `0` or `1` (default)                                                            |
@@ -135,10 +150,10 @@ The results are sorted by part of speech and derived form.
 
 > [/roots/lexemes/b-r-d/2](#{baseURL}/roots/lexemes/b-r-d/2)
 
-| Argument    | Description      | Example                          |
-|-------------|------------------|----------------------------------|
-| `:radicals` | Root radicals    | `k-t-b`, `s-r-v-j` (required)    |
-| `:variant`  | Root variant     | `1`, `2`, ... (optional)         |
+| Argument    | Description   | Example                       |
+|:------------|:--------------|:------------------------------|
+| `:radicals` | Root radicals | `k-t-b`, `s-r-v-j` (required) |
+| `:variant`  | Root variant  | `1`, `2`, ... (optional)      |
 
 ### List all sources <small>Since v2.6</small>
 
@@ -152,9 +167,9 @@ Load a source from its key.
 
 > [/sources/Falzon2013](#{baseURL}/sources/Falzon2013)
 
-| Argument | Description                           | Example                 |
-|----------|---------------------------------------|-------------------------|
-| `:key`   | Source key                            | `Falzon2013` (required) |
+| Argument | Description | Example                 |
+|:---------|:------------|:------------------------|
+| `:key`   | Source key  | `Falzon2013` (required) |
 
 ### Internationalisation (i18n) <small>Since v2.3</small>
 
@@ -162,6 +177,6 @@ You can get English & Maltese names for all the field names and values:
 
 > [/i18n/all?lang=mlt](#{baseURL}/i18n/all?lang=mlt)
 
-| Argument   | Description           | Example                  |
-|------------|-----------------------|--------------------------|
-| `lang`     | Language              | `eng` (default) or `mlt` |
+| Argument | Description | Example                  |
+|:---------|:------------|:-------------------------|
+| `lang`   | Language    | `eng` (default) or `mlt` |
