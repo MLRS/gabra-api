@@ -17,7 +17,7 @@ const min_length_wf = 3
 /*
  * GET search for glosses
  */
-router.get('/gloss', function (req, res) {
+router.get('/search-gloss', function (req, res) {
   var db = req.db
   var glosses_coll = db.get('glosses')
   var lexemes_coll = db.get('lexemes')
@@ -28,66 +28,80 @@ router.get('/gloss', function (req, res) {
     return
   }
 
-  var conds_l = searchConditions(queryObj)
-  var pagesize = queryObj.page_size
-  var opts = {
-      'limit': pagesize,
-      'skip': pagesize * (queryObj.page - 1)
+  // Check length of query
+  // TODO Consider err 422 'unprocessable entity' for well-formed but unprocessable request
+  if (queryObj.term.length < min_length_g) {
+    res.status(422).send('Search term too short')
+    return
   }
 
-  //opts: sorting for glosses is by textscore and length
-  opts['fields'] = {'score': {'$meta': 'textScore'}}
-  opts['sort'] = {'score': {'$meta': 'textScore'}, 'length': 1}
+  //TODO: Regex probably overkill, but need to compare w/out
+  var conds_g = {
+    '$or': [
+      {'$text': {'$search': queryObj.term}}, // search by text match
+      {'gloss': {'$regex': queryObj.term}} // also search by regex 
+    ]
+  }
 
+  var pagesize = queryObj.page_size
+  
+  var opts = {
+    // sorting for glosses is by textscore and length
+    'fields': {'score': {'$meta': 'textScore'}},
+    'sort': {'score': {'$meta': 'textScore'}, 'length': 1},
+    // paging
+    'limit': pagesize,
+    'skip': pagesize * (queryObj.page - 1)
+  }
 
-  // Do final search and return
-  function ret () {
-    glosses_coll.find(conds_l, opts, function (err, docs) {
-      
+  // Search in glosses collection first
+  glosses_coll.find(conds_g, opts, function (err, docs) {
+
+    if (err) {
+      console.log(err)
+      res.status(500).end()
+      return
+    }
+    
+
+    // collect all lexeme IDs in the order returned
+    var lex_ids = []
+    for (let i = 0; i < docs.length; i++) {
+      if (docs[i].hasOwnProperty('lexemes')) {
+        lex_ids = lex_ids.concat(docs[i]['lexemes'])
+      }
+    } // end for
+
+    // find the lexemes by ID
+    // There are probably no other criteria from query_obj: search term has to be a gloss
+    //so no alts and no lexemes. (NB: Different from search with the 'g' option included)
+    lexemes_coll.find({ '_id': { $in: lex_ids } }, function (err, results) {
+
       if (err) {
         console.log(err)
         res.status(500).end()
         return
       }
 
-      //extract lexeme IDs first
-      var lex_ids = []
+      //sort results based on order of lex_ids
+      results.sort( function(a, b) { 
+        return lex_ids.indexOf(a['_id']) - lex_ids.indexOf(b['_id']);
+      });
 
-      //collect all lexeme IDs in the order returned
-      //duplicates omitted
-      for(i = 0; i < docs.length; i++) {
 
-        if (docs[i].hasOwnProperty('lexemes')) {   
-        
-          lex_ids = lex_ids.concat( 
-            docs[i]['lexemes'].filter( function (item) {
-              return lex_ids.indexOf( item ) < 0;
-            } ) );
+      // wrap in 'lexeme'
+      var docs2 = results.map(function (doc) {
+        return {
+          'lexeme': doc
         }
-      } //end for
-
-      lexemes_coll.find( { '_id': { $in: lex_ids } }, function (err, results) {
-
-        if ( err ) {
-          console.log(err);
-          res.status(500).end()        
-          return
-        }
-
-        // wrap in 'lexeme'
-        var docs2 = results.map( function (doc) {
-          return {
-            'lexeme': doc
-          }
-        })
-      });//end find
+      })
 
       var show_count = true // always
       // var show_count = queryObj.page === 1 // first page
       // var show_count = false // never
 
       if (show_count) {
-        glosses_coll.count(conds_l, function (err, count) {
+        glosses_coll.count(conds_g, function (err, count) {
           if (err) {
             console.log(err)
           }
@@ -105,10 +119,9 @@ router.get('/gloss', function (req, res) {
           'query': queryObj
         })
       }
-    })
-  } //end ret
+    }) // end lexemes.find
+  })
 })
-
 
 /*
  * GET search
