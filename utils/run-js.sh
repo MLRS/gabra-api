@@ -5,4 +5,4 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-mongo localhost/gabra --username gabra_user --password gabra_pass $1
+mongo localhost/gabra $1
