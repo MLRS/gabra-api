@@ -35,16 +35,17 @@ router.get('/search-gloss', function (req, res) {
     return
   }
 
-  //TODO: Regex probably overkill, but need to compare w/out
   var conds_g = {
-    '$or': [
-      {'$text': {'$search': queryObj.term}}, // search by text match
-      {'gloss': {'$regex': queryObj.term}} // also search by regex 
-    ]
+    '$text': {'$search': queryObj.term} // search by text match
+    // Below throws an error
+    // '$or': [
+    //   {'$text': {'$search': queryObj.term}}, // search by text match
+    //   {'gloss': {'$regex': queryObj.term}} // also search by regex
+    // ]
   }
 
   var pagesize = queryObj.page_size
-  
+
   var opts = {
     // sorting for glosses is by textscore and length
     'fields': {'score': {'$meta': 'textScore'}},
@@ -62,7 +63,6 @@ router.get('/search-gloss', function (req, res) {
       res.status(500).end()
       return
     }
-    
 
     // collect all lexeme IDs in the order returned
     var lex_ids = []
@@ -73,8 +73,6 @@ router.get('/search-gloss', function (req, res) {
     } // end for
 
     // find the lexemes by ID
-    // There are probably no other criteria from query_obj: search term has to be a gloss
-    //so no alts and no lexemes. (NB: Different from search with the 'g' option included)
     lexemes_coll.find({ '_id': { $in: lex_ids } }, function (err, results) {
 
       if (err) {
@@ -83,8 +81,9 @@ router.get('/search-gloss', function (req, res) {
         return
       }
 
-      //sort results based on order of lex_ids
-      results.sort( function(a, b) { 
+      // sort results based on order of lex_ids
+      // TODO this re-ordering is NOT working
+      results.sort( function(a, b) {
         return lex_ids.indexOf(a['_id']) - lex_ids.indexOf(b['_id']);
       });
 

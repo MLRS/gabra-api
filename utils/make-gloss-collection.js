@@ -1,62 +1,52 @@
+/* global db */
+/* eslint-disable camelcase */
+
 /*
 * Create a new collection in gabra DB:
 * Collection reverses lexemes, i.e. keys English gloss to lexeme ID
 */
 
-//create the collection
-db.createCollection('glosses')
+var COLL = 'glosses'
 
+// create the collection if not existing
+if (db.getCollectionNames().indexOf(COLL) < 0) {
+  db.createCollection(COLL)
 
-//get all lexeme IDs
-var lids = db.lexemes.distinct('_id')
-
-for ( j = 0; j < lids.length; j++ ) {
-	var lex_id = lids[j]
-	var lex = db.lexemes.findOne({'_id': lex_id})
-	var gloss = lex.gloss
-
-	if (gloss != null) {
-
-		//split the glosses by newline
-		var glosses = gloss.split(/\r?\n/)
-		
-
-		for(i = 0; i < glosses.length; i++ ) {
-			g = glosses[i].toLowerCase();
-
-			//check if gloss is in the collection already
-			entry = db.glosses.findOne({'gloss': g})
-
-			if(entry == null ) {
-				db.glosses.insert({'gloss' : g, 'length': g.length, 'lexemes': [ lex_id ]})
-			
-			} else {
-				db.glosses.update({'gloss': g}, {$push: { 'lexemes': lex_id } })
-			}
-
-		}
-
-	}
-
+  // set up indices
+  // do this already now since we are querying the glosses collection in the loop below
+  // db.getCollection(COLL).createIndex({gloss: 'text'}, {score: {$meta: 'textScore'}})
+  db.getCollection(COLL).createIndex({gloss: 'text'})
+  db.getCollection(COLL).createIndex({length: -1})
 }
 
-//finally set up an index on the collection
-//db.glosses.createIndex( { gloss: "text" }, { score: {$meta: "textScore"} } )
+// iterate over all lexemes with a gloss
+var conds = {
+  'gloss': {
+    '$exists': true,
+    '$ne': ''
+  }
+}
+db.getCollection('lexemes').find(conds).forEach(function (lex) {
+  // split the glosses by newline
+  var glosses = lex.gloss.split(/\r?\n/)
 
-db.glosses.createIndex(
-   {
-     gloss: "text",
-   },
-   {
-     name: "GlossIndex"
-   }
- )
+  for (var i = 0; i < glosses.length; i++) {
+    var g = glosses[i].toLowerCase()
 
-db.glosses.createIndex(
-   {
-     length: -1
-   },
-   {
-     name: "LengthIndex"
- 	}
- )
+    // check if gloss is in the collection already
+    var entry = db.getCollection(COLL).findOne({'gloss': g})
+
+    if (entry == null) {
+      db.getCollection(COLL).insert({
+        'gloss': g,
+        'length': g.length,
+        'lexemes': [lex._id]
+      })
+    } else {
+      db.getCollection(COLL).update(
+        {'gloss': g},
+        {$push: {'lexemes': lex._id}}
+      )
+    }
+  }
+})
