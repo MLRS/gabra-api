@@ -13,7 +13,6 @@ const min_length_l = 2
 const min_length_g = 3
 const min_length_wf = 3
 
-
 /*
  * GET search for glosses
  */
@@ -57,7 +56,6 @@ router.get('/search-gloss', function (req, res) {
 
   // Search in glosses collection first
   glosses_coll.find(conds_g, opts, function (err, docs) {
-
     if (err) {
       console.log(err)
       res.status(500).end()
@@ -68,13 +66,12 @@ router.get('/search-gloss', function (req, res) {
     var lex_ids = []
     for (let i = 0; i < docs.length; i++) {
       if (docs[i].hasOwnProperty('lexemes')) {
-        lex_ids = lex_ids.concat(docs[i]['lexemes'])
+        lex_ids = lex_ids.concat(docs[i]['lexemes'].map((s) => { return s.toString() }))
       }
     } // end for
 
     // find the lexemes by ID
     lexemes_coll.find({ '_id': { $in: lex_ids } }, function (err, results) {
-
       if (err) {
         console.log(err)
         res.status(500).end()
@@ -82,11 +79,9 @@ router.get('/search-gloss', function (req, res) {
       }
 
       // sort results based on order of lex_ids
-      // TODO this re-ordering is NOT working
-      results.sort( function(a, b) {
-        return lex_ids.indexOf(a['_id']) - lex_ids.indexOf(b['_id']);
-      });
-
+      results.sort(function (a, b) {
+        return lex_ids.indexOf(a['_id'].toString()) - lex_ids.indexOf(b['_id'].toString())
+      })
 
       // wrap in 'lexeme'
       var docs2 = results.map(function (doc) {
