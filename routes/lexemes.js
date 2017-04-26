@@ -20,7 +20,11 @@ router.get('/search-gloss', function (req, res) {
   var db = req.db
   var glosses_coll = db.get('glosses')
   var lexemes_coll = db.get('lexemes')
-  var queryObj = getQuery(req)
+  var queryObj = getQuery(req, {
+    pending: {default: false},
+    pos: {},
+    source: {}
+  })
 
   if (queryObj.page < 1) {
     res.status(400).send('Invalid page number')
@@ -28,7 +32,6 @@ router.get('/search-gloss', function (req, res) {
   }
 
   // Check length of query
-  // TODO Consider err 422 'unprocessable entity' for well-formed but unprocessable request
   if (queryObj.term.length < min_length_g) {
     res.status(422).send('Search term too short')
     return
@@ -123,7 +126,14 @@ router.get('/search-gloss', function (req, res) {
 router.get('/search', function (req, res) {
   var db = req.db
   var collection = db.get('lexemes')
-  var queryObj = getQuery(req)
+  var queryObj = getQuery(req, {
+    search_lemma    : {param: 'l', default: true},
+    search_wordforms: {param: 'wf', default: true},
+    search_gloss    : {param: 'g', default: true},
+    pending         : {default: false},
+    pos             : {},
+    source          : {}
+  })
 
   if (queryObj.page < 1) {
     res.status(400).send('Invalid page number')
@@ -479,8 +489,16 @@ function boolItem (obj, key, def) {
   }
 }
 
-// Process query from request and extract relevant parts
-var getQuery = function (req) {
+/**
+ * Process query from request and extract relevant parts
+ *
+ * params is an object of key => opts
+ * where opts can contain:
+ *   - param: the query-string param (or same as key if ommitted)
+ *   - default: default value, used to determine type too
+ * default type is string, default default is ''
+ */
+var getQuery = function (req, params) {
   var q = req.query
 
   var term
@@ -498,17 +516,28 @@ var getQuery = function (req) {
   var obj = {
     term            : term, // could be undefined!
     raw_term        : q.s,
-    search_lemma    : boolItem(q, 'l', true),
-    search_wordforms: boolItem(q, 'wf', true),
-    search_gloss    : boolItem(q, 'g', true),
-    pending         : boolItem(q, 'pending', false),
-    pos             : q.pos,
-    source          : q.source,
+    // search_lemma    : boolItem(q, 'l', true),
+    // search_wordforms: boolItem(q, 'wf', true),
+    // search_gloss    : boolItem(q, 'g', true),
+    // pending         : boolItem(q, 'pending', false),
+    // pos             : q.pos,
+    // source          : q.source,
     page            : try_page ? try_page : 1,
     page_size       : 20,
     result_count    : null // don't know yet
   }
   /* eslint-enable key-spacing */
+  for (let key in params) {
+    let name = params[key].hasOwnProperty('param') ? params[key].param : key
+    let def = params[key].hasOwnProperty('default') ? params[key].default : ''
+    if (def === true || def === false) {
+      // boolean
+      obj[key] = boolItem(q, name, def)
+    } else {
+      // string
+      obj[key] = q[name]
+    }
+  }
   return obj
 }
 
