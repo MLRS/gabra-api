@@ -34,3 +34,7 @@ build/Release
 node_modules
 
 routes/glosses.js
+
+#sublime-text
+*.sublime-project
+*.sublime-workspace
