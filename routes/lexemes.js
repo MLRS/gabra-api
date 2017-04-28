@@ -1,3 +1,5 @@
+/* eslint-disable camelcase, no-multi-spaces, key-spacing */
+
 var express = require('express')
 var router = express.Router()
 var fs = require('fs')
@@ -46,19 +48,15 @@ router.get('/search-gloss', function (req, res) {
     // ]
   }
 
-  var pagesize = queryObj.page_size
-
-  var opts = {
+  var opts_g = {
     // sorting for glosses is by textscore and length
     'fields': {'score': {'$meta': 'textScore'}},
-    'sort': {'score': {'$meta': 'textScore'}, 'length': 1},
-    // paging
-    'limit': pagesize,
-    'skip': pagesize * (queryObj.page - 1)
+    'sort': {'score': {'$meta': 'textScore'}, 'length': 1}
   }
 
   // Search in glosses collection first
-  glosses_coll.find(conds_g, opts, function (err, docs) {
+  // Return ALL matches, then page manually on lexeme IDs
+  glosses_coll.find(conds_g, opts_g, function (err, docs) {
     if (err) {
       console.log(err)
       res.status(500).end()
@@ -67,14 +65,27 @@ router.get('/search-gloss', function (req, res) {
 
     // collect all lexeme IDs in the order returned
     var lex_ids = []
-    for (let i = 0; i < docs.length; i++) {
-      if (docs[i].hasOwnProperty('lexemes')) {
-        lex_ids = lex_ids.concat(docs[i]['lexemes'].map((s) => { return s.toString() }))
+    docs.forEach(function (doc) {
+      if (doc.hasOwnProperty('lexemes')) {
+        lex_ids = lex_ids.concat(doc.lexemes.map((s) => { return s.toString() }))
       }
-    } // end for
+    })
+
+    // Remove duplicates
+    lex_ids = lex_ids.filter(function (elem, pos) {
+      return lex_ids.indexOf(elem) === pos
+    })
+
+    // Slice lex_ids to current page
+    var pagestart = queryObj.page_size * (queryObj.page - 1)
+    var lex_ids_paged = lex_ids.slice(pagestart, pagestart + queryObj.page_size)
 
     // find the lexemes by ID
-    lexemes_coll.find({ '_id': { $in: lex_ids } }, function (err, results) {
+    var conds_l = {
+      '_id': {'$in': lex_ids_paged}
+    }
+    var opts_l = { }
+    lexemes_coll.find(conds_l, opts_l, function (err, results) {
       if (err) {
         console.log(err)
         res.status(500).end()
@@ -98,15 +109,10 @@ router.get('/search-gloss', function (req, res) {
       // var show_count = false // never
 
       if (show_count) {
-        glosses_coll.count(conds_g, function (err, count) {
-          if (err) {
-            console.log(err)
-          }
-          queryObj.result_count = count
-          res.json({
-            'results': docs2,
-            'query': queryObj
-          })
+        queryObj.result_count = lex_ids.length
+        res.json({
+          'results': docs2,
+          'query': queryObj
         })
       } else {
         // When page > 1 don't count
@@ -127,12 +133,12 @@ router.get('/search', function (req, res) {
   var db = req.db
   var collection = db.get('lexemes')
   var queryObj = getQuery(req, {
-    search_lemma    : {param: 'l', default: true},
-    search_wordforms: {param: 'wf', default: true},
-    search_gloss    : {param: 'g', default: true},
-    pending         : {default: false},
-    pos             : {},
-    source          : {}
+    search_lemma     : {param: 'l', default: true},
+    search_wordforms : {param: 'wf', default: true},
+    search_gloss     : {param: 'g', default: true},
+    pending          : {default: false},
+    pos              : {},
+    source           : {}
   })
 
   if (queryObj.page < 1) {
@@ -141,20 +147,19 @@ router.get('/search', function (req, res) {
   }
 
   var conds_l = searchConditions(queryObj)
-  var pagesize = queryObj.page_size
   var opts = {
-      'limit': pagesize,
-      'skip': pagesize * (queryObj.page - 1)
+    'limit': queryObj.page_size,
+    'skip': queryObj.page_size * (queryObj.page - 1)
   }
 
-  //opts: sorting depends on type of query
-  if(queryObj.search_lemma) {
-      //for lemma search, sort by $meta textScore on lemma
-      //NB: this is handled in addCondition -- lemma search is done via $text
-      opts['fields'] = {'score': {'$meta': 'textScore'}}
-      opts['sort']   = {'score': {'$meta': 'textScore'}}
+  // opts: sorting depends on type of query
+  if (queryObj.search_lemma) {
+    // for lemma search, sort by $meta textScore on lemma
+    // NB: this is handled in addCondition -- lemma search is done via $text
+    opts['fields'] = {'score': {'$meta': 'textScore'}}
+    opts['sort']   = {'score': {'$meta': 'textScore'}}
   } else {
-      opts['sort'] = {'lemma': 1}
+    opts['sort'] = {'lemma': 1}
   }
 
   // Do final search and return
@@ -232,7 +237,7 @@ router.get('/wordforms/:id', function (req, res) {
   }
 
   var conds = {
-    lexeme_id: lexeme_id,
+    lexeme_id: lexeme_id
   }
 
   // if pending=0 (default), make sure no pending wordforms are included
@@ -553,27 +558,26 @@ var addOr = function (conds, field, val) {
 
 // Add regex search condition
 var addCondition = function (conds, field, q, opts) {
-
   if (opts && opts.hasOwnProperty('prefix') && opts.prefix) {
     q = '^' + regexquote(q)
   } else {
     q = regexquote(q)
   }
 
-  //if we search in lemma,
-  //we want a $text search with $meta textScore (for sorting)
-  //NB: $text search is case insensitive by default, so no need to specify
-  if (field == 'lemma') {
+  // if we search in lemma,
+  // we want a $text search with $meta textScore (for sorting)
+  // NB: $text search is case insensitive by default, so no need to specify
+  if (field === 'lemma') {
       // TODO: why does it complain when I specify caseSensitive and diacriticSensitive?
       // addOr(conds, '$text', {'$search': q, '$caseSensitive': false, '$diacriticSensitive': false})
-      addOr(conds, '$text', {'$search': q})
-      addOr(conds, 'lemma', {'$regex': q}) // also search by regex (substring)
+    addOr(conds, '$text', {'$search': q})
+    addOr(conds, 'lemma', {'$regex': q}) // also search by regex (substring)
   } else {
-      addOr(conds, field, {'$regex': q})
-      var q_lower = q.toLowerCase()
-      if (q !== q_lower) {
-        addOr(conds, field, {'$regex': q_lower})
-      }
+    addOr(conds, field, {'$regex': q})
+    var q_lower = q.toLowerCase()
+    if (q !== q_lower) {
+      addOr(conds, field, {'$regex': q_lower})
+    }
   }
 }
 

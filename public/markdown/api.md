@@ -43,9 +43,9 @@ The results are paged. This works as follows:
 
 - A call will return up to `query.page_size` results (currently 20). The page size does not change.
 - To see how many results were actually returned, use `results.length`.
-- The total number of results from the database will be given in `query.result_count`. Use this to decide if you need to fetch further pages: `if (data.query.page * data.query.page_size >= query.result_count) {`
+- The total number of results from the database will be given in `query.result_count`. Use this to decide if you need to fetch further pages: `data.query.page * data.query.page_size >= query.result_count`
 - The first page of results is numbered 1. Anything below 1 in the `page` parameter will give you an error (HTTP 400).
-- There is no upper limit on the page number, but after the last page you will get back an empty `results` field.
+- There is no upper limit on the page number, but after the last page you will return back an empty `results` field.
 
 ### Search lexeme glosses <small>Since v2.9</small>
 
