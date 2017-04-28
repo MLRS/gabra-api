@@ -23,6 +23,7 @@ router.get('/search-gloss', function (req, res) {
   var glosses_coll = db.get('glosses')
   var lexemes_coll = db.get('lexemes')
   var queryObj = getQuery(req, {
+    term: {param: 's'},
     pending: {default: false},
     pos: {},
     source: {}
@@ -133,6 +134,7 @@ router.get('/search', function (req, res) {
   var db = req.db
   var collection = db.get('lexemes')
   var queryObj = getQuery(req, {
+    term             : {param: 's'},
     search_lemma     : {param: 'l', default: true},
     search_wordforms : {param: 'wf', default: true},
     search_gloss     : {param: 'g', default: true},
@@ -502,36 +504,15 @@ function boolItem (obj, key, def) {
  *   - param: the query-string param (or same as key if ommitted)
  *   - default: default value, used to determine type too
  * default type is string, default default is ''
+ * Note: all string values are trimmed
  */
 var getQuery = function (req, params) {
   var q = req.query
-
-  var term
-  if (q.hasOwnProperty('s') && q['s'].trim()) {
-    term = q['s'].trim()
-  }
-
-  // If someone has CAPS LOCK on...
-  // if (term && term == term.toUpperCase()) {
-  //     term = term.toLowerCase()
-  // }
-
-  /* eslint-disable key-spacing */
-  var try_page = parseInt(q.page, 10)
   var obj = {
-    term            : term, // could be undefined!
-    raw_term        : q.s,
-    // search_lemma    : boolItem(q, 'l', true),
-    // search_wordforms: boolItem(q, 'wf', true),
-    // search_gloss    : boolItem(q, 'g', true),
-    // pending         : boolItem(q, 'pending', false),
-    // pos             : q.pos,
-    // source          : q.source,
-    page            : try_page ? try_page : 1,
-    page_size       : 20,
-    result_count    : null // don't know yet
+    page         : parseInt(q.page, 10) || 1,
+    page_size    : 20,
+    result_count : null // don't know yet
   }
-  /* eslint-enable key-spacing */
   for (let key in params) {
     let name = params[key].hasOwnProperty('param') ? params[key].param : key
     let def = params[key].hasOwnProperty('default') ? params[key].default : ''
@@ -540,7 +521,7 @@ var getQuery = function (req, params) {
       obj[key] = boolItem(q, name, def)
     } else {
       // string
-      obj[key] = q[name]
+      obj[key] = (q.hasOwnProperty(name) && q[name]) ? q[name].trim() : null
     }
   }
   return obj
