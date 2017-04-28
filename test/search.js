@@ -28,13 +28,11 @@ describe('Search', function () {
         res.body.query.result_count.should.be.greaterThanOrEqual(opts.result_count)
       }
 
-      var i
-
       // Results should contain these lemmas (in any order)
       if (opts.lemmas) {
-        for (i in opts.lemmas) {
+        for (let i in opts.lemmas) {
+          let lemma = opts.lemmas[i]
           res.body.results.should.matchAny(function (value) {
-            var lemma = opts.lemmas[i]
             should(value.lexeme.lemma).equal(lemma)
           }, 'lemma "' + lemma + '" not found in results')
         }
@@ -42,8 +40,8 @@ describe('Search', function () {
 
       // Results should contain these lemmas (in specific order)
       if (opts.lemmas_ordered) {
-        for (i in opts.lemmas_ordered) {
-          var lemma = opts.lemmas_ordered[i]
+        for (let i in opts.lemmas_ordered) {
+          let lemma = opts.lemmas_ordered[i]
           res.body.results[i].lexeme.lemma.should.equal(lemma, 'lemma "' + lemma + '" not found in position ' + i)
         }
       }
@@ -86,7 +84,7 @@ describe('Search', function () {
       request(server)
         .get(mkqs('book', {l: 0, wf: 0, g: 1}))
         .expect(200)
-        .end(checkResponse({lemmas: ['ktieb', 'ktejjeb', 'miklem', 'pitazz']}, done))
+        .end(checkResponse({lemmas: ['ktieb', 'ktejjeb', 'pitazz']}, done))
     })
 
     it('search results sorted by match', function (done) {
@@ -116,7 +114,7 @@ describe('Search', function () {
 
     it('load wordforms by lexeme id', function (done) {
       request(server)
-        .get('/lexemes/wordforms/5200a366e36f237975000f26')
+        .get('/lexemes/wordforms/5200a366e36f237975000f26?pending=1')
         .expect(200)
         .end(function (err, res) {
           if (err) {

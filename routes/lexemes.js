@@ -6,6 +6,7 @@ var fs = require('fs')
 var async = require('async')
 var passport = require('passport')
 var regexquote = require('regexp-quote')
+var monk = require('monk')
 
 var log = require('../logger').makeLogger('lexemes')
 
@@ -232,7 +233,7 @@ router.get('/wordforms/:id', function (req, res) {
   var collection = db.get('wordforms')
   var lexeme_id
   try {
-    lexeme_id = collection.id(req.params.id)
+    lexeme_id = monk.id(req.params.id)
   } catch (err) {
     res.status(400).send('Invalid ID').end()
     return
@@ -330,12 +331,12 @@ router.get('/related/:id', function (req, res) {
   var collection = db.get('lexemes')
   var lexeme_id
   try {
-    lexeme_id = collection.id(req.params.id)
+    lexeme_id = monk.id(req.params.id)
   } catch (err) {
     res.status(400).send('Invalid ID').end()
     return
   }
-  collection.findById(lexeme_id, function (err, doc) {
+  collection.findOne(lexeme_id, function (err, doc) {
     if (err) {
       console.log(err)
       res.status(500).end()
@@ -704,13 +705,13 @@ router.post('/',
 router.get('/:id', function (req, res, next) {
   var collection = req.db.get('lexemes')
   try {
-    collection.id(req.params.id)
+    monk.id(req.params.id)
   } catch (err) {
     res.status(400).send('Invalid ID').end()
     return
   }
 
-  collection.findById(req.params.id, function (err, data) {
+  collection.findOne(req.params.id, function (err, data) {
     if (err) {
       res.status(500).send(err)
     }
@@ -735,7 +736,7 @@ router.post('/:id',
       if (err) {
         res.status(500).send(err)
       }
-      collection.findById(req.params.id, function (err, data) {
+      collection.findOne(req.params.id, function (err, data) {
         if (err) {
           res.status(500).send(err)
         }

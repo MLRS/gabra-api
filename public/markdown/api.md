@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v2.9 <small>Updated 2017-04-19</small></h1>
+<h1>Ġabra API v2.9.0 <small>Updated 2017-04-19</small></h1>
 </div>
 
 <div class="well">
