@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v2.9.0 <small>Updated 2017-04-19</small></h1>
+<h1>Ġabra API v2.9.0 <small>Updated 2017-05-06</small></h1>
 </div>
 
 <div class="well">
@@ -56,9 +56,9 @@ For more flexibility and additional filtering, use the command above (with the `
 
 > [/lexemes/search-gloss?s=find](#{baseURL}/lexemes/search-gloss?s=find)
 
-| Argument | Description  | Example           | Notes                |
-|:---------|:-------------|:------------------|:---------------------|
-| `s`      | Search query | `find` (required) | Should be in English |
+| Argument       | Description  | Example | Notes                |
+|:---------------|:-------------|:--------|:---------------------|
+| `s` (required) | Search query | `find`  | Should be in English |
 
 Paging should work as above.
 
@@ -68,9 +68,9 @@ Load a lexeme from its ID.
 
 > [/lexemes/5200a366e36f237975000f26](#{baseURL}/lexemes/5200a366e36f237975000f26)
 
-| Argument | Description | Example                               |
-|:---------|:------------|:--------------------------------------|
-| `:id`    | Lexeme ID   | `5200a366e36f237975000f26` (required) |
+| Argument         | Description | Example                    |
+|:-----------------|:------------|:---------------------------|
+| `:id` (required) | Lexeme ID   | `5200a366e36f237975000f26` |
 
 ### Load wordforms
 
@@ -80,7 +80,7 @@ Load the wordforms for a particular lexeme.
 
 | Argument          | Description                               | Example                                  |
 |:------------------|:------------------------------------------|:-----------------------------------------|
-| `:id`             | Lexeme ID                                 | `5200a366e36f237975000f26` (required)    |
+| `:id` (required)  | Lexeme ID                                 | `5200a366e36f237975000f26`               |
 | `match`           | Limit to surface forms matching substring | `kom`                                    |
 | `pending`         | Include pending entries?                  | `0` (default) or `1`                   | |
 | `exclude_sources` | Exclude wordforms from given sources      | 'Camilleri2013,Apertium2014'             |
@@ -94,9 +94,9 @@ The results are sorted by part of speech and derived form, and will not include 
 
 > [/lexemes/related/5200a366e36f237975000f26](#{baseURL}/lexemes/related/5200a366e36f237975000f26)
 
-| Argument | Description | Example                               |
-|:---------|:------------|:--------------------------------------|
-| `:id`    | Lexeme ID   | `5200a366e36f237975000f26` (required) |
+| Argument         | Description | Example                    |
+|:-----------------|:------------|:---------------------------|
+| `:id` (required) | Lexeme ID   | `5200a366e36f237975000f26` |
 
 ### Search suggest
 
@@ -104,9 +104,9 @@ List variations in spelling (diacritics, character case) of a search term, from 
 
 > [/lexemes/search_suggest?s=Hareg](#{baseURL}/lexemes/search_suggest?s=Hareg)
 
-| Argument | Description  | Example            |
-|:---------|:-------------|:-------------------|
-| `s`      | Search query | `Hareg` (required) |
+| Argument       | Description  | Example |
+|:---------------|:-------------|:--------|
+| `s` (required) | Search query | `Hareg` |
 
 ### Lemmatise
 
@@ -114,9 +114,9 @@ Similar to `lexemes/search` but also returns matching wordform info.
 
 > [/lexemes/lemmatise?s=ktibniehom](#{baseURL}/lexemes/lemmatise?s=ktibniehom)
 
-| Argument | Description          | Example                  |
-|:---------|:---------------------|:-------------------------|
-| `s`      | Surface form (regex) | `ktibnie?hom` (required) |
+| Argument       | Description          | Example       |
+|:---------------|:---------------------|:--------------|
+| `s` (required) | Surface form (regex) | `ktibnie?hom` |
 
 ### Search for root
 
@@ -128,7 +128,7 @@ Example:
 
 | Argument            | Description                               | Example                                                                         |
 |:--------------------|:------------------------------------------|:--------------------------------------------------------------------------------|
-| `s`                 | Search query (regex)                      | `k-t-b`, `s-r-v-j`, `^b-.-[jw]$` (required)                                     |
+| `s` (required)      | Search query (regex)                      | `k-t-b`, `s-r-v-j`, `^b-.-[jw]$`                                                |
 | `c1`,`c2`,`c3`,`c4` | Radicals at positions 1–4 (overrides `s`) | `għ`                                                                            |
 | `r`                 | Search in radicals?                       | `0` or `1` (default)                                                            |
 | `l`                 | Search in lemma?                          | `0` or `1` (default)                                                            |
@@ -150,10 +150,10 @@ The results are sorted by part of speech and derived form.
 
 > [/roots/lexemes/b-r-d/2](#{baseURL}/roots/lexemes/b-r-d/2)
 
-| Argument    | Description   | Example                       |
-|:------------|:--------------|:------------------------------|
-| `:radicals` | Root radicals | `k-t-b`, `s-r-v-j` (required) |
-| `:variant`  | Root variant  | `1`, `2`, ... (optional)      |
+| Argument               | Description   | Example            |
+|:-----------------------|:--------------|:-------------------|
+| `:radicals` (required) | Root radicals | `k-t-b`, `s-r-v-j` |
+| `:variant`             | Root variant  | `1`, `2`, ...      |
 
 ### List all sources <small>Since v2.6</small>
 
@@ -167,9 +167,9 @@ Load a source from its key.
 
 > [/sources/Falzon2013](#{baseURL}/sources/Falzon2013)
 
-| Argument | Description | Example                 |
-|:---------|:------------|:------------------------|
-| `:key`   | Source key  | `Falzon2013` (required) |
+| Argument          | Description | Example      |
+|:------------------|:------------|:-------------|
+| `:key` (required) | Source key  | `Falzon2013` |
 
 ### Internationalisation (i18n) <small>Since v2.3</small>
 

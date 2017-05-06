@@ -91,8 +91,24 @@ describe('Search', function () {
       request(server)
         .get(mkqs('mara')) // default options
         .expect(200)
-        .end(checkResponse({lemmas_ordered: ['mara']}, done))
-        // .end(checkResponse({lemmas_ordered: ['mara', 'marad', 'xmara']}, done))
+        .end(checkResponse({lemmas_ordered: ['mara', 'maratona', 'imara']}, done))
+    })
+  })
+
+  // -------------------------------------------------------------------------
+
+  describe('Search lexemes by gloss', function () {
+    const path = '/lexemes/search-gloss'
+
+    var mkqs = function (term) {
+      return path + '?s=' + term
+    }
+
+    it('search results sorted by match', function (done) {
+      request(server)
+        .get(mkqs('find'))
+        .expect(200)
+        .end(checkResponse({lemmas_ordered: ['sab', 'tħasses', 'insab']}, done))
     })
   })
 
