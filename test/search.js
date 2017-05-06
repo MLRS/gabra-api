@@ -98,7 +98,7 @@ describe('Search', function () {
   // -------------------------------------------------------------------------
 
   describe('Search lexemes by gloss', function () {
-    const path = '/lexemes/search-gloss'
+    const path = '/lexemes/search_gloss'
 
     var mkqs = function (term) {
       return path + '?s=' + term

@@ -19,7 +19,7 @@ const min_length_wf = 3
 /*
  * GET search for glosses
  */
-router.get('/search-gloss', function (req, res) {
+router.get('/search_gloss', function (req, res) {
   var db = req.db
   var glosses_coll = db.get('glosses')
   var lexemes_coll = db.get('lexemes')
@@ -69,7 +69,7 @@ router.get('/search-gloss', function (req, res) {
     var lex_ids = []
     docs.forEach(function (doc) {
       if (doc.hasOwnProperty('lexemes')) {
-        lex_ids = lex_ids.concat(doc.lexemes.map((s) => { return s.toString() }))
+        lex_ids = lex_ids.concat(doc.lexemes.map(function (s) { return s.toString() }))
       }
     })
 
@@ -514,9 +514,9 @@ var getQuery = function (req, params) {
     page_size    : 20,
     result_count : null // don't know yet
   }
-  for (let key in params) {
-    let name = params[key].hasOwnProperty('param') ? params[key].param : key
-    let def = params[key].hasOwnProperty('default') ? params[key].default : ''
+  for (var key in params) {
+    var name = params[key].hasOwnProperty('param') ? params[key].param : key
+    var def = params[key].hasOwnProperty('default') ? params[key].default : ''
     if (def === true || def === false) {
       // boolean
       obj[key] = boolItem(q, name, def)

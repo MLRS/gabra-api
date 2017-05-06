@@ -54,7 +54,7 @@ It also performs stemming and stop-word removal on your query.
 If only searching by English gloss, this command will return better results.
 For more flexibility and additional filtering, use the command above (with the `g` flag).
 
-> [/lexemes/search-gloss?s=find](#{baseURL}/lexemes/search-gloss?s=find)
+> [/lexemes/search_gloss?s=find](#{baseURL}/lexemes/search_gloss?s=find)
 
 | Argument       | Description  | Example | Notes                |
 |:---------------|:-------------|:--------|:---------------------|
