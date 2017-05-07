@@ -84,6 +84,10 @@
       "$ref": "#{baseURL}/schemas/agr.json",
       "title": "indirect object"
     },
+    "possessor": {
+      "$ref": "#{baseURL}/schemas/agr.json",
+      "title": "possessor"
+    },
     "form": {
       "description": "General morphological form",
       "type": "string",
@@ -125,8 +129,20 @@
     "pattern": {
       "type": "string"
     },
+    "hypothetical": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
+    "archaic": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
     "generated": {
       "type": "boolean"
+    },
+    "pending": {
+      "type": "boolean",
+      "format": "checkbox"
     },
     "created": {
       "type": "string",

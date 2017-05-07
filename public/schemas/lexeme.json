@@ -167,6 +167,10 @@
       "type": "boolean",
       "format": "checkbox"
     },
+    "multiword": {
+      "type": "boolean",
+      "format": "checkbox"
+    },
     "pending": {
       "type": "boolean",
       "format": "checkbox"
@@ -186,6 +190,10 @@
     },
     "feedback": {
       "type": "string"
+    },
+    "comment": {
+      "type": "string",
+      "format": "textarea"
     },
     "created": {
       "type": "string",
