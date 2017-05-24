@@ -53,6 +53,8 @@ function JSONPretty (obj, depth) {
       out += '<span class="json-value">'
       out += JSON.stringify(v)
       out += '</span>'
+    } else if (v === null) {
+      out += '<span class="json-value json-null">null</span>'
     } else if (typeof v === 'object') {
       out += JSONPretty(v, depth + 2)
     } else {

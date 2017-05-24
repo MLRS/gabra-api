@@ -13,3 +13,7 @@
   vertical-align: top;
   color: #333;
 }
+.json .json-null {
+  color: #aaa;
+  font-style: italic;
+}
