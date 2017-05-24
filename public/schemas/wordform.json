@@ -117,9 +117,6 @@
         "neg"
       ]
     },
-    "full": {
-      "type": "string"
-    },
     "stem": {
       "type": "string"
     },

@@ -73,13 +73,6 @@ This is usually due to not using Maltese characters, differences in uppper/lower
 
 Thus when reviewing pending entries, you should **always perform the search yourself** in order to decide whether the entry already exists or not.
 
-### Flagged entries
-
-Some entries also have a `feedback` field which may contain a message from a user indicating that something is wrong with an entry.
-Some of these are informative and say exactly what is wrong with the entry.
-However because of a previous oversight, there are many entries which are marked as `feedback: incorrect` which are _not_ in fact incorrect.
-When checking these entries, always make sure to remove the `feedback` field when you are done.
-
 ## 4. Adding & editing entries
 
 If you are logged in on the Ġabra site, you will see **Edit** links next to each entry.

@@ -188,9 +188,6 @@
     "onomastic_type": {
       "type": "string"
     },
-    "feedback": {
-      "type": "string"
-    },
     "comment": {
       "type": "string",
       "format": "textarea"
