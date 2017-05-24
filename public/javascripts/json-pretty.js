@@ -13,9 +13,36 @@ function JSONPretty (obj, depth) {
     return Array(n + 1).join(c)
   }
 
+  // known fields, in order (lexemes and wordforms combined)
+  var orders = [
+    '_id',
+    'lexeme_id',
+    'lemma',
+    'surface_form',
+    'phonetic',
+    'alternatives',
+    'pos',
+    'root',
+    'derived_form',
+    'gender',
+    'number',
+    'gloss',
+    'sources',
+    'pending'
+  ]
+  var fields = Object.keys(obj)
+  fields.sort(function (a, b) {
+    var ax = orders.indexOf(a)
+    var bx = orders.indexOf(b)
+    if (ax === -1) return 1
+    if (bx === -1) return -1
+    return ax - bx
+  })
+
   var out = ''
   out += '<div class="json-object">'
-  for (k in obj) {
+  for (var kx in fields) {
+    var k = fields[kx]
     var v = obj[k]
     out += '<div class="json-row">'
     out += repeat(' ', depth)
