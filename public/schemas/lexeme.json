@@ -175,10 +175,6 @@
       "type": "boolean",
       "format": "checkbox"
     },
-    "not_duplicate": {
-      "type": "boolean",
-      "format": "checkbox"
-    },
     "phonetic": {
       "type": "string"
     },
