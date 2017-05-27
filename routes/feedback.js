@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var log = require('../logger').makeLogger('lexemes')
 
 // -- Feedback/'crowdsourcing' methods ---------------------------------------
 
@@ -36,14 +37,15 @@ router.post('/suggest', function (req, res, next) {
       lemma: data.lemma,
       gloss: data.gloss,
       pos: data.pos,
-      created: new Date(),
       pending: true,
-      sources: ['UserFeedback'],
+      sources: ['UserFeedback']
     }
     collection.insert(newdata, function (err, data) {
       if (err) {
         res.status(500).send(err)
+        return
       }
+      log(req, data._id, data)
       res.json(data)
     })
   })

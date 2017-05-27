@@ -1,6 +1,9 @@
 var express = require('express')
 var router = express.Router()
 var passport = require('passport')
+var monk = require('monk')
+
+var log = require('../logger').makeLogger('roots')
 
 // -- Search command --------------------------------------------------------
 
@@ -136,12 +139,6 @@ router.get('/lexemes/:radicals/:variant?', function (req, res, next) {
 
 // -- Private methods -------------------------------------------------------
 
-// Dumb deep copy
-// http://stackoverflow.com/a/15040626/98600
-// var clone = function (obj) {
-//     return JSON.parse(JSON.stringify(obj))
-// }
-
 var getQuery = function (req) {
   var q = req.query
 
@@ -241,6 +238,7 @@ router.get('/', function (req, res, next) {
   collection.find({}, function (err, data) {
     if (err) {
       res.status(500).send(err)
+      return
     }
     res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
     res.json(data)
@@ -255,11 +253,12 @@ router.post('/',
   }),
   function (req, res, next) {
     var collection = req.db.get('roots')
-    req.body['created'] = new Date()
     collection.insert(req.body, function (err, data) {
       if (err) {
         res.status(500).send(err)
+        return
       }
+      log(req, data._id, data)
       res.json(data)
     })
   })
@@ -270,6 +269,7 @@ router.get('/:id', function (req, res, next) {
   collection.findById(req.params.id, function (err, data) {
     if (err) {
       res.status(500).send(err)
+      return
     }
     res.json(data)
   })
@@ -284,18 +284,17 @@ router.post('/:id',
   }),
   function (req, res, next) {
     var collection = req.db.get('roots')
-    if (req.body.hasOwnProperty('created')) {
-      req.body['created'] = new Date(req.body.created)
-    }
-    req.body['modified'] = new Date()
     collection.updateById(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
+        return
       }
       collection.findById(req.params.id, function (err, data) {
         if (err) {
           res.status(500).send(err)
+          return
         }
+        log(req, data._id, data)
         res.json(data)
       })
     })
@@ -307,19 +306,14 @@ router.delete('/:id',
     session: false
   }),
   function (req, res, next) {
-    var coll_l = req.db.get('roots')
-    var coll_wf = req.db.get('wordforms')
-    var lexeme_id = coll_l.id(req.params.id)
-    coll_l.removeById(lexeme_id, function (err) {
+    var coll_r = req.db.get('roots')
+    var root_id = monk.id(req.params.id)
+    coll_r.removeById(root_id, function (err) {
       if (err) {
         res.status(500).send(err)
+        return
       }
-      coll_wf.remove({'lexeme_id': lexeme_id}, function (err) {
-        if (err) {
-          res.status(500).send(err)
-        }
-        res.end()
-      })
+      log(req, root_id, null)
       res.end()
     })
   })

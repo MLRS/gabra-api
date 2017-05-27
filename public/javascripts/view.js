@@ -257,7 +257,7 @@ function view_history (data) {
   var thead = $('<thead>').appendTo(table)
   thead.append(
     $('<tr>').append(
-      $('<th>').text('Date & User'),
+      $('<th>').text('Details'),
       $('<th>').text('Document')
     )
   )
@@ -269,9 +269,16 @@ function view_history (data) {
         $('<tr>').append(
           $('<td>').append(
             $('<div>').text(item.date),
-            $('<div>').addClass('text-muted').text(item.username)
+            // Fields below are all optional
+            $('<div>').addClass('text-primary').text(item.action),
+            $('<div>').addClass('text-muted').text(item.username),
+            $('<div>').addClass('text-muted').text(item.ip)
           ),
-          $('<td>').append($('<pre>').addClass('json').html(JSONPretty(item.new_value)))
+          $('<td>').append(
+            item.new_value
+            ? $('<pre>').addClass('json').html(JSONPretty(item.new_value))
+            : '-'
+          )
         )
       )
     })

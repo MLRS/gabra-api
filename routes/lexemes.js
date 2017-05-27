@@ -680,10 +680,10 @@ router.post('/',
   }),
   function (req, res, next) {
     var collection = req.db.get('lexemes')
-    req.body['created'] = new Date()
     collection.insert(req.body, function (err, data) {
       if (err) {
         res.status(500).send(err)
+        return
       }
       log(req, data._id, data)
       res.json(data)
@@ -696,6 +696,7 @@ router.post('/',
 //   collection.find({}, function (err, data) {
 //     if (err) {
 //       res.status(500).send(err)
+//       return
 //     }
 //     res.json(data)
 //   })
@@ -710,10 +711,10 @@ router.get('/:id', function (req, res, next) {
     res.status(400).send('Invalid ID').end()
     return
   }
-
   collection.findOne(req.params.id, function (err, data) {
     if (err) {
       res.status(500).send(err)
+      return
     }
     res.json(data)
   })
@@ -728,17 +729,15 @@ router.post('/:id',
   }),
   function (req, res, next) {
     var collection = req.db.get('lexemes')
-    if (req.body.hasOwnProperty('created')) {
-      req.body['created'] = new Date(req.body.created)
-    }
-    req.body['modified'] = new Date()
     collection.updateById(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
+        return
       }
       collection.findOne(req.params.id, function (err, data) {
         if (err) {
           res.status(500).send(err)
+          return
         }
         log(req, data._id, data)
         res.json(data)
@@ -758,6 +757,7 @@ router.delete('/:id',
     coll_l.removeById(lexeme_id, function (err) {
       if (err) {
         res.status(500).send(err)
+        return
       }
       log(req, req.params.id, null)
       coll_wf.find({'lexeme_id': lexeme_id}, function (err, data) {
@@ -772,6 +772,7 @@ router.delete('/:id',
       coll_wf.remove({'lexeme_id': lexeme_id}, function (err) {
         if (err) {
           res.status(500).send(err)
+          return
         }
         res.end()
       })

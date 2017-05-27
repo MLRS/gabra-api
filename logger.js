@@ -15,7 +15,8 @@ module.exports = {
         'object_id': object_id,
         'date': new Date(),
         'new_value': new_val,
-        'username': user
+        'username': user,
+        'ip': req.ip
       }
       coll.insert(obj)
     }

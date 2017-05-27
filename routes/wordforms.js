@@ -70,10 +70,10 @@ router.post('/',
   function (req, res, next) {
     var collection = req.db.get('wordforms')
     req.body.lexeme_id = collection.id(req.body.lexeme_id)
-    req.body['created'] = new Date()
     collection.insert(req.body, function (err, data) {
       if (err) {
         res.status(500).send(err)
+        return
       }
       log(req, data._id, data)
       res.json(data)
@@ -86,6 +86,7 @@ router.post('/',
 //   collection.find({}, function (err, data) {
 //     if (err) {
 //       res.status(500).send(err)
+//       return
 //     }
 //     res.json(data)
 //   })
@@ -103,6 +104,7 @@ router.get('/:id', function (req, res, next) {
   collection.findById(req.params.id, function (err, data) {
     if (err) {
       res.status(500).send(err)
+      return
     }
     res.json(data)
   })
@@ -117,15 +119,17 @@ router.get('/:id', function (req, res, next) {
 //   }),
 //   function (req, res, next) {
 //     var collection = req.db.get('wordforms')
-//     req.body['modified'] = new Date()
 //     collection.updateById(req.params.id, {'$set': req.body}, function (err) {
 //       if (err) {
 //         res.status(500).send(err)
+//         return
 //       }
 //       collection.findById(req.params.id, function (err, data) {
 //         if (err) {
 //           res.status(500).send(err)
+//           return
 //         }
+//         log(req, data._id, data)
 //         res.json(data)
 //       })
 //     })
@@ -141,17 +145,15 @@ router.post('/:id',
   function (req, res, next) {
     var collection = req.db.get('wordforms')
     req.body.lexeme_id = collection.id(req.body.lexeme_id)
-    if (req.body.hasOwnProperty('created')) {
-      req.body['created'] = new Date(req.body.created)
-    }
-    req.body['modified'] = new Date()
     collection.updateById(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
+        return
       }
       collection.findById(req.params.id, function (err, data) {
         if (err) {
           res.status(500).send(err)
+          return
         }
         log(req, data._id, data)
         res.json(data)
@@ -169,6 +171,7 @@ router.delete('/:id',
     collection.removeById(req.params.id, function (err) {
       if (err) {
         res.status(500).send(err)
+        return
       }
       log(req, req.params.id, null)
       res.end()

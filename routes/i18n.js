@@ -3,7 +3,7 @@ var router = express.Router()
 
 // -- Internationalisation (i18n) methods ------------------------------------
 
-/* Suggest */
+/* List all */
 /* Content-Type: application/json */
 router.get('/all', function (req, res, next) {
   var collection = req.db.get('messages')
