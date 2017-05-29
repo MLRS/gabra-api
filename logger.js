@@ -1,3 +1,5 @@
+var monk = require('monk')
+
 // for logging changes to Gabra
 module.exports = {
 
@@ -8,7 +10,7 @@ module.exports = {
       var coll = req.db.get('logs')
       var user = req.user ? req.user.username : ''
       if (typeof object_id !== 'object') {
-        object_id = coll.id(object_id)
+        object_id = monk.id(object_id)
       }
       var obj = {
         'collection': collection_name,

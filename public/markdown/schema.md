@@ -98,6 +98,8 @@ Since the database is based on JSON, this is not a schema in the traditional sen
 | username   | String   | Username of user making the edit | "john.camilleri"                     |
 | ip         | String   | IP address                       | "192.168.0.1"                        |
 
+- Because of a previous bug, the `collection` field may erroneously show 'lexemes' instead of 'wordforms', in particular for deletions.
+
 ## Universal POS tag set
 
 See: <http://universaldependencies.github.io/docs/>

@@ -169,7 +169,7 @@ router.delete('/:id',
   }),
   function (req, res, next) {
     var collection = req.db.get('wordforms')
-    collection.removeById(req.params.id, function (err) {
+    collection.remove(req.params.id, function (err) {
       if (err) {
         res.status(500).send(err)
         return

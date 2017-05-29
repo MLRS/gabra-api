@@ -9,6 +9,7 @@ var regexquote = require('regexp-quote')
 var monk = require('monk')
 
 var log = require('../logger').makeLogger('lexemes')
+var log_wf = require('../logger').makeLogger('wordforms')
 
 // -- Searching methods -----------------------------------------------------
 
@@ -753,28 +754,32 @@ router.delete('/:id',
   function (req, res, next) {
     var coll_l = req.db.get('lexemes')
     var coll_wf = req.db.get('wordforms')
-    var lexeme_id = coll_l.id(req.params.id)
-    coll_l.removeById(lexeme_id, function (err) {
+    var lexeme_id = monk.id(req.params.id)
+    coll_l.remove(lexeme_id, function (err) {
       if (err) {
         res.status(500).send(err)
         return
       }
       log(req, req.params.id, null, 'deleted')
+
+      // First find wordforms so we can log them
       coll_wf.find({'lexeme_id': lexeme_id}, function (err, data) {
         if (err) {
           console.log(err)
           return
         }
         data.forEach(function (item) {
-          log(req, item._id, null, 'deleted')
+          log_wf(req, item._id, null, 'deleted')
         })
-      })
-      coll_wf.remove({'lexeme_id': lexeme_id}, function (err) {
-        if (err) {
-          res.status(500).send(err)
-          return
-        }
-        res.end()
+
+        // Then delete wordforms
+        coll_wf.remove({'lexeme_id': lexeme_id}, function (err) {
+          if (err) {
+            res.status(500).send(err)
+            return
+          }
+          res.end()
+        })
       })
       res.end()
     })

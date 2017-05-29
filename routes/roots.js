@@ -308,7 +308,7 @@ router.delete('/:id',
   function (req, res, next) {
     var coll_r = req.db.get('roots')
     var root_id = monk.id(req.params.id)
-    coll_r.removeById(root_id, function (err) {
+    coll_r.remove(root_id, function (err) {
       if (err) {
         res.status(500).send(err)
         return
