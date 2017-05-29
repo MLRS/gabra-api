@@ -258,7 +258,7 @@ router.post('/',
         res.status(500).send(err)
         return
       }
-      log(req, data._id, data)
+      log(req, data._id, data, 'created')
       res.json(data)
     })
   })
@@ -294,7 +294,7 @@ router.post('/:id',
           res.status(500).send(err)
           return
         }
-        log(req, data._id, data)
+        log(req, data._id, data, 'modified')
         res.json(data)
       })
     })
@@ -313,7 +313,7 @@ router.delete('/:id',
         res.status(500).send(err)
         return
       }
-      log(req, root_id, null)
+      log(req, root_id, null, 'created')
       res.end()
     })
   })

@@ -58,7 +58,7 @@ router.post('/generate/:paradigm/:lexeme_id?',
               wf['lexeme_id'] = data._id
               wf['generated'] = true
               coll.insert(wf, function (err, data) {
-                log(req, data._id, wf)
+                log(req, data._id, wf, 'modified')
                 cb(err)
               })
             },

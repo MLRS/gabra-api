@@ -685,7 +685,7 @@ router.post('/',
         res.status(500).send(err)
         return
       }
-      log(req, data._id, data)
+      log(req, data._id, data, 'created')
       res.json(data)
     })
   })
@@ -739,7 +739,7 @@ router.post('/:id',
           res.status(500).send(err)
           return
         }
-        log(req, data._id, data)
+        log(req, data._id, data, 'modified')
         res.json(data)
       })
     })
@@ -759,14 +759,14 @@ router.delete('/:id',
         res.status(500).send(err)
         return
       }
-      log(req, req.params.id, null)
+      log(req, req.params.id, null, 'deleted')
       coll_wf.find({'lexeme_id': lexeme_id}, function (err, data) {
         if (err) {
           console.log(err)
           return
         }
         data.forEach(function (item) {
-          log(req, item._id, null)
+          log(req, item._id, null, 'deleted')
         })
       })
       coll_wf.remove({'lexeme_id': lexeme_id}, function (err) {

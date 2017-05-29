@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var passport = require('passport')
+var monk = require('monk')
 
 // -- Pages -----------------------------------------------------------------
 
@@ -83,7 +84,7 @@ router.get('/:collection/:object_id', function (req, res, next) {
   var collection = req.db.get('logs')
   var conds = {
     'collection': req.params.collection,
-    'object_id': collection.id(req.params.object_id)
+    'object_id': monk.id(req.params.object_id)
   }
   var opts = {
     'sort': {

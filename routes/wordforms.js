@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var passport = require('passport')
 var async = require('async')
+var monk = require('monk')
 
 var log = require('../logger').makeLogger('wordforms')
 
@@ -22,7 +23,7 @@ router.post('/replace/:lexeme_id',
       return
     }
     var conds = {
-      'lexeme_id': collection.id(req.params.lexeme_id),
+      'lexeme_id': monk.id(req.params.lexeme_id),
       'surface_form': {'$regex': search}
     }
     collection.find(conds, function (err, data) {
@@ -42,7 +43,7 @@ router.post('/replace/:lexeme_id',
           data,
           function (item, callback) {
             collection.updateById(item._id, item, callback)
-            log(req, item._id, item)
+            log(req, item._id, item, 'modified')
           },
           // All done
           function (err) {
@@ -69,13 +70,13 @@ router.post('/',
   }),
   function (req, res, next) {
     var collection = req.db.get('wordforms')
-    req.body.lexeme_id = collection.id(req.body.lexeme_id)
+    req.body.lexeme_id = monk.id(req.body.lexeme_id)
     collection.insert(req.body, function (err, data) {
       if (err) {
         res.status(500).send(err)
         return
       }
-      log(req, data._id, data)
+      log(req, data._id, data, 'created')
       res.json(data)
     })
   })
@@ -96,7 +97,7 @@ router.post('/',
 router.get('/:id', function (req, res, next) {
   var collection = req.db.get('wordforms')
   try {
-    collection.id(req.params.id)
+    monk.id(req.params.id)
   } catch (err) {
     res.status(400).send('Invalid ID').end()
     return
@@ -129,7 +130,7 @@ router.get('/:id', function (req, res, next) {
 //           res.status(500).send(err)
 //           return
 //         }
-//         log(req, data._id, data)
+//         log(req, data._id, data, 'modified')
 //         res.json(data)
 //       })
 //     })
@@ -144,7 +145,7 @@ router.post('/:id',
   }),
   function (req, res, next) {
     var collection = req.db.get('wordforms')
-    req.body.lexeme_id = collection.id(req.body.lexeme_id)
+    req.body.lexeme_id = monk.id(req.body.lexeme_id)
     collection.updateById(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
@@ -155,7 +156,7 @@ router.post('/:id',
           res.status(500).send(err)
           return
         }
-        log(req, data._id, data)
+        log(req, data._id, data, 'modified')
         res.json(data)
       })
     })
@@ -173,7 +174,7 @@ router.delete('/:id',
         res.status(500).send(err)
         return
       }
-      log(req, req.params.id, null)
+      log(req, req.params.id, null, 'deleted')
       res.end()
     })
   })

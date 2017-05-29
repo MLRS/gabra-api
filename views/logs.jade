@@ -84,6 +84,7 @@ block content
         th User
         th Type
         th ID
+        th Action
         th Label
     tbody
       for item in data
@@ -92,15 +93,16 @@ block content
           td= item.username
           td= item.collection
           td= item.object_id
+          td= item.action
           td
             if item.collection === 'lexemes'
               if item.new_value
                 a(href="#{baseURL}/lexemes/view/" + item.object_id)= item.new_value.lemma
               else
-                em.text-danger= item.action
+                | -
             else if item.collection === 'wordforms'
               if item.new_value
                 a(href="#{baseURL}/lexemes/view/" + item.new_value.lexeme_id)= item.new_value.surface_form
               else
-                em.text-danger= item.action
+                | -
             //- collection is never roots...
