@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v2.9.0 <small>Updated 2017-05-06</small></h1>
+<h1>Ġabra API v2.9.1 <small>Updated 2018-09-01</small></h1>
 </div>
 
 <div class="well">
@@ -11,10 +11,10 @@ If you just want to search the database normally, you should do so from the [Ġa
 
 - Base URL: <#{fullBaseURL}>
 - Everything should be UTF-8 encoded.
-- The API is sensitive to Unicode characters. This means that _h_ will not match _ħ_.
+- The API is sensitive to Unicode characters. This means that *h* will not match *ħ*.
 - Input arguments when searching are lower-cased, but results are not completely case-agnostic.
 - Searching in wordforms is implicitly a prefix search.
-- The order in the search results does not follow the Maltese alphabet correctly — the characters _ċ, ġ, ħ, ż_ are sorted after _z_.
+- The order in the search results does not follow the Maltese alphabet correctly — the characters *ċ, ġ, ħ, ż* are sorted after *z*.
   Also, lemmas beginning with upper-case appear before lower-cased ones.
 - All fields are optional unless marked as required.
 

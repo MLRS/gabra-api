@@ -38,7 +38,7 @@ block content
         +loader('lexeme')
       div#view-lexeme
       if id
-        a(href='#{gabraURL}/lexemes/view/' + id).btn.btn-xs.btn-link
+        a(href=gabraURL+'/lexemes/view/' + id).btn.btn-xs.btn-link
           +icon('new-window', 'View on Ġabra')
       
     div.col-sm-8
@@ -138,6 +138,6 @@ block content
       lexeme_id: "#{id}"
     }
     
-  script(src='#{baseURL}/module/json-editor/dist/jsoneditor.min.js',defer)
-  script(src='#{baseURL}/javascripts/json-pretty.js',defer)
-  script(src="#{baseURL}/javascripts/view.js",defer)
+  script(src=baseURL+'/module/json-editor/dist/jsoneditor.min.js',defer)
+  script(src=baseURL+'/javascripts/json-pretty.js',defer)
+  script(src=baseURL+"/javascripts/view.js",defer)

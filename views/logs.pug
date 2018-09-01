@@ -75,7 +75,7 @@ block content
         })
 
       })
-    div#chart(style="background:url(#{baseURL}/images/ajax-loader.gif) no-repeat center top; min-height:24px; margin-bottom:20px;")
+    div#chart(style="background:url("+baseURL+"/images/ajax-loader.gif) no-repeat center top; min-height:24px; margin-bottom:20px;")
               
   table.table.table-striped.table-condensed.table-hover
     thead
@@ -97,12 +97,12 @@ block content
           td
             if item.collection === 'lexemes'
               if item.new_value
-                a(href="#{baseURL}/lexemes/view/" + item.object_id)= item.new_value.lemma
+                a(href=baseURL+"/lexemes/view/" + item.object_id)= item.new_value.lemma
               else
                 | -
             else if item.collection === 'wordforms'
               if item.new_value
-                a(href="#{baseURL}/lexemes/view/" + item.new_value.lexeme_id)= item.new_value.surface_form
+                a(href=baseURL+"/lexemes/view/" + item.new_value.lexeme_id)= item.new_value.surface_form
               else
                 | -
             //- collection is never roots...

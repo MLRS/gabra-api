@@ -1,9 +1,9 @@
 mixin icon(name, text)
-  span(class="glyphicon glyphicon-#{name}")
+  span(class="glyphicon glyphicon-"+name)
   |&nbsp;#{text}
 
 mixin loader(name)
-  img(src="#{baseURL}/images/ajax-loader.gif",style="visibility:hidden;height:24px;width:24px",id="loading-"+name)
+  img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden;height:24px;width:24px",id="loading-"+name)
     
 doctype html
 html(lang="en")
@@ -11,8 +11,8 @@ html(lang="en")
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible",content="IE=edge")
     meta(name="viewport",content="width=device-width, initial-scale=1")
-    link(rel="icon",type="image/png",href="#{baseURL}/images/transfer-trans.png")
-    link(rel="shortcut icon",type="image/png",href="#{baseURL}/images/transfer-trans.png")
+    link(rel="icon",type="image/png",href=baseURL+"/images/transfer-trans.png")
+    link(rel="shortcut icon",type="image/png",href=baseURL+"/images/transfer-trans.png")
       
     title Ġabra API
       if title
@@ -35,8 +35,8 @@ html(lang="en")
       link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
       link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
     else
-      link(rel='stylesheet', href='#{baseURL}/bootstrap/css/bootstrap.min.css')
-      link(rel='stylesheet', href='#{baseURL}/bootstrap/css/bootstrap-theme.min.css')
+      link(rel='stylesheet', href=baseURL+'/bootstrap/css/bootstrap.min.css')
+      link(rel='stylesheet', href=baseURL+'/bootstrap/css/bootstrap-theme.min.css')
 
     style
       include ../public/stylesheets/json-pretty.css
@@ -45,8 +45,8 @@ html(lang="en")
       script(src='//code.jquery.com/jquery-2.1.4.min.js')
       script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js',defer)
     else
-      script(src='#{baseURL}/javascripts/jquery-1.11.0.min.js')
-      script(src='#{baseURL}/bootstrap/js/bootstrap.min.js',defer)
+      script(src=baseURL+'/javascripts/jquery-1.11.0.min.js')
+      script(src=baseURL+'/bootstrap/js/bootstrap.min.js',defer)
         
     //- script.
     //-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -65,29 +65,29 @@ html(lang="en")
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href="#{baseURL}/",style="color:firebrick")
+          a.navbar-brand(href=baseURL+"/",style="color:firebrick")
             span.glyphicon.glyphicon-transfer(style="vertical-align:top")
             |  Ġabra API
         .collapse.navbar-collapse
           ul.nav.navbar-nav
             li
-              a(href="#{baseURL}/schema") Schema
+              a(href=baseURL+"/schema") Schema
             li
-              a(href="#{baseURL}/download") Download
+              a(href=baseURL+"/download") Download
             //- li
-            //-   a(href="#{baseURL}/tutorial") Tutorial
+            //-   a(href=baseURL+"/tutorial") Tutorial
 
             li.dropdown
               a(href="#",class="dropdown-toggle",data-toggle="dropdown") More
                 span.caret
               ul.dropdown-menu(role="menu")
                 li
-                  a(href="#{baseURL}/lexemes/add") 
+                  a(href=baseURL+"/lexemes/add") 
                     +icon('plus', 'New lexeme')
                 li
-                  a(href="#{baseURL}/logs")
+                  a(href=baseURL+"/logs")
                     +icon('time', 'Recent changes')
-          form(role="search",action="#{baseURL}/search",method="GET").navbar-form.navbar-left
+          form(role="search",action=baseURL+"/search",method="GET").navbar-form.navbar-left
             div.input-group
               - var search_term = (query) ? query.s : ''
               input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
