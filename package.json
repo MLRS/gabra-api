@@ -1,6 +1,6 @@
 {
   "name": "gabra-api",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "description": "Ġabra: an open lexicon for Maltese",
   "author": "John J. Camilleri <john@johnjcamilleri.com> (http://johnjcamilleri.com/)",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "marked": "^0.3.19",
     "mongodb": "~2.0",
     "monk": "^3.1.4",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "passport": "^0.2.2",
     "passport-http": "^0.2.2",
     "pug": "^2.0.3",
