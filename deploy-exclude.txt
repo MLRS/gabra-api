@@ -1,0 +1,5 @@
+server-config.js
+.*
+node_modules
+public/data
+deploy*

@@ -1,6 +1,5 @@
 # Server config is private
 server-config.js
-push.sh
 
 # Data dumps
 public/data/gabra_data*.tar.gz
