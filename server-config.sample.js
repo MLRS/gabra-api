@@ -7,10 +7,7 @@ module.exports = {
   maintenanceMode: false, // put entire site down
   gabraURL: 'http://mlrs.research.um.edu.mt/resources/gabra',
   salt: '',
-  dbUrl: 'localhost:27017/gabra',
-  dbOptions: {
-    username: '',
-    password: ''
-  },
+  dbUrl: '',
+  dbOptions: { },
   analyticsCode: null
 }
