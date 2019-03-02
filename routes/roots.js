@@ -22,7 +22,7 @@ router.get('/search', function (req, res) {
   var conds_r = searchConditions(queryObj)
   var pagesize = queryObj.page_size
   var opts = {
-    'sort': {'radicals': 1, 'variant': 1},
+    'sort': { 'radicals': 1, 'variant': 1 },
     'limit': pagesize,
     'skip': pagesize * (queryObj.page - 1)
   }
@@ -75,13 +75,13 @@ router.get('/search', function (req, res) {
 
       doTasks(tasks, function (count) {
         queryObj.result_count = count
-        res.json({'results': results, 'query': queryObj})
+        res.json({ 'results': results, 'query': queryObj })
       })
     })
   }
 
   if (queryObj.search_lemma || queryObj.search_gloss) {
-    var conds_l = {'$or': []}
+    var conds_l = { '$or': [] }
 
     if (queryObj.search_lemma) {
       addCondition(conds_l, 'lemma', queryObj.term)
@@ -103,7 +103,7 @@ router.get('/search', function (req, res) {
             ds.push(doc['root']['_id'])
           }
         })
-        addOr(conds_r, '_id', {'$in': ds})
+        addOr(conds_r, '_id', { '$in': ds })
       }
       ret()
     })
@@ -157,11 +157,11 @@ var getQuery = function (req) {
 
   if (q['c1'] || q['c2'] || q['c3'] || q['c4']) {
     term = '^'
-    term += q['c1'] ? q['c1'] : '.'
+    term += q['c1'] || '.'
     term += '-'
-    term += q['c2'] ? q['c2'] : '.'
+    term += q['c2'] || '.'
     term += '-'
-    term += q['c3'] ? q['c3'] : '.'
+    term += q['c3'] || '.'
     if (q['c4'] === 'none') {
       term += '$'
     } else if (q['c4']) {
@@ -185,7 +185,7 @@ var getQuery = function (req) {
     search_lemma    : boolItem('l', true),
     search_gloss    : boolItem('g', true),
     root_type       : q.t,
-    page            : try_page ? try_page : 1,
+    page            : try_page || 1,
     page_size       : 20,
     result_count    : null // don't know yet
   }
@@ -205,7 +205,7 @@ var addOr = function (conds, field, val) {
 
 // Add regex search condition
 var addCondition = function (conds, field, q) {
-  addOr(conds, field, {'$regex': q})
+  addOr(conds, field, { '$regex': q })
 }
 
 var searchConditions = function (queryObj) {

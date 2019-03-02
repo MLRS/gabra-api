@@ -19,7 +19,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 var cache_static = '7 days'
-app.use(express.static(path.join(__dirname, 'public'), {maxAge: cache_static}))
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: cache_static }))
 
 // CORS
 app.use(function (req, res, next) {
@@ -56,7 +56,7 @@ app.use(function (req, res, next) {
 
 // Database
 var monk = require('monk')
-var db = monk(config.dbUrl, config.dbOptions)
+var db = monk(config.dbUrl)
 // Make our db accessible to our router
 app.use(function (req, res, next) {
   req.db = db
@@ -68,13 +68,13 @@ var passport = require('passport')
 var BasicStrategy = require('passport-http').BasicStrategy
 passport.use(new BasicStrategy(
   function (username, password, done) {
-    db.get('users').findOne({username: username}, function (err, user) {
+    db.get('users').findOne({ username: username }, function (err, user) {
       var salted = config.salt + password
       var shasum = require('crypto').createHash('sha1')
       var hashed = shasum.update(salted).digest('hex')
       if (err) { return done(err) }
-      if (!user) { return done(null, false, {message: 'Unknown user.'}) }
-      if (user.password !== hashed) { return done(null, false, {message: 'Incorrect password.'}) }
+      if (!user) { return done(null, false, { message: 'Unknown user.' }) }
+      if (user.password !== hashed) { return done(null, false, { message: 'Incorrect password.' }) }
       return done(null, user)
     })
   }
@@ -120,7 +120,7 @@ app.use('/morpho', require('./routes/morpho'))
 // app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))
 // app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'))
 // app.use('/ladda', express.static(__dirname + '/node_modules/ladda/dist/'))
-app.use('/module', express.static(path.join(__dirname, '/node_modules/'), {maxAge: cache_static}))
+app.use('/module', express.static(path.join(__dirname, '/node_modules/'), { maxAge: cache_static }))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
