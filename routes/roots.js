@@ -165,7 +165,7 @@ var getQuery = function (req) {
     if (q['c4'] === 'none') {
       term += '$'
     } else if (q['c4']) {
-      term += '-'.q['c4']
+      term += '-' + q['c4']
     }
   } else if (q.hasOwnProperty('s') && q['s'].trim()) {
     term = q['s'].trim()
