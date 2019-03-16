@@ -60,6 +60,17 @@ router.post('/replace/:lexeme_id',
     })
   })
 
+/*
+ * GET count
+ */
+router.get('/count', function (req, res) {
+  var db = req.db
+  var coll = db.get('wordforms')
+  coll.count({}, function (err, result) {
+    res.json(result)
+  })
+})
+
 // -- CRUD Methods ----------------------------------------------------------
 
 /* Create = POST */

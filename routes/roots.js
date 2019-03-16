@@ -137,6 +137,18 @@ router.get('/lexemes/:radicals/:variant?', function (req, res, next) {
   })
 })
 
+/*
+ * GET count
+ */
+router.get('/count', function (req, res) {
+  var db = req.db
+  var coll = db.get('roots')
+  coll.count({}, function (err, result) {
+    res.json(result)
+  })
+})
+
+
 // -- Private methods -------------------------------------------------------
 
 var getQuery = function (req) {

@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v2.9.1 <small>Updated 2018-09-01</small></h1>
+<h1>Ġabra API v2.10.0 <small>Updated 2019-03-16</small></h1>
 </div>
 
 <div class="well">
@@ -180,3 +180,13 @@ You can get English & Maltese names for all the field names and values:
 | Argument | Description | Example                  |
 |:---------|:------------|:-------------------------|
 | `lang`   | Language    | `eng` (default) or `mlt` |
+
+### Counts <small>Since v2.10.0</small>
+
+Get counts of all entities in database. These commands take no parameters.
+
+> [/lexemes/count](#{baseURL}/lexemes/count)
+
+> [/wordforms/count](#{baseURL}/wordforms/count)
+
+> [/roots/count](#{baseURL}/roots/count)

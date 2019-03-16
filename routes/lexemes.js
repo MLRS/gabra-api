@@ -480,6 +480,17 @@ router.get('/lemmatise', function (req, res) {
   })
 })
 
+/*
+ * GET count
+ */
+router.get('/count', function (req, res) {
+  var db = req.db
+  var coll = db.get('lexemes')
+  coll.count({}, function (err, result) {
+    res.json(result)
+  })
+})
+
 // -- Private helper methods ------------------------------------------------
 
 function boolItem (obj, key, def) {
