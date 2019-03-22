@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v2.10.0 <small>Updated 2019-03-16</small></h1>
+<h1>Ġabra API v2.10.0 <small>Updated 2019-03-22</small></h1>
 </div>
 
 <div class="well">
@@ -140,6 +140,19 @@ All radicals should be in lower case.
 A dot `.` will also match the digraph `għ`.
 
 The results are paged.
+
+### Load root <small>Since v2.10</small>
+
+Load a root from its radicals and variant.
+
+> [/roots/k-t-b](#{baseURL}/roots/k-t-b)
+
+> [/roots/b-r-d/2](#{baseURL}/roots/b-r-d/2)
+
+| Argument               | Description   | Example            |
+|:-----------------------|:--------------|:-------------------|
+| `:radicals` (required) | Root radicals | `k-t-b`, `s-r-v-j` |
+| `:variant`             | Root variant  | `1`, `2`, ...      |
 
 ### Load lexemes by root <small>Since v2.5</small>
 

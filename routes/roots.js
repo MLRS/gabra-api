@@ -275,16 +275,37 @@ router.post('/',
     })
   })
 
-/* Read = GET with ID */
-router.get('/:id', function (req, res, next) {
+/* Read = GET with ID or radicals+variant*/
+router.get('/:id_or_radicals/:variant?', function (req, res, next) {
   var collection = req.db.get('roots')
-  collection.findById(req.params.id, function (err, data) {
-    if (err) {
-      res.status(500).send(err)
-      return
+  try {
+    // Try by ID
+    var root_id = monk.id(req.params.id_or_radicals)
+    collection.findById(root_id, function (err, data) {
+      if (err) {
+        res.status(500).send(err)
+        return
+      }
+      res.json(data)
+    })
+  } catch {
+    // Try by radicals
+    var conds = {
+      'radicals': req.params.id_or_radicals
     }
-    res.json(data)
-  })
+    if (req.params.variant) {
+      conds['variant'] = parseInt(req.params.variant, 10)
+    }
+    var opts = {
+    }
+    collection.findOne(conds, opts, function (err, data) {
+      if (err) {
+        res.status(500).send(err)
+        return
+      }
+      res.json(data)
+    })
+  }
 })
 
 /* Update = POST with ID */
