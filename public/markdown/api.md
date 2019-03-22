@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v2.10.0 <small>Updated 2019-03-22</small></h1>
+<h1>Ġabra API v2.10.1 <small>Updated 2019-03-22</small></h1>
 </div>
 
 <div class="well">
@@ -141,7 +141,7 @@ A dot `.` will also match the digraph `għ`.
 
 The results are paged.
 
-### Load root <small>Since v2.10</small>
+### Load root <small>Since v2.10.1</small>
 
 Load a root from its radicals and variant.
 
