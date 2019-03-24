@@ -702,17 +702,18 @@ router.post('/',
     })
   })
 
-// /* Index = GET */
-// router.get('/', function (req, res, next) {
-//   var collection = req.db.get('lexemes')
-//   collection.find({}, function (err, data) {
-//     if (err) {
-//       res.status(500).send(err)
-//       return
-//     }
-//     res.json(data)
-//   })
-// })
+/* Index = GET */
+router.get('/', function (req, res, next) {
+  var collection = req.db.get('lexemes')
+  collection.find({}, function (err, data) {
+    if (err) {
+      res.status(500).send(err)
+      return
+    }
+    res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
+    res.json(data)
+  })
+})
 
 /* Read = GET with ID */
 router.get('/:id', function (req, res, next) {

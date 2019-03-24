@@ -101,6 +101,7 @@ router.post('/',
 //       return
 //     }
 //     res.json(data)
+//     res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
 //   })
 // })
 

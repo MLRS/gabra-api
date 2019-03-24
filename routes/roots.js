@@ -288,7 +288,7 @@ router.get('/:id_or_radicals/:variant?', function (req, res, next) {
       }
       res.json(data)
     })
-  } catch {
+  } catch (err) {
     // Try by radicals
     var conds = {
       'radicals': req.params.id_or_radicals
