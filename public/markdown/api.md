@@ -3,8 +3,10 @@
 </div>
 
 <div class="well">
+
 This page is meant for developers who want to access the Ġabra database programmatically, such as from a website or app.
 If you just want to search the database normally, you should do so from the [Ġabra website](#{gabraURL}).
+
 </div>
 
 ## General

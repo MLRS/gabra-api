@@ -39,8 +39,10 @@ In general, all fields are optional and you will notice that some entries seem t
 than others. This is just a result of the heterogenous nature of the data which we have; missing data is common.
 
 <div class="alert alert-info">
+
 For details about the fields we are currently using, see the **[schema](schema)** page.
 This page should be updated whenever we introduce a new field.
+
 </div>
 
 ### Roots

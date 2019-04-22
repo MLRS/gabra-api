@@ -4,7 +4,7 @@ var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var compression = require('compression')
-
+var helmet = require('helmet')
 var app = express()
 
 app.use(compression()) // compress all requests
@@ -14,6 +14,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 app.locals.pretty = true
 
+app.use(helmet())
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
