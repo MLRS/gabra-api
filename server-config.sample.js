@@ -8,6 +8,9 @@ module.exports = {
   gabraURL: 'http://mlrs.research.um.edu.mt/resources/gabra',
   salt: '',
   dbUrl: '',
-  dbOptions: { },
-  analyticsCode: null
+  analyticsCode: null,
+  test: {
+    username: '',
+    password: ''
+  }
 }

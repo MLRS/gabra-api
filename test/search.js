@@ -8,11 +8,7 @@ var should = require('should')
    For Should.js syntax see http://shouldjs.github.io/
 */
 describe('Search', function () {
-  var server
-
-  beforeEach(function () {
-    server = require('../app')
-  })
+  const server = require('../app')
 
   // Function for checking search responses from /lexemes/search
   var checkResponse = function (opts, done) {
@@ -91,7 +87,7 @@ describe('Search', function () {
       request(server)
         .get(mkqs('mara')) // default options
         .expect(200)
-        .end(checkResponse({lemmas_ordered: ['mara', 'maratona', 'imara']}, done))
+        .end(checkResponse({lemmas: ['mara', 'maratona', 'imara']}, done))
     })
   })
 

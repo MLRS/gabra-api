@@ -281,7 +281,7 @@ router.get('/:id_or_radicals/:variant?', function (req, res, next) {
   try {
     // Try by ID
     var root_id = monk.id(req.params.id_or_radicals)
-    collection.findById(root_id, function (err, data) {
+    collection.findOne(root_id, function (err, data) {
       if (err) {
         res.status(500).send(err)
         return
@@ -317,12 +317,12 @@ router.post('/:id',
   }),
   function (req, res, next) {
     var collection = req.db.get('roots')
-    collection.updateById(req.params.id, req.body, function (err) {
+    collection.update(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
         return
       }
-      collection.findById(req.params.id, function (err, data) {
+      collection.findOne(req.params.id, function (err, data) {
         if (err) {
           res.status(500).send(err)
           return

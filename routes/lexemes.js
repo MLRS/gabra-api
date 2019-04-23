@@ -742,7 +742,7 @@ router.post('/:id',
   }),
   function (req, res, next) {
     var collection = req.db.get('lexemes')
-    collection.updateById(req.params.id, req.body, function (err) {
+    collection.update(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
         return

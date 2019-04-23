@@ -1,17 +1,10 @@
 /* globals describe beforeEach afterEach it */
 
 var request = require('supertest')
+var should = require('should')
 
 describe('General', function () {
-  var server
-
-  beforeEach(function () {
-    server = require('../app')
-  })
-
-  afterEach(function () {
-    // server.close()
-  })
+  const server = require('../app')
 
   it('responds to /', function (done) {
     request(server)

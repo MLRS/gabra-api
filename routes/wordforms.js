@@ -42,7 +42,7 @@ router.post('/replace/:lexeme_id',
         async.each(
           data,
           function (item, callback) {
-            collection.updateById(item._id, item, callback)
+            collection.update(item._id, item, callback)
             log(req, item._id, item, 'modified')
           },
           // All done
@@ -114,7 +114,7 @@ router.get('/:id', function (req, res, next) {
     res.status(400).send('Invalid ID').end()
     return
   }
-  collection.findById(req.params.id, function (err, data) {
+  collection.findOne(req.params.id, function (err, data) {
     if (err) {
       res.status(500).send(err)
       return
@@ -132,12 +132,12 @@ router.get('/:id', function (req, res, next) {
 //   }),
 //   function (req, res, next) {
 //     var collection = req.db.get('wordforms')
-//     collection.updateById(req.params.id, {'$set': req.body}, function (err) {
+//     collection.update(req.params.id, {'$set': req.body}, function (err) {
 //       if (err) {
 //         res.status(500).send(err)
 //         return
 //       }
-//       collection.findById(req.params.id, function (err, data) {
+//       collection.find(req.params.id, function (err, data) {
 //         if (err) {
 //           res.status(500).send(err)
 //           return
@@ -158,12 +158,12 @@ router.post('/:id',
   function (req, res, next) {
     var collection = req.db.get('wordforms')
     req.body.lexeme_id = monk.id(req.body.lexeme_id)
-    collection.updateById(req.params.id, req.body, function (err) {
+    collection.update(req.params.id, req.body, function (err) {
       if (err) {
         res.status(500).send(err)
         return
       }
-      collection.findById(req.params.id, function (err, data) {
+      collection.findOne(req.params.id, function (err, data) {
         if (err) {
           res.status(500).send(err)
           return
