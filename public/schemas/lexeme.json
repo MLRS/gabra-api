@@ -59,8 +59,34 @@
     },
     "gloss": {
       "type": "string",
-      "description": "English gloss. One sense per line (do not number).",
+      "description": "English gloss. One sense per line. DEPRECATED",
       "format": "textarea",
+      "propertyOrder": 6
+    },
+    "glosses": {
+      "type": "array",
+      "description": "English glosses, with examples",
+      "items": {
+        "type": "object",
+        "required": [
+          "gloss"
+        ],
+        "properties": {
+          "gloss": {
+            "type": "string",
+            "description": "English gloss for a single sense",
+            "format": "textarea"
+          },
+          "examples": {
+            "type": "array",
+            "description": "Examples for gloss",
+            "items": {
+              "type": "string",
+              "format": "textarea"
+            }
+          }
+        }
+      },
       "propertyOrder": 6
     },
     "root": {
