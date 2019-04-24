@@ -46,6 +46,7 @@ router.post('/suggest', function (req, res, next) {
         return
       }
       log(req, data._id, data, 'created')
+      res.status(201)
       res.json(data)
     })
   })

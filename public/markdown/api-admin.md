@@ -43,9 +43,9 @@ Non-public API for editing. These methods generally require authorisation.
 
 ## Feedback
 
-| Method | URL                 | Description                         | Payload*                                                                            | Return Value |
-|:-------|:--------------------|:------------------------------------|:------------------------------------------------------------------------------------|:-------------|
-| `POST` | `/feedback/suggest` | Add suggestion (checks for matches) | Entire document - for security only the fields `lemma`, `gloss` and `pos` are used. | Document     |
+| Method | URL                 | Description                         | Payload*                                                              | Return Value |
+|:-------|:--------------------|:------------------------------------|:----------------------------------------------------------------------|:-------------|
+| `POST` | `/feedback/suggest` | Add suggestion (checks for matches) | Entire document (only the fields `lemma`, `gloss` and `pos` are used) | Document     |
 
 ## Morphological generation
 
