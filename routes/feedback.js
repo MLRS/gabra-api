@@ -20,7 +20,6 @@ router.post('/suggest', function (req, res, next) {
   }
   var conds = {
     lemma: data.lemma,
-    // gloss: data.gloss
     pos: data.pos
   }
   collection.findOne(conds, function (err, found) {
@@ -35,7 +34,7 @@ router.post('/suggest', function (req, res, next) {
     // Only copy the fields we want
     var newdata = {
       lemma: data.lemma,
-      gloss: data.gloss,
+      glosses: [{ gloss: data.gloss }],
       pos: data.pos,
       pending: true,
       sources: ['UserFeedback']
