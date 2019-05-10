@@ -11,9 +11,8 @@ This repository contains the source code for the Ġabra API at
 
 ### Web app
 
-- You need NodeJS. After cloning the repo run `npm install` to install Node packages locally.
-
-- You will need a file `server-config.js` with relevant details for your host.
+- You need [Node.js](https://nodejs.org). After cloning the repo run `npm install` to install Node packages locally.
+- You will need a file `server-config.js` containing the relevant details for your host.
   Start by copying `server-config.sample.js`.
 
 ### Database
