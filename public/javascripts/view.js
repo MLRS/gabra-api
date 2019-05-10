@@ -51,7 +51,7 @@ function view_lexeme (data) {
     'alternatives',
     'pos',
     'root',
-    'gloss',
+    'glosses',
     'sources'
   ]
   var fields = Object.keys(data)
@@ -66,13 +66,31 @@ function view_lexeme (data) {
   })
 
   fields.forEach(function (field) {
-    var out = handleField(data, field)
-    table.append(
-      $('<tr>').append(
-        $('<th>').text(field),
-        $('<td>').text(out)
+    if (field === 'glosses') {
+      data[field].forEach(function (item, ix) {
+        table.append(
+          $('<tr>').append(
+            $('<th>').text('gloss ' + (ix+1)),
+            $('<td>').text(handleField(item, 'gloss'))
+          )
+        )
+        item['examples'].forEach(function (item, ex) {
+          table.append(
+            $('<tr>').append(
+              $('<th>').text('example ' + (ix+1) + '.' + (ex+1)),
+              $('<td>').text(handleField(item, 'example'))
+            )
+          )
+        })
+      })
+    } else {
+      table.append(
+        $('<tr>').append(
+          $('<th>').text(field),
+          $('<td>').text(handleField(data, field))
+        )
       )
-    )
+    }
   })
 }
 
@@ -206,8 +224,6 @@ function handleField (data, field) {
     out = ''
   } else if (Array.isArray(value)) {
     out = value
-  } else if (field === 'gloss') {
-    out = value.replace(/\n/g, ', ')
   } else if (typeof value === 'object') {
     var obj_fields = [
       'person',

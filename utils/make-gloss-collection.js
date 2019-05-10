@@ -2,11 +2,13 @@
 /* eslint-disable camelcase */
 
 /*
-* Create a new collection in gabra DB:
-* Collection reverses lexemes, i.e. keys English gloss to lexeme ID
-*/
+ * Populate glosses collection, which serves as an index from gloss to lexeme.
+ * The glosses collection is used specifically by the search_glosses API call.
+ * This script should be run periodicllay on a cron job or similar
+ * although it is rather slow (~at least a few minutes)
+ */
 
-var COLL = 'glosses'
+const COLL = 'glosses'
 
 // create the collection if not existing
 if (db.getCollectionNames().indexOf(COLL) < 0) {
@@ -20,21 +22,17 @@ if (db.getCollectionNames().indexOf(COLL) < 0) {
 }
 
 // iterate over all lexemes with a gloss
-var conds = {
-  'gloss': {
-    '$exists': true,
-    '$ne': ''
+const conds = {
+  'glosses': {
+    '$exists': true
   }
 }
 db.getCollection('lexemes').find(conds).forEach(function (lex) {
-  // split the glosses by newline
-  var glosses = lex.gloss.split(/\r?\n/)
-
-  for (var i = 0; i < glosses.length; i++) {
-    var g = glosses[i].toLowerCase()
+  for (let glossitem of lex.glosses) {
+    let g = glossitem.gloss.toLowerCase()
 
     // check if gloss is in the collection already
-    var entry = db.getCollection(COLL).findOne({'gloss': g})
+    let entry = db.getCollection(COLL).findOne({'gloss': g})
 
     if (entry == null) {
       db.getCollection(COLL).insert({
@@ -45,7 +43,7 @@ db.getCollection('lexemes').find(conds).forEach(function (lex) {
     } else {
       db.getCollection(COLL).update(
         {'gloss': g},
-        {$push: {'lexemes': lex._id}}
+        {'$addToSet': {'lexemes': lex._id}}
       )
     }
   }

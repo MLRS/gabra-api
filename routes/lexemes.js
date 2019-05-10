@@ -582,9 +582,9 @@ var searchConditions = function (queryObj) {
   if (queryObj.term) {
     var q = queryObj.term
 
-    // Search in lexemes.gloss
+    // Search in lexemes.glosses.gloss
     if (queryObj.search_gloss && queryObj.term.length >= min_length_g) {
-      addCondition(conds, 'gloss', q)
+      addCondition(conds, 'glosses.gloss', q)
     }
 
     // Search in lexemes.lemma
