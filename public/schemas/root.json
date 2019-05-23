@@ -1,0 +1,38 @@
+{
+  "title": "Root",
+  "type": "object",
+  "required": [
+    "radicals",
+    "type",
+    "sources"
+  ],
+  "properties": {
+    "radicals": {
+      "type": "string",
+      "pattern": "^[bċdfġghħjklmnpqrstvwxjżz']{1,2}-[bċdfġghħjklmnpqrstvwxjżz']{1,2}-[bċdfġghħjklmnpqrstvwxjżz']{1,2}(-[bċdfġghħjklmnpqrstvwxjżz']{1,2})?$"
+    },
+    "variant": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "strong",
+        "geminated",
+        "weak-initial",
+        "weak-medial",
+        "weak-final",
+        "irregular"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "title": "source",
+        "type": "string"
+      }
+    }
+  }
+}
