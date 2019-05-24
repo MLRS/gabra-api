@@ -35,3 +35,4 @@ The tests use:
 
 Run all tests with `npm test`.
 Run an individual testsuite with `npx mocha --exit test/schema.js` or use the `--grep` flag.
+To stop on first failure, use `--bail`

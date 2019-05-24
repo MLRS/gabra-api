@@ -6,11 +6,6 @@
     "pos"
   ],
   "properties": {
-    "_id": {
-      "title": "ID",
-      "type": "string",
-      "propertyOrder": 1
-    },
     "lemma": {
       "type": "string",
       "propertyOrder": 2
@@ -81,8 +76,18 @@
             "type": "array",
             "description": "Examples for gloss",
             "items": {
-              "type": "string",
-              "format": "textarea"
+              "type": "object",
+              "properties": {
+                "example": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "full"
+                  ]
+                }
+              }
             }
           }
         }
