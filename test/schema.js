@@ -55,16 +55,21 @@ describe('Schema', () => {
     var schema = JSON.parse(fs.readFileSync('public/schemas/wordform.json'))
     var validate = ajv.compile(schema)
 
-    it('receives data', async () => {
-      let items = await db.get('wordforms').find()
-      items.forEach((item) => {
-        describe(`${item.surface_form} (${item._id})`, () => {
-          it('conforms to schema', () => {
-            validate(item).should.be.true(formatErrors(validate.errors))
+    const limit = 1000 // page size
+    var skip = 0
+    do {
+      it(`receives data ${skip} to ${skip + limit - 1}`, async () => {
+        let items = await db.get('wordforms').find({}, { limit: limit, skip: skip })
+        items.forEach((item) => {
+          describe(`${item.surface_form} (${item._id})`, () => {
+            it('conforms to schema', () => {
+              validate(item).should.be.true(formatErrors(validate.errors))
+            })
           })
         })
       })
-    })
+      skip += limit
+    } while (skip < 5000000)
   })
 })
 
