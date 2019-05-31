@@ -6,13 +6,8 @@
     "surface_form"
   ],
   "properties": {
-    "_id": {
-      "title": "ID",
-      "type": "string",
-      "propertyOrder": 1
-    },
     "lexeme_id": {
-      "type": "string",
+      "type": "object",
       "propertyOrder": 2
     },
     "surface_form": {
@@ -73,19 +68,19 @@
       ]
     },
     "subject": {
-      "$ref": "#{baseURL}/schemas/agr.json",
+      "$ref": "#/definitions/agr",
       "title": "subject"
     },
     "dir_obj": {
-      "$ref": "#{baseURL}/schemas/agr.json",
+      "$ref": "#/definitions/agr",
       "title": "direct object"
     },
     "ind_obj": {
-      "$ref": "#{baseURL}/schemas/agr.json",
+      "$ref": "#/definitions/agr",
       "title": "indirect object"
     },
     "possessor": {
-      "$ref": "#{baseURL}/schemas/agr.json",
+      "$ref": "#/definitions/agr",
       "title": "possessor"
     },
     "form": {
@@ -148,6 +143,40 @@
     "modified": {
       "type": "string",
       "format": "datetime"
+    }
+  },
+  "definitions": {
+    "agr": {
+      "description": "Agreement",
+      "type": ["null","object"],
+      "required": [
+        "person",
+        "number"
+      ],
+      "properties": {
+        "person": {
+          "type": "string",
+          "enum": [
+            "p1",
+            "p2",
+            "p3"
+          ]
+        },
+        "number": {
+          "type": "string",
+          "enum": [
+            "sg",
+            "pl"
+          ]
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "m",
+            "f"
+          ]
+        }
+      }
     }
   }
 }
