@@ -2,8 +2,7 @@
   "title": "Lexeme",
   "type": "object",
   "required" : [
-    "lemma",
-    "pos"
+    "lemma"
   ],
   "properties": {
     "lemma": {
@@ -84,7 +83,8 @@
                 "type": {
                   "type": "string",
                   "enum": [
-                    "full"
+                    "full",
+                    "short"
                   ]
                 }
               }
