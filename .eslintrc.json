@@ -1,5 +1,6 @@
 {
-    "rules": {
-        "camelcase": false
-    }
+  "extends": "standard",
+  "rules": {
+    "camelcase": "off"
+  }
 }
