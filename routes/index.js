@@ -1,9 +1,15 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 
-var fs = require('fs')
-var marked = require('marked')
+const fs = require('fs')
+const marked = require('marked')
 
+/**
+ * Render a markdown feil as HTML and serve it
+ * keys for `params`:
+ * - mdfile: path to file
+ * - title: page title
+ */
 function markdownPage (req, res, next, params) {
   fs.readFile(params.mdfile, 'utf8', function (err, data) {
     if (err) {
@@ -17,6 +23,9 @@ function markdownPage (req, res, next, params) {
     })
     var content = marked(data)
     content = content.replace(/<table>/g, '<table class="table">')
+    if (typeof params.replacer === 'function') {
+      content = params.replacer(content)
+    }
     res.render('index', { title: params.title, body: content })
   })
 }
@@ -32,11 +41,65 @@ router.get('/', function (req, res, next) {
 
 /* GET schema page */
 router.get('/schema', function (req, res, next) {
+  // let table =
+  // console.log(table)
+  // res.render('index', { title: 'Schema', body: table })
   markdownPage(req, res, next, {
     mdfile: 'public/markdown/schema.md',
-    title: 'Schema'
+    title: 'Schema',
+    replacer: content =>
+      content.replace(/{{(.+\.json)}}/g, (full, g1) =>
+        loadSchemaAsHTML(g1)
+      )
   })
 })
+
+/**
+ * Read JSON schema from file and format as HTML table
+ */
+function loadSchemaAsHTML (file) {
+  let data = fs.readFileSync(`public/schemas/${file}`, 'utf8')
+  let stats = fs.statSync(`public/schemas/${file}`)
+  let html = `
+    <table class="table">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th style="width:40%">Example / allowed values</th>
+      </tr>
+    </thead>
+    <tbody>
+  `
+  data = JSON.parse(data)
+  for (let p in data.properties) {
+    let po = data.properties[p]
+    let eg = ''
+    if (po.examples) {
+      eg = po.examples.map(e => `<code>${JSON.stringify(e)}</code>`).join(',<br>')
+    } else if (po.enum) {
+      eg = po.enum.map(e => `<code>${JSON.stringify(e)}</code>`).join(' / ')
+    }
+    html += `
+      <tr>
+        <td><code>${p}</code></td>
+        <td>${po.type}</td>
+        <td>${po.description || ''}${data.required.includes(p) ? ' (required)' : ''}</td>
+        <td>${eg}</td>
+      </tr>
+    `
+  }
+  html += `
+    </tbody>
+    </table>
+    <p>
+      Source: <a href="schemas/${file}">${file}</a><br>
+      <small class="text-muted">Last updated ${stats.mtime.toISOString()}</small>
+    </p>
+  `
+  return html
+}
 
 /* GET tutorial page */
 router.get('/tutorial', function (req, res, next) {

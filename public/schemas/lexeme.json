@@ -6,10 +6,20 @@
   ],
   "properties": {
     "lemma": {
+      "description": "Main lemma",
+      "examples": [
+        "bahrad",
+        "kiteb",
+        "ħarġa"
+      ],
       "type": "string",
       "propertyOrder": 2
     },
     "alternatives": {
+      "description": "List of spelling alternatives",
+      "examples": [
+        ["bahraġ"]
+      ],
       "type": "array",
       "format": "table",
       "items": {
@@ -19,7 +29,7 @@
       "propertyOrder": 3
     },
     "pos": {
-      "description": "Part of Speech",
+      "description": "Part of speech",
       "type": "string",
       "enum": [
         "ADJ",
@@ -43,6 +53,10 @@
       "propertyOrder": 4
     },
     "sources": {
+      "description": "Source keys",
+      "examples": [
+        ["Spagnol2011", "Falzon2013"]
+      ],
       "type": "array",
       "format": "table",
       "items": {
@@ -58,8 +72,8 @@
       "propertyOrder": 6
     },
     "glosses": {
-      "type": "array",
       "description": "English glosses, with examples",
+      "type": "array",
       "items": {
         "type": "object",
         "required": [
@@ -95,30 +109,41 @@
       "propertyOrder": 6
     },
     "root": {
+      "description": "Root of entry",
       "type": "object",
       "properties": {
         "radicals": {
-          "type": "string",
-          "description": "c-c-c or c-c-c-c"
+          "description": "c-c-c or c-c-c-c",
+          "type": "string"
         },
         "variant": {
+          "description": "To distinguish different roots with same radicals",
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 5
         }
-      }
+      },
+      "examples": [
+        { "radicals": "k-t-b" },
+        { "radicals": "b-ħ-b-ħ", "variant": 2 }
+      ]
     },
     "headword": {
+      "description": "Headword for entry",
+      "examples": [
+        { "lemma": "abbozz", "pos": "NOUN" }
+      ],
       "type": "object",
       "required": [
         "lemma"
       ],
       "properties": {
         "lemma": {
-          "type": "string",
-          "description": "Lemma of head word"
+          "description": "Lemma of head word",
+          "type": "string"
         },
         "pos": {
-          "description": "Part of Speech of head word (recommended)",
+          "description": "Part of speech of head word (recommended)",
           "type": "string",
           "enum": [
             "",
@@ -142,12 +167,13 @@
           ]
         },
         "lexeme_id": {
-          "type": "string",
-          "description": "ID of head word (optional)"
+          "description": "ID of head word (optional)",
+          "type": "string"
         }
       }
     },
     "form": {
+      "description": "General form",
       "type": "string",
       "enum": [
         "mimated",
@@ -159,6 +185,7 @@
       ]
     },
     "derived_form": {
+      "description": "Derived form of verb (1–10)",
       "type": "integer",
       "minimum": 1,
       "maximum": 10
@@ -203,29 +230,35 @@
       "format": "checkbox"
     },
     "pending": {
+      "description": "Flagged as incorrect or new suggestion",
       "type": "boolean",
       "format": "checkbox"
     },
     "phonetic": {
+      "description": "Phonetic description of lemma",
+      "examples": [
+        "'skrɛjjɛn"
+      ],
       "type": "string"
     },
     "apertium_paradigm": {
+      "description": "Name of paradigm in Apertium lexicon",
+      "examples": [
+        "epi/ku__adj"
+      ],
       "type": "string"
     },
     "onomastic_type": {
-      "type": "string"
+      "description": "Onomastic type (proper nouns)",
+      "type": "string",
+      "enum": [
+        "toponym", "organisation", "anthroponym", "cognomen", "other"
+      ]
     },
     "comment": {
+      "description": "General comment",
       "type": "string",
       "format": "textarea"
-    },
-    "created": {
-      "type": "string",
-      "format": "datetime"
-    },
-    "modified": {
-      "type": "string",
-      "format": "datetime"
     }
   }
 }

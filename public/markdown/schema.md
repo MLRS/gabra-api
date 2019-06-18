@@ -1,39 +1,17 @@
-# Database schema <small>Updated 2017-05-07</small>
+# Database schema
 
 This page describes the general schema of the Ġabra database.
 Since the database is based on JSON, this is not a schema in the traditional sense; it is rather a set of guidelines for what fields can be contained in each collection.
 
-- Items separated by slashes `/` are strings.
+- Internal `_id` fields are not included here.
+- Items separated by commas ( **,** ) indicate example values.
+- Items separated by slashes ( **/** ) indicate a set of allowed values.
 - This document lists all _possible_ fields; most are optional and many entries will only a have subset of them.
 - We treat a null field the same as a missing field.
 
 ## Collection `lexemes`
 
-| Field             | Type                             | Description                                                                      | Example/allowed values                                                   |
-|:------------------|:---------------------------------|:---------------------------------------------------------------------------------|:-------------------------------------------------------------------------|
-| _id               | ObjectId                         |                                                                                  | ObjectId("522d85f86f3bad5137000989")                                     |
-| lemma             | String                           | Main lemma                                                                       | "bahrad"                                                                 |
-| alternatives      | [String]                         | List of spelling alternatives                                                    | ["bahraġ"]                                                               |
-| gloss             | String                           | English gloss (newline-separated)                                                |                                                                          |
-| root              | Object { radicals, variant }     | Root of entry, when applicable. Generally include `_id` but not strictly needed. | { radicals: "k-t-b", variant: 1 }                                        |
-| headword          | Object { lemma, pos, lexeme_id } | Headword for entry. `pos`/`lexeme_id` optional.                                  | { lemma: "abbozz", pos: "NOUN" }                                         |
-| pos               | String                           | Part of Speech (POS) tag                                                         | See Universal POS tag set below                                          |
-| gender            | String                           |                                                                                  | m / f / mf (both genders)                                                |
-| derived_form      | Int                              | Derived form of verb                                                             | 1-10                                                                     |
-| form              | String                           | General form                                                                     | mimated / comparative / verbalnoun / diminutive / participle / accretive |
-| frequency         | String                           |                                                                                  | common / uncommon / rare                                                 |
-| transitive        | Boolean                          |                                                                                  |                                                                          |
-| intransitive      | Boolean                          |                                                                                  |                                                                          |
-| ditransitive      | Boolean                          |                                                                                  |                                                                          |
-| hypothetical      | Boolean                          |                                                                                  |                                                                          |
-| archaic           | Boolean                          |                                                                                  |                                                                          |
-| multiword         | Boolean                          |                                                                                  |                                                                          |
-| phonetic          | String                           |                                                                                  | "'skrɛjjɛn"                                                              |
-| sources           | [String]                         | Source keys                                                                      | ["Spagnol2011", "Falzon2013"]                                            |
-| pending           | Boolean                          | Flagged as incorrect or new suggestion                                           |                                                                          |
-| apertium_paradigm | String                           | Name of paradigm in Apertium lexicon                                             | "epi/ku__adj"                                                            |
-| onomastic_type    | String                           | Onomastic type (proper nouns)                                                    | toponym / organisation / anthroponym / cognomen / other                  |
-| comment           | String                           | General comment                                                                  |                                                                          |
+{{lexeme.json}}
 
 ## Collection `wordforms`
 
