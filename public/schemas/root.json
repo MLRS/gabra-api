@@ -8,15 +8,30 @@
   ],
   "properties": {
     "radicals": {
+      "description": "Radicals separated with hyphens",
+      "examples": [
+        "k-t-b",
+        "ċ-p-ċ-p"
+      ],
       "type": "string",
       "pattern": "^[bċdfġghħjklmnpqrstvwxjżz']{1,2}-[bċdfġghħjklmnpqrstvwxjżz']{1,2}-[bċdfġghħjklmnpqrstvwxjżz']{1,2}(-[bċdfġghħjklmnpqrstvwxjżz']{1,2})?$"
     },
     "variant": {
+      "description": "For distinguishing different roots with same radicals",
       "type": "integer",
       "minimum": 1,
       "maximum": 5
     },
+    "alternatives": {
+      "description": "Alternative roots or cross-reference",
+      "examples": [
+        "b-h-r-d",
+        "see h-ż-ż"
+      ],
+      "type": "string"
+    },
     "type": {
+      "description": "Root class",
       "type": "string",
       "enum": [
         "strong",
@@ -28,6 +43,10 @@
       ]
     },
     "sources": {
+      "description": "Source keys (all roots come from Spagnol2011)",
+      "examples": [
+        ["Spagnol2011"]
+      ],
       "type": "array",
       "items": {
         "title": "source",

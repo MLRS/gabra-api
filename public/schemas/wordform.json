@@ -7,14 +7,23 @@
   ],
   "properties": {
     "lexeme_id": {
+      "description": "Should be a valid ID in lexemes collection",
       "type": "object",
       "propertyOrder": 2
     },
     "surface_form": {
+      "description": "Surface form",
+      "examples": [
+        "skrejjen"
+      ],
       "type": "string",
       "propertyOrder": 3
     },
     "alternatives": {
+      "description": "List of spelling alternatives",
+      "examples": [
+        ["doxxa", "duxxa"]
+      ],
       "type": "array",
       "format": "table",
       "items": {
@@ -24,11 +33,15 @@
       "propertyOrder": 4
     },
     "gloss": {
-      "type": "string",
       "description": "English gloss",
+      "type": "string",
       "propertyOrder": 10
     },
     "sources": {
+      "description": "Source keys",
+      "examples": [
+        ["Spagnol2011", "Falzon2013"]
+      ],
       "type": "array",
       "format": "table",
       "items": {
@@ -38,6 +51,7 @@
       "propertyOrder": 1005
     },
     "gender": {
+      "description": "m (masculine), f (feminine), mf (both masculine and feminine)",
       "type": "string",
       "enum": [
         "m",
@@ -47,6 +61,7 @@
       "propertyOrder": 5
     },
     "number": {
+      "description": "sg (singular), dl (dual), sgv (singulative), coll (collective), sp (both sg and pl), pl (plural), pl_ind (indeterminate plural - probably not needed), pl_det (determinate plural), pl_pl (plural of plural)",
       "type": "string",
       "enum": [
         "sg",
@@ -62,24 +77,41 @@
       "propertyOrder": 6
     },
     "plural_form": {
+      "description": "Plural type",
       "type": "string",
       "enum": [
         "counted"
       ]
     },
     "subject": {
+      "description": "Subject agreement (verbs)",
+      "examples": [
+        { "person":"p3", "number":"sg", "gender":"m" }
+      ],
       "$ref": "#/definitions/agr",
       "title": "subject"
     },
     "dir_obj": {
+      "description": "Direct object agreement",
+      "examples": [
+        { "person":"p3", "number":"pl" }
+      ],
       "$ref": "#/definitions/agr",
       "title": "direct object"
     },
     "ind_obj": {
+      "description": "Indirect object agreement",
+      "examples": [
+        { "person":"p1", "number":"pl" }
+      ],
       "$ref": "#/definitions/agr",
       "title": "indirect object"
     },
     "possessor": {
+      "description": "Agreement for nouns which inflect for possessive",
+      "examples": [
+        { "person":"p3", "number":"sg", "gender":"m" }
+      ],
       "$ref": "#/definitions/agr",
       "title": "possessor"
     },
@@ -96,6 +128,7 @@
       ]
     },
     "aspect": {
+      "description": "Aspect (verbs)",
       "type": "string",
       "enum": [
         "perf",
@@ -116,9 +149,17 @@
       "type": "string"
     },
     "phonetic": {
+      "description": "Phonetic transcription",
+      "examples": [
+        "'skrɛjjɛn"
+      ],
       "type": "string"
     },
     "pattern": {
+      "description": "Vowel-consonant pattern",
+      "examples": [
+        "CCVVCVC"
+      ],
       "type": "string"
     },
     "hypothetical": {
@@ -130,9 +171,11 @@
       "format": "checkbox"
     },
     "generated": {
+      "desciption": "Wordform was auto-generated",
       "type": "boolean"
     },
     "pending": {
+      "description": "Flagged as incorrect or new suggestion",
       "type": "boolean",
       "format": "checkbox"
     },

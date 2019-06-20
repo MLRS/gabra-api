@@ -1,0 +1,58 @@
+{
+  "title": "Log entry",
+  "description": "Records a single edit of the database",
+  "type": "object",
+  "required": [
+    "collection",
+    "object_id",
+    "date",
+    "new_value",
+    "username"
+  ],
+  "properties": {
+    "collection": {
+      "description": "Collection",
+      "type": "string",
+      "enum": [
+        "lexemes",
+        "wordforms",
+        "roots"
+      ]
+    },
+    "object_id": {
+      "description": "Must be valid ID in collection",
+      "type": "ObjectId"
+    },
+    "date": {
+      "description": "Date/time of edit",
+      "type": "ISODate"
+    },
+    "action": {
+      "description": "Type of edit",
+      "type": "string",
+      "enum": [
+        "created",
+        "modified",
+        "deleted"
+      ]
+    },
+    "username": {
+      "description": "Username of user making edit",
+      "type": "string",
+      "examples": [
+        "john.camilleri"
+      ]
+    },
+    "ip": {
+      "description": "IP address of user making edit",
+      "type": "string",
+      "examples": [
+        "192.168.0.1"
+      ]
+    },
+    "new_value": {
+      "description": "New document, if available",
+      "type": "object"
+    }
+  }
+}

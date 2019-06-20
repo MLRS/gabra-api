@@ -1,0 +1,45 @@
+{
+  "title": "Source",
+  "type": "object",
+  "required": [
+    "key"
+  ],
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Key",
+      "examples": [
+        "Spagnol2011"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "author": {
+      "type": "string",
+      "description": "Full author name",
+      "examples": [
+        "Michael Spagnol"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of resource",
+      "examples": [
+        "A Tale of Two Morphologies. Verb structure and argument alternations in Maltese"
+      ]
+    },
+    "year": {
+      "type": "integer",
+      "description": "Year of release",
+      "examples": [
+        2011
+      ]
+    },
+    "note": {
+      "type": "string",
+      "description": "General note",
+      "examples": [
+        "Germany: University of Konstanz dissertation"
+      ]
+    }
+  }
+}

@@ -81,11 +81,16 @@ function loadSchemaAsHTML (file) {
     } else if (po.enum) {
       eg = po.enum.map(e => `<code>${JSON.stringify(e)}</code>`).join(' / ')
     }
+    let refType
+    if (po['$ref'] && po['$ref'].startsWith('#/')) { // e.g. '#/definitions/agr'
+      let keys = po['$ref'].split('/').slice(1) // e.g. ['definitions','agr']
+      refType = keys.reduce((acc, val) => acc[val], data)['type']
+    }
     html += `
       <tr>
         <td><code>${p}</code></td>
-        <td>${po.type}</td>
-        <td>${po.description || ''}${data.required.includes(p) ? ' (required)' : ''}</td>
+        <td>${po.type || refType}</td>
+        <td>${po.description || ''}${data.required.includes(p) ? '<div class="small text-muted">Required</div>' : ''}</td>
         <td>${eg}</td>
       </tr>
     `
