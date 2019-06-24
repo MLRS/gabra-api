@@ -198,8 +198,9 @@
       ],
       "properties": {
         "person": {
-          "type": "string",
+          "type": ["null","string"],
           "enum": [
+            null,
             "p1",
             "p2",
             "p3"
@@ -216,7 +217,8 @@
           "type": "string",
           "enum": [
             "m",
-            "f"
+            "f",
+            "mf"
           ]
         }
       }

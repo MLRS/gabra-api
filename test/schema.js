@@ -19,6 +19,22 @@ var ajv = new Ajv({
 
 /* Tests data against schemas */
 describe('Schema', () => {
+  describe('Sources', () => {
+    var schema = JSON.parse(fs.readFileSync('public/schemas/source.json'))
+    var validate = ajv.compile(schema)
+
+    it('receives data', async () => {
+      let items = await db.get('sources').find()
+      items.forEach((item) => {
+        describe(`${item.key} (${item._id})`, () => {
+          it('conforms to schema', () => {
+            validate(item).should.be.true(formatErrors(validate.errors))
+          })
+        })
+      })
+    })
+  })
+
   describe('Roots', () => {
     var schema = JSON.parse(fs.readFileSync('public/schemas/root.json'))
     var validate = ajv.compile(schema)
@@ -55,21 +71,18 @@ describe('Schema', () => {
     var schema = JSON.parse(fs.readFileSync('public/schemas/wordform.json'))
     var validate = ajv.compile(schema)
 
-    const limit = 1000 // page size
-    var skip = 0
-    do {
-      it(`receives data ${skip} to ${skip + limit - 1}`, async () => {
-        let items = await db.get('wordforms').find({}, { limit: limit, skip: skip })
-        items.forEach((item) => {
-          describe(`${item.surface_form} (${item._id})`, () => {
-            it('conforms to schema', () => {
-              validate(item).should.be.true(formatErrors(validate.errors))
-            })
+    const limit = 100000 // page size
+    it(`receives data (${limit} samples)`, async function () {
+      this.timeout(4000)
+      let items = await db.get('wordforms').aggregate([{ '$sample': { 'size': limit } }])
+      items.forEach((item) => {
+        describe(`${item.surface_form} (${item._id})`, () => {
+          it('conforms to schema', () => {
+            validate(item).should.be.true(formatErrors(validate.errors))
           })
         })
       })
-      skip += limit
-    } while (skip < 5000000)
+    })
   })
 })
 
