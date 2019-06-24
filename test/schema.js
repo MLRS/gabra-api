@@ -73,7 +73,6 @@ describe('Schema', () => {
 
     const limit = 100000 // page size
     it(`receives data (${limit} samples)`, async function () {
-      this.timeout(4000)
       let items = await db.get('wordforms').aggregate([{ '$sample': { 'size': limit } }])
       items.forEach((item) => {
         describe(`${item.surface_form} (${item._id})`, () => {
