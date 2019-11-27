@@ -80,7 +80,7 @@ router.get('/search', function (req, res) {
     })
   }
 
-  if (queryObj.search_lemma || queryObj.search_gloss) {
+  if ((queryObj.search_lemma || queryObj.search_gloss) && queryObj.term) {
     var conds_l = { '$or': [] }
 
     if (queryObj.search_lemma) {
@@ -144,10 +144,12 @@ router.get('/count', function (req, res) {
   var db = req.db
   var coll = db.get('roots')
   coll.count({}, function (err, result) {
+    if (err) {
+      console.log(err)
+    }
     res.json(result)
   })
 })
-
 
 // -- Private methods -------------------------------------------------------
 
@@ -275,7 +277,7 @@ router.post('/',
     })
   })
 
-/* Read = GET with ID or radicals+variant*/
+/* Read = GET with ID or radicals+variant */
 router.get('/:id_or_radicals/:variant?', function (req, res, next) {
   var collection = req.db.get('roots')
   try {
