@@ -61,7 +61,7 @@ router.get('/search_gloss', function (req, res) {
   // Return ALL matches, then page manually on lexeme IDs
   glosses_coll.find(conds_g, opts_g, function (err, docs) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).end()
       return
     }
@@ -90,7 +90,7 @@ router.get('/search_gloss', function (req, res) {
     var opts_l = { }
     lexemes_coll.find(conds_l, opts_l, function (err, results) {
       if (err) {
-        console.log(err)
+        console.error(err)
         res.status(500).end()
         return
       }
@@ -170,7 +170,7 @@ router.get('/search', function (req, res) {
   function ret () {
     collection.find(conds_l, opts, function (err, docs) {
       if (err) {
-        console.log(err)
+        console.error(err)
         res.status(500).end()
         return
       }
@@ -189,7 +189,7 @@ router.get('/search', function (req, res) {
       if (show_count) {
         collection.count(conds_l, function (err, count) {
           if (err) {
-            console.log(err)
+            console.error(err)
           }
           queryObj.result_count = count
           res.json({
@@ -215,7 +215,7 @@ router.get('/search', function (req, res) {
     addCondition(conds_wf, 'alternatives', queryObj.term, {prefix: true})
     db.get('wordforms').distinct('lexeme_id', conds_wf, function (err, lex_ids) {
       if (err) {
-        console.log(err)
+        console.error(err)
       } else if (lex_ids.length > 0) {
         addOr(conds_l, '_id', {'$in': lex_ids})
       }
@@ -236,7 +236,7 @@ router.get('/wordforms/:id', function (req, res) {
   try {
     lexeme_id = monk.id(req.params.id)
   } catch (err) {
-    res.status(400).send('Invalid ID').end()
+    res.status(400).send('Invalid ID')
     return
   }
 
@@ -263,7 +263,7 @@ router.get('/wordforms/:id', function (req, res) {
   }
   collection.find(conds, {}, function (err, docs) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).end()
       return
     }
@@ -334,12 +334,12 @@ router.get('/related/:id', function (req, res) {
   try {
     lexeme_id = monk.id(req.params.id)
   } catch (err) {
-    res.status(400).send('Invalid ID').end()
+    res.status(400).send('Invalid ID')
     return
   }
   collection.findOne(lexeme_id, function (err, doc) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).end()
       return
     }
@@ -359,7 +359,7 @@ router.get('/related/:id', function (req, res) {
       }
       collection.find(conds, opts, function (err, docs) {
         if (err) {
-          console.log(err)
+          console.error(err)
           res.status(500).end()
           return
         }
@@ -411,7 +411,7 @@ router.get('/search_suggest', function (req, res) {
   var fields = ['lemma']
   collection.find(query, fields, function (err, docs) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).end()
       return
     }
@@ -441,7 +441,7 @@ router.get('/lemmatise', function (req, res) {
   }
   coll_wf.find(conds, function (err, docs_wf) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).end()
       return
     }
@@ -450,7 +450,7 @@ router.get('/lemmatise', function (req, res) {
     })
     coll_l.find({'_id': {'$in': lids}}, function (err, docs_l) {
       if (err) {
-        console.log(err)
+        console.error(err)
         res.status(500).end()
         return
       }
@@ -664,7 +664,7 @@ function loadSchemas (req, res, next, params) {
     function (err, results) {
       if (err) {
         // Not loading schema is not fatal!
-        console.log(err)
+        console.error(err)
         results = {
           l: {},
           wf: {}
@@ -721,12 +721,16 @@ router.get('/:id', function (req, res, next) {
   try {
     monk.id(req.params.id)
   } catch (err) {
-    res.status(400).send('Invalid ID').end()
+    res.status(400).send('Invalid ID')
     return
   }
   collection.findOne(req.params.id, function (err, data) {
     if (err) {
       res.status(500).send(err)
+      return
+    }
+    if (!data) {
+      res.status(404).end()
       return
     }
     res.json(data)
@@ -777,7 +781,7 @@ router.delete('/:id',
       // First find wordforms so we can log them
       coll_wf.find({'lexeme_id': lexeme_id}, function (err, data) {
         if (err) {
-          console.log(err)
+          console.error(err)
           return
         }
         data.forEach(function (item) {

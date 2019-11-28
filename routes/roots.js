@@ -32,7 +32,7 @@ router.get('/search', function (req, res) {
     var results = []
     coll_r.find(conds_r, opts, function (err, roots) {
       if (err) {
-        console.log(err)
+        console.error(err)
         res.status(500).end()
         return
       }
@@ -52,7 +52,7 @@ router.get('/search', function (req, res) {
         return function () {
           return coll_l.find(conds, function (err, lexs) {
             if (err) {
-              console.log(err)
+              console.error(err)
               return
             }
             var obj = {
@@ -67,7 +67,7 @@ router.get('/search', function (req, res) {
         // Find total
         return coll_r.count(conds_r, function (err, count) {
           if (err) {
-            console.log(err)
+            console.error(err)
           }
           return count // undefined on error
         })
@@ -92,7 +92,7 @@ router.get('/search', function (req, res) {
 
     coll_l.find(conds_l, ['root'], function (err, docs) {
       if (err) {
-        console.log(err)
+        console.error(err)
         res.status(500).end()
         return
       }
@@ -129,7 +129,7 @@ router.get('/lexemes/:radicals/:variant?', function (req, res, next) {
   }
   collection.find(conds, opts, function (err, data) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).send(err)
       return
     }
@@ -145,7 +145,7 @@ router.get('/count', function (req, res) {
   var coll = db.get('roots')
   coll.count({}, function (err, result) {
     if (err) {
-      console.log(err)
+      console.error(err)
     }
     res.json(result)
   })
@@ -303,6 +303,10 @@ router.get('/:id_or_radicals/:variant?', function (req, res, next) {
     collection.findOne(conds, opts, function (err, data) {
       if (err) {
         res.status(500).send(err)
+        return
+      }
+      if (!data) {
+        res.status(404).end()
         return
       }
       res.json(data)
