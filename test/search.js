@@ -124,6 +124,20 @@ describe('Search', function () {
         })
     })
 
+    it('load lexeme with incorrect id', function (done) {
+      request(server)
+        .get('/lexemes/2500a366e36f237975000f26')
+        .expect(404)
+        .end(done)
+    })
+
+    it('load lexeme with malformed id', function (done) {
+      request(server)
+        .get('/lexemes/2500a3')
+        .expect(400)
+        .end(done)
+    })
+
     it('load wordforms by lexeme id', function (done) {
       request(server)
         .get('/lexemes/wordforms/5200a366e36f237975000f26?pending=1')
@@ -193,6 +207,40 @@ describe('Search', function () {
           res.body.length.should.be.greaterThanOrEqual(13)
           done()
         })
+    })
+
+    it('load root by radicals', function (done) {
+      request(server)
+        .get('/roots/%C4%A7-r-%C4%A1')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            throw err
+          }
+          res.body.radicals.should.equal('ħ-r-ġ')
+          done()
+        })
+    })
+
+    it('load root by radicals (with variant)', function (done) {
+      request(server)
+        .get('/roots/%C5%BC-b-b/2')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            throw err
+          }
+          res.body.radicals.should.equal('ż-b-b')
+          res.body.variant.should.equal(2)
+          done()
+        })
+    })
+
+    it('load root with missing radicals', function (done) {
+      request(server)
+        .get('/roots/k-k-k')
+        .expect(404)
+        .end(done)
     })
   })
 
