@@ -13,7 +13,7 @@ const marked = require('marked')
 function markdownPage (req, res, next, params) {
   fs.readFile(params.mdfile, 'utf8', function (err, data) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).send('Cannot open ' + params.mdfile)
       return
     }
@@ -41,9 +41,6 @@ router.get('/', function (req, res, next) {
 
 /* GET schema page */
 router.get('/schema', function (req, res, next) {
-  // let table =
-  // console.log(table)
-  // res.render('index', { title: 'Schema', body: table })
   markdownPage(req, res, next, {
     mdfile: 'public/markdown/schema.md',
     title: 'Schema',
@@ -119,7 +116,7 @@ router.get('/download', function (req, res, next) {
   var path = 'public/data/'
   fs.readdir(path, function (err, data) {
     if (err) {
-      console.log(err)
+      console.error(err)
       res.status(500).send('Cannot open ' + path)
       return
     }

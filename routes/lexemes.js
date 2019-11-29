@@ -487,6 +487,11 @@ router.get('/count', function (req, res) {
   var db = req.db
   var coll = db.get('lexemes')
   coll.count({}, function (err, result) {
+    if (err) {
+      console.error(err)
+      res.status(500).end()
+      return
+    }
     res.json(result)
   })
 })
@@ -562,8 +567,8 @@ var addCondition = function (conds, field, q, opts) {
   // we want a $text search with $meta textScore (for sorting)
   // NB: $text search is case insensitive by default, so no need to specify
   if (field === 'lemma') {
-      // TODO: why does it complain when I specify caseSensitive and diacriticSensitive?
-      // addOr(conds, '$text', {'$search': q, '$caseSensitive': false, '$diacriticSensitive': false})
+    // TODO: why does it complain when I specify caseSensitive and diacriticSensitive?
+    // addOr(conds, '$text', {'$search': q, '$caseSensitive': false, '$diacriticSensitive': false})
     addOr(conds, '$text', {'$search': q})
     addOr(conds, 'lemma', {'$regex': q}) // also search by regex (substring)
   } else {
@@ -646,21 +651,23 @@ router.get('/add',
 )
 
 function loadSchemas (req, res, next, params) {
-  async.parallel({
-    l: function (callback) {
-      fs.readFile(schema_lexeme, 'utf8', function (err, data) {
-        callback(err, JSON.parse(data))
-      })
-    },
-    wf: function (callback) {
-      fs.readFile(schema_wordform, 'utf8', function (err, data) {
-        // replace variables (baseURL)
-        data = data.replace(/#{(.+?)}/g, function (m, c1) {
-          return res.locals[c1]
+  async.parallel(
+    {
+      l: function (callback) {
+        fs.readFile(schema_lexeme, 'utf8', function (err, data) {
+          callback(err, JSON.parse(data))
         })
-        callback(err, JSON.parse(data))
-      })
-    }},
+      },
+      wf: function (callback) {
+        fs.readFile(schema_wordform, 'utf8', function (err, data) {
+          // replace variables (baseURL)
+          data = data.replace(/#{(.+?)}/g, function (m, c1) {
+            return res.locals[c1]
+          })
+          callback(err, JSON.parse(data))
+        })
+      }
+    },
     function (err, results) {
       if (err) {
         // Not loading schema is not fatal!
