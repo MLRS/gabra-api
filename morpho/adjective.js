@@ -4,7 +4,7 @@ module.exports = {
   inflect: function (body, callback) {
     var lemma = body.lemma // 'bravu'
     if (!lemma) {
-      return callback('No lemma provided', null)
+      return callback(new Error('No lemma provided'), null)
     }
 
     var infs = inflections(lemma)

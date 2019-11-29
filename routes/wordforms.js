@@ -67,6 +67,11 @@ router.get('/count', function (req, res) {
   var db = req.db
   var coll = db.get('wordforms')
   coll.count({}, function (err, result) {
+    if (err) {
+      console.error(err)
+      res.status(500).end()
+      return
+    }
     res.json(result)
   })
 })

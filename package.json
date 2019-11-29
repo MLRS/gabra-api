@@ -11,7 +11,8 @@
   "bugs": "https://github.com/MLRS/gabra-api/issues",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "./node_modules/.bin/mocha --reporter spec --exit"
+    "test": "npx mocha --reporter spec --exit",
+    "lint": "npx eslint ."
   },
   "dependencies": {
     "@json-editor/json-editor": "^1.3.5",
@@ -36,7 +37,7 @@
   "devDependencies": {
     "ajv": "^6.10.0",
     "debug": "^3.2.6",
-    "eslint": "^6.0.1",
+    "eslint": "^6.7.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-node": "^9.1.0",

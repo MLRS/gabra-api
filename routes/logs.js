@@ -14,7 +14,7 @@ router.get('/',
     var collection = req.db.get('logs')
     var pagesize = 50
     var try_page = parseInt(req.query.page, 10)
-    var page = try_page ? try_page : 1
+    var page = try_page || 1
 
     var conds = {}
     var opts = {
@@ -63,7 +63,7 @@ router.get('/chart', function (req, res, next) {
     data.forEach(function (item) {
       if (!init.hasOwnProperty(item.username)) init[item.username] = 0
     })
-    for (var d = from; d <= to; d.setDate(d.getDate() + 1)) {
+    for (var d = from; d <= to; d.setDate(d.getDate() + 1)) { // eslint-disable-line no-unmodified-loop-condition
       day_counts[d.toISOString().substring(0, 10)] = JSON.parse(JSON.stringify(init)) // naughty
     }
     // Populate

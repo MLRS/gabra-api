@@ -1,7 +1,7 @@
-/* globals describe beforeEach afterEach it */
+/* globals describe it */
 
 var request = require('supertest')
-var should = require('should')
+// var should = require('should')
 
 describe('General', function () {
   const server = require('../app')
@@ -24,7 +24,7 @@ describe('General', function () {
         res.text.should.containEql('<h1>Ġabra API v' + version, 'version number on homepage should match package.json')
         done()
       })
-    })
+  })
 
   it('responds to /schema', function (done) {
     request(server)

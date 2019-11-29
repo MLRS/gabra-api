@@ -1,4 +1,4 @@
-/* globals describe beforeEach it */
+/* globals describe it */
 
 var request = require('supertest')
 var querystring = require('querystring')

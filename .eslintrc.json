@@ -1,6 +1,7 @@
 {
   "extends": "standard",
   "rules": {
-    "camelcase": "off"
+    "camelcase": "off",
+    "object-curly-spacing": "off"
   }
 }

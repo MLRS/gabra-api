@@ -1,8 +1,8 @@
-/* globals describe beforeEach it */
+/* globals describe it */
 
 var request = require('supertest')
-var querystring = require('querystring')
-var should = require('should')
+// var querystring = require('querystring')
+// var should = require('should')
 var config = require('../server-config.js')
 
 /* Tests for all CRUD editing functionality
@@ -28,15 +28,14 @@ describe('CRUD', function () {
         .send({})
         .expect(401, done)
     })
-
   })
 
   // -------------------------------------------------------------------------
 
   describe('Lexemes', function () {
     const path = '/lexemes'
-    let doc = {lemma : 'ijfp9e48fp4w90j'}
-    let doc2 = {lemma : '9e8fjk94fk09dk'}
+    let doc = {lemma: 'ijfp9e48fp4w90j'}
+    let doc2 = {lemma: '9e8fjk94fk09dk'}
     var id = null // ID of created test record, from create
 
     it('create lexeme', function (done) {
@@ -90,7 +89,6 @@ describe('CRUD', function () {
         .auth(config.test.username, config.test.password)
         .expect(200, done)
     })
-
   })
 
   // -------------------------------------------------------------------------
@@ -153,7 +151,6 @@ describe('CRUD', function () {
         .auth(config.test.username, config.test.password)
         .expect(200, done)
     })
-
   })
 
   // -------------------------------------------------------------------------
@@ -215,7 +212,5 @@ describe('CRUD', function () {
         .auth(config.test.username, config.test.password)
         .expect(200, done)
     })
-
   })
-
 })
