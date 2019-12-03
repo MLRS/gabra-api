@@ -1,7 +1,7 @@
 /* global print db */
 
 /*
-* Count the number of times each fields
+* Count the number of times each field occurs in entire collection
 */
 var f = function (coll) {
   print('Collection:', coll)

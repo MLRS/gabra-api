@@ -33,6 +33,9 @@ db.getCollection('lexemes').update({ 'pending': '' }, { $unset: { 'pending': tru
 // pending: '1'
 db.getCollection('lexemes').update({ 'pending': '1' }, { $set: { 'pending': true } }, { multi: true })
 
+// roots should not have IDs
+db.getCollection('lexemes').update({ 'root._id': {'$exists': true} }, { $unset: { 'root._id': true } }, { multi: true })
+
 // --- Wordforms ---
 
 // empty strings in agr objects

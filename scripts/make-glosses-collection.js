@@ -29,6 +29,7 @@ const conds = {
 }
 db.getCollection('lexemes').find(conds).forEach(function (lex) {
   for (let glossitem of lex.glosses) {
+    if (!glossitem.gloss) continue
     let g = glossitem.gloss.toLowerCase()
 
     // check if gloss is in the collection already
