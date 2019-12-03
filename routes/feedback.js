@@ -34,7 +34,7 @@ router.post('/suggest', function (req, res, next) {
     // Only copy the fields we want
     var newdata = {
       lemma: data.lemma,
-      glosses: [{ gloss: data.gloss }],
+      glosses: data.gloss ? [{ gloss: data.gloss }] : [],
       pos: data.pos,
       pending: true,
       sources: ['UserFeedback']
