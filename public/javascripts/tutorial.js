@@ -1,6 +1,5 @@
 /* global $ JSONEditor GabraAPI */
 $(document).ready(function () {
-
   // Rearrange page
   var editor = $('#editor')
   var col_cont = $('<div>').addClass('container')

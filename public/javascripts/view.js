@@ -70,18 +70,20 @@ function view_lexeme (data) {
       data[field].forEach(function (item, ix) {
         table.append(
           $('<tr>').append(
-            $('<th>').text('gloss ' + (ix+1)),
+            $('<th>').text('gloss ' + (ix + 1)),
             $('<td>').text(handleField(item, 'gloss'))
           )
         )
-        item['examples'].forEach(function (item, ex) {
-          table.append(
-            $('<tr>').append(
-              $('<th>').text('example ' + (ix+1) + '.' + (ex+1)),
-              $('<td>').text(handleField(item, 'example'))
+        if (item['examples']) {
+          item['examples'].forEach(function (item, ex) {
+            table.append(
+              $('<tr>').append(
+                $('<th>').text('example ' + (ix + 1) + '.' + (ex + 1)),
+                $('<td>').text(handleField(item, 'example'))
+              )
             )
-          )
-        })
+          })
+        }
       })
     } else {
       table.append(
@@ -144,7 +146,7 @@ function view_wordforms (data, elem) {
     )
   })
   headings.append(
-      $('<th>').text('') // for edit button
+    $('<th>').text('') // for edit button
   )
   thead.append(headings)
 
@@ -292,8 +294,8 @@ function view_history (data) {
           ),
           $('<td>').append(
             item.new_value
-            ? $('<pre>').addClass('json').html(JSONPretty(item.new_value))
-            : '-'
+              ? $('<pre>').addClass('json').html(JSONPretty(item.new_value))
+              : '-'
           )
         )
       )
@@ -437,7 +439,7 @@ function save_lexeme (id) {
   show_loading('editor')
   $.ajax({
     method: 'POST',
-    url: GabraAPI.baseURL + '/lexemes/' + (id ? id : ''),
+    url: GabraAPI.baseURL + '/lexemes/' + (id || ''),
     contentType: 'application/json',
     data: JSON.stringify(editor.getValue()),
     success: function (data) {
@@ -459,7 +461,7 @@ function save_wordform (id) {
   show_loading('editor')
   $.ajax({
     method: 'POST',
-    url: GabraAPI.baseURL + '/wordforms/' + (id ? id : ''),
+    url: GabraAPI.baseURL + '/wordforms/' + (id || ''),
     contentType: 'application/json',
     data: JSON.stringify(editor.getValue()),
     success: function (data) {
