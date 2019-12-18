@@ -1,14 +1,11 @@
 /* globals describe it */
 
 var request = require('supertest')
-// var querystring = require('querystring')
-// var should = require('should')
+require('should')
 
 const server = require('../app')
 
-/* Tests for feedback functionality
-   For Should.js syntax see http://shouldjs.github.io/
-*/
+/* Tests for feedback functionality */
 describe('Feedback', function () {
   describe('Suggest', function () {
     const path = '/feedback/suggest'

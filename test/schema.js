@@ -71,7 +71,7 @@ describe('Schema', () => {
     var schema = JSON.parse(fs.readFileSync('public/schemas/wordform.json'))
     var validate = ajv.compile(schema)
 
-    const limit = 100000 // sample size
+    const limit = 10000 // sample size
     it(`receives data (${limit} samples)`, async () => {
       let items = await db.get('wordforms').aggregate([{ '$sample': { 'size': limit } }])
       items.forEach((item) => {
@@ -81,7 +81,7 @@ describe('Schema', () => {
           })
         })
       })
-    })
+    }).timeout(10000)
   })
 })
 

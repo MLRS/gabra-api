@@ -2,11 +2,9 @@
 
 var request = require('supertest')
 var querystring = require('querystring')
-var should = require('should')
+require('should')
 
-/* Tests for all searching functionality
-   For Should.js syntax see http://shouldjs.github.io/
-*/
+/* Tests for all searching functionality */
 describe('Search', function () {
   const server = require('../app')
 
@@ -29,7 +27,7 @@ describe('Search', function () {
         for (let i in opts.lemmas) {
           let lemma = opts.lemmas[i]
           res.body.results.should.matchAny(function (value) {
-            should(value.lexeme.lemma).equal(lemma)
+            value.lexeme.lemma.should.equal(lemma)
           }, 'lemma "' + lemma + '" not found in results')
         }
       }
@@ -104,7 +102,7 @@ describe('Search', function () {
       request(server)
         .get(mkqs('find'))
         .expect(200)
-        .end(checkResponse({lemmas_ordered: ['sab', 'tħasses', 'insab']}, done))
+        .end(checkResponse({lemmas: ['sab', 'tħasses', 'insab']}, done))
     })
   })
 
@@ -161,7 +159,7 @@ describe('Search', function () {
           }
           res.body.should.matchEvery(function (value) {
             if (value.hasOwnProperty('pending')) {
-              should(value.pending).equal(false)
+              value.pending.should.equal(false)
             }
           })
           done()
@@ -177,7 +175,7 @@ describe('Search', function () {
             throw err
           }
           res.body.should.matchEvery(function (value) {
-            should(value.root.radicals).equal('k-t-b')
+            value.root.radicals.should.equal('k-t-b')
           }, 'radicals should be "k-t-b"')
           done()
         })

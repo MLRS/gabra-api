@@ -38,8 +38,10 @@ app.use(function (req, res, next) {
 
 // Load server-specific config
 var config = require('./server-config')
+var package_json = require('./package.json')
 app.use(function (req, res, next) {
   res.locals = config
+  res.locals.version = package_json.version
   next()
 })
 

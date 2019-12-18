@@ -1,13 +1,10 @@
 /* globals describe it */
 
 var request = require('supertest')
-// var querystring = require('querystring')
-// var should = require('should')
+require('should')
 var config = require('../server-config.js')
 
-/* Tests for all CRUD editing functionality
-   For Should.js syntax see http://shouldjs.github.io/
-*/
+/* Tests for all CRUD editing functionality */
 describe('CRUD', function () {
   const server = require('../app')
 
