@@ -1,0 +1,47 @@
+{
+    "derived_form" : 1,
+    "intransitive" : true,
+    "lemma" : "ħareġ",
+    "phonetic" : "hɐrɛʧ",
+    "pos" : "VERB",
+    "root" : {
+        "radicals" : "ħ-r-ġ",
+        "_id" : "5200a364e36f23797500035f"
+    },
+    "sources" : [
+        "Spagnol2011",
+        "Falzon2013"
+    ],
+    "transitive" : true,
+    "glosses" : [
+        {
+            "gloss" : "to exit",
+            "examples" : []
+        },
+        {
+            "gloss" : "to leave",
+            "examples" : []
+        },
+        {
+            "gloss" : "to go out",
+            "examples" : []
+        },
+        {
+            "gloss" : "to take sth. out",
+            "examples" : []
+        },
+        {
+            "gloss" : "to be published",
+            "examples" : []
+        },
+        {
+            "gloss" : "to be made public",
+            "examples" : []
+        },
+        {
+            "gloss" : "to stand for election",
+            "examples" : []
+        }
+    ],
+    "norm_freq" : 400.570786390402
+}
