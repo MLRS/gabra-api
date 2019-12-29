@@ -25,6 +25,8 @@ This repository contains the source code for the Ġabra API at
 
 Use PM2: `pm2 start processes.json` or just run the file `start.sh`.
 
+You must set the environment variable `NODE_ENV` to `production` if relevant.
+
 ## Tests
 
 The tests use:

@@ -24,14 +24,6 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: cache_static })
 
 // CORS
 app.use(function (req, res, next) {
-  // var allowed = [
-  //   'http://localhost',
-  //   'http://mlrs.research.um.edu.mt'
-  // ]
-  // var origin = req.headers.origin
-  // if (allowed.indexOf(origin) !== -1) {
-  //   res.header('Access-Control-Allow-Origin', origin)
-  // }
   res.header('Access-Control-Allow-Origin', '*')
   next()
 })
@@ -101,7 +93,7 @@ if (config.analyticsCode) {
     })
     next()
   }
-  if (!config.developmentMode) {
+  if (process.env.NODE_ENV === 'production') {
     app.use('/lexemes', pageview)
     app.use('/wordforms', pageview)
     app.use('/roots', pageview)

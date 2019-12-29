@@ -1,2 +1,2 @@
 #!/bin/sh
-pm2 start processes.json
+NODE_ENV=production pm2 start processes.json
