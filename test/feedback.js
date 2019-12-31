@@ -3,10 +3,10 @@
 var request = require('supertest')
 require('should')
 
-const server = require('../app')
-
 /* Tests for feedback functionality */
 describe('Feedback', function () {
+  const server = require('../app')
+
   describe('Suggest', function () {
     const path = '/feedback/suggest'
 

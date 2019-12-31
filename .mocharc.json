@@ -1,0 +1,7 @@
+{
+  "bail": false,
+  "reporter": "spec",
+  "checkLeaks": true,
+  "global": ["__core-js_shared__"],
+  "color": true
+}
