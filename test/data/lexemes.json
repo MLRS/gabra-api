@@ -1,3 +1,4 @@
+[
 {
     "derived_form" : 1,
     "intransitive" : true,
@@ -5,8 +6,7 @@
     "phonetic" : "hɐrɛʧ",
     "pos" : "VERB",
     "root" : {
-        "radicals" : "ħ-r-ġ",
-        "_id" : "5200a364e36f23797500035f"
+        "radicals" : "ħ-r-ġ"
     },
     "sources" : [
         "Spagnol2011",
@@ -44,4 +44,32 @@
         }
     ],
     "norm_freq" : 400.570786390402
+},
+{
+    "lemma" : "ktieb",
+    "phonetic" : "ktɪːp",
+    "pos" : "NOUN",
+    "root" : {
+        "radicals" : "k-t-b"
+    },
+    "sources" : [
+        "Mayer2013"
+    ],
+    "glosses" : [
+        {
+            "gloss" : "book",
+            "examples" : [
+                {
+                    "example" : "It- tnedija tal- ktieb se ssir illejla f’ Dar il- Mediterran għall- Konferenzi waqt il- Festival Nazzjonali tal- Ktieb .",
+                    "type" : "full"
+                }
+            ]
+        },
+        {
+            "gloss" : "ledger",
+            "examples" : []
+        }
+    ],
+    "norm_freq" : 200.877152331788
 }
+]

@@ -20,7 +20,7 @@ describe('Feedback', function () {
     it('existing entry', function (done) {
       request(server)
         .post(path)
-        .send({ lemma: 'kiteb', pos: 'VERB' })
+        .send({ lemma: 'ħareġ', pos: 'VERB' })
         .expect(200, done)
     })
 
