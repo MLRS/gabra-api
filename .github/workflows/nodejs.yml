@@ -9,8 +9,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x, 13.x]
-        mongodb-version: [3.2, 4.0, 4.2]
+        node-version: [10.x, 12.x]
+        mongodb-version: [3.2, 4.2]
 
     steps:
     - uses: actions/checkout@v1
@@ -20,19 +20,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Create server-config.js
+      run: mv server-config.test.js server-config.js
+
     - name: Start MongoDB
       uses: superchargejs/mongodb-github-action@1.1.0
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
 
     - name: Populate database
-      run: mongoimport test/data/*.json
+      run: node test/data/populate.js
 
     - name: Install
       run: npm ci
-
-    - name: Create server-config.js
-      run: mv server-config.sample.js server-config.js
 
     - name: Run tests
       run: npm test
