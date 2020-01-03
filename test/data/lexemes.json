@@ -46,6 +46,38 @@
     "norm_freq" : 400.570786390402
 },
 {
+    "lemma" : "kiteb",
+    "pos" : "VERB",
+    "sources" : [
+        "Spagnol2011"
+    ],
+    "glosses" : [
+        {
+            "gloss" : "to write",
+            "examples" : []
+        },
+        {
+            "gloss" : "to enrol sb.",
+            "examples" : []
+        },
+        {
+            "gloss" : "to name sb. as the heir of sth.",
+            "examples" : []
+        },
+        {
+            "gloss" : "xxyyzz",
+            "examples" : []
+        }
+    ],
+    "root" : {
+        "radicals" : "k-t-b"
+    },
+    "derived_form" : 1,
+    "transitive" : true,
+    "phonetic" : "kɪtɛp",
+    "norm_freq" : 211.950069057088
+},
+{
     "lemma" : "ktieb",
     "phonetic" : "ktɪːp",
     "pos" : "NOUN",

@@ -23,7 +23,8 @@ for (let arg of process.argv) {
   let raw = fs.readFileSync(arg)
   let data = JSON.parse(raw)
   let coll = path.parse(arg).name
-
+  let count = Array.isArray(data) ? data.length : 1
+  console.log(`${count} ${coll}`)
   promises.push(db.get(coll).insert(data))
 }
 

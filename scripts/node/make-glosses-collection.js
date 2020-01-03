@@ -27,9 +27,13 @@ Promise.all([
   }
   db.get('lexemes').find(conds).then((data) => {
     let promises = []
+    let lexCount = 0
+    let glossCount = 0
     for (let lex of data) {
+      lexCount++
       for (let glossitem of lex.glosses) {
         if (!glossitem.gloss) continue
+        glossCount++
         let g = glossitem.gloss.toLowerCase()
 
         // check if gloss is in the collection already
@@ -49,6 +53,8 @@ Promise.all([
         }))
       }
     }
+    console.log(`${lexCount} lexemes`)
+    console.log(`${glossCount} glosses`)
 
     Promise.all(promises).then(() => {
       process.exit(0)
