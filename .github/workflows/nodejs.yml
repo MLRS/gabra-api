@@ -32,7 +32,10 @@ jobs:
         mongodb-version: ${{ matrix.mongodb-version }}
 
     - name: Populate database
-      run: node test/data/populate.js && node scripts/make-glosses-collection.js
+      run: node scripts/node/populate.js test/data/*.json
+
+    - name: Build glosses collection
+      run: node scripts/node/make-glosses-collection.js
 
     - name: Run tests
       run: npm test
