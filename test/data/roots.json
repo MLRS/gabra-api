@@ -1,7 +1,32 @@
+[
+{
+    "radicals" : "k-t-b",
+    "type" : "strong",
+    "sources" : [
+        "Spagnol2011"
+    ]
+},
 {
     "radicals" : "ħ-r-ġ",
     "type" : "strong",
     "sources" : [
         "Spagnol2011"
     ]
+},
+{
+    "radicals" : "b-r-d",
+    "type" : "strong",
+    "variant" : 1,
+    "sources" : [
+        "Spagnol2011"
+    ]
+},
+{
+    "radicals" : "b-r-d",
+    "type" : "strong",
+    "variant" : 2,
+    "sources" : [
+        "Spagnol2011"
+    ]
 }
+]

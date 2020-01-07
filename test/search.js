@@ -80,13 +80,6 @@ describe('Search', function () {
         .expect(200)
         .end(checkResponse({lemmas: ['ktieb', 'ktejjeb', 'pitazz']}, done))
     })
-
-    it('search results sorted by match', function (done) {
-      request(server)
-        .get(mkqs('mara')) // default options
-        .expect(200)
-        .end(checkResponse({lemmas: ['mara', 'maratona', 'imara']}, done))
-    })
   })
 
   // -------------------------------------------------------------------------
@@ -100,9 +93,9 @@ describe('Search', function () {
 
     it('search results sorted by match', function (done) {
       request(server)
-        .get(mkqs('find'))
+        .get(mkqs('book'))
         .expect(200)
-        .end(checkResponse({lemmas: ['sab', 'tħasses', 'insab']}, done))
+        .end(checkResponse({lemmas: ['ktieb', 'ktejjeb', 'pitazz']}, done))
     })
   })
 
@@ -189,7 +182,7 @@ describe('Search', function () {
           if (err) {
             throw err
           }
-          res.body.length.should.be.greaterThanOrEqual(9)
+          res.body.length.should.be.greaterThanOrEqual(3)
           done()
         })
     })
@@ -202,7 +195,10 @@ describe('Search', function () {
           if (err) {
             throw err
           }
-          res.body.length.should.be.greaterThanOrEqual(13)
+          res.body.length.should.be.greaterThanOrEqual(1)
+          res.body.should.matchEvery(function (value) {
+            value.root.variant.should.equal(2)
+          })
           done()
         })
     })
@@ -222,13 +218,13 @@ describe('Search', function () {
 
     it('load root by radicals (with variant)', function (done) {
       request(server)
-        .get('/roots/%C5%BC-b-b/2')
+        .get('/roots/b-r-d/2')
         .expect(200)
         .end(function (err, res) {
           if (err) {
             throw err
           }
-          res.body.radicals.should.equal('ż-b-b')
+          res.body.radicals.should.equal('b-r-d')
           res.body.variant.should.equal(2)
           done()
         })
@@ -256,9 +252,9 @@ describe('Search', function () {
 
     it('search by radicals', function (done) {
       request(server)
-        .get(path + '?c1=k&c3=b')
+        .get(path + '?c2=r')
         .expect(200)
-        .end(checkResponse({result_count: 7}, done))
+        .end(checkResponse({result_count: 3}, done))
     })
   })
 })

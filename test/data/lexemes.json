@@ -63,10 +63,6 @@
         {
             "gloss" : "to name sb. as the heir of sth.",
             "examples" : []
-        },
-        {
-            "gloss" : "xxyyzz",
-            "examples" : []
         }
     ],
     "root" : {
@@ -103,5 +99,77 @@
         }
     ],
     "norm_freq" : 200.877152331788
+},
+{
+    "lemma" : "ktejjeb",
+    "phonetic" : "ktɛɪjɛp",
+    "pos" : "NOUN",
+    "root" : {
+        "radicals" : "k-t-b"
+    },
+    "sources" : [
+        "DM2015"
+    ],
+    "glosses" : [
+        {
+            "gloss" : "booklet\nchap book"
+        }
+    ]
+},
+{
+    "gender" : "m",
+    "hypothetical" : false,
+    "lemma" : "pitazz",
+    "pending" : false,
+    "phonetic" : "pɪtɐtsts",
+    "pos" : "NOUN",
+    "sources" : [
+        "UserFeedback",
+        "DM2015"
+    ],
+    "glosses" : [
+        {
+            "gloss" : "exercise book"
+        }
+    ]
+},
+{
+    "derived_form" : 2,
+    "lemma" : "barrad",
+    "phonetic" : "bɐrrɐt",
+    "pos" : "VERB",
+    "root" : {
+        "radicals" : "b-r-d",
+        "variant" : 1
+    },
+    "sources" : [
+        "Spagnol2011"
+    ],
+    "transitive" : true,
+    "glosses" : [
+        {
+            "gloss" : "to file vigorously\nto polish repeatedly"
+        }
+    ]
+},
+{
+    "derived_form" : 2,
+    "lemma" : "berred",
+    "phonetic" : "bɛrrɛt",
+    "pos" : "VERB",
+    "root" : {
+        "radicals" : "b-r-d",
+        "variant" : 2
+    },
+    "sources" : [
+        "Spagnol2011",
+        "Falzon2013"
+    ],
+    "transitive" : true,
+    "glosses" : [
+        {
+            "gloss" : "to cool sth."
+        }
+    ]
 }
 ]
