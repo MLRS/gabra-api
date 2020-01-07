@@ -11,6 +11,9 @@ let promises = [
   db.get('lexemes').createIndex({ 'glosses.gloss': 1 })
 ]
 
+const count = promises.length
+console.log(`creating ${count} indexes`)
+
 Promise.all(promises).then(() => {
   process.exit(0)
 })

@@ -53,8 +53,7 @@ Promise.all([
         }))
       }
     }
-    console.log(`${lexCount} lexemes`)
-    console.log(`${glossCount} glosses`)
+    console.log(`adding ${glossCount} glosses from ${lexCount} lexemes`)
 
     Promise.all(promises).then(() => {
       process.exit(0)
