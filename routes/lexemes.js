@@ -53,7 +53,7 @@ router.get('/search_gloss', function (req, res) {
 
   var opts_g = {
     // sorting for glosses is by textscore and length
-    'fields': {'score': {'$meta': 'textScore'}},
+    'projection': {'score': {'$meta': 'textScore'}},
     'sort': {'score': {'$meta': 'textScore'}, 'length': 1}
   }
 
@@ -160,7 +160,7 @@ router.get('/search', function (req, res) {
   if (queryObj.search_lemma) {
     // for lemma search, sort by $meta textScore on lemma
     // NB: this is handled in addCondition -- lemma search is done via $text
-    opts['fields'] = {'score': {'$meta': 'textScore'}}
+    opts['projection'] = {'score': {'$meta': 'textScore'}}
     opts['sort']   = {'score': {'$meta': 'textScore'}}
   } else {
     opts['sort'] = {'lemma': 1}
@@ -408,8 +408,10 @@ router.get('/search_suggest', function (req, res) {
     ],
     'pending': {'$ne': true}
   }
-  var fields = ['lemma']
-  collection.find(query, fields, function (err, docs) {
+  var opts = {
+    'projection': {'lemma': true}
+  }
+  collection.find(query, opts, function (err, docs) {
     if (err) {
       console.error(err)
       res.status(500).end()
