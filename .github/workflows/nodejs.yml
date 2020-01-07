@@ -41,5 +41,4 @@ jobs:
       run: node scripts/node/make-glosses-collection.js
 
     - name: Run tests
-      # run: npm test
-      run: npx mocha --exit --exclude test/search.js
+      run: npm test

@@ -1,4 +1,4 @@
-/* globals describe it */
+/* globals describe it before */
 
 var request = require('supertest')
 var querystring = require('querystring')
@@ -102,9 +102,25 @@ describe('Search', function () {
   // -------------------------------------------------------------------------
 
   describe('Load stuff', function () {
+    var lexeme_id
+
+    // Get lexeme id for 'kiteb', to be used in test cases below
+    before(function (done) {
+      request(server)
+        .get('/lexemes/search?s=kiteb')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            throw err
+          }
+          lexeme_id = res.body.results[0].lexeme._id
+          done()
+        })
+    })
+
     it('load lexeme by id', function (done) {
       request(server)
-        .get('/lexemes/5200a366e36f237975000f26')
+        .get(`/lexemes/${lexeme_id}`)
         .expect(200)
         .end(function (err, res) {
           if (err) {
@@ -116,22 +132,24 @@ describe('Search', function () {
     })
 
     it('load lexeme with incorrect id', function (done) {
+      let bad_id = '1' + lexeme_id.slice(1)
       request(server)
-        .get('/lexemes/2500a366e36f237975000f26')
+        .get(`/lexemes/${bad_id}`)
         .expect(404)
         .end(done)
     })
 
     it('load lexeme with malformed id', function (done) {
+      let bad_id = lexeme_id.slice(1)
       request(server)
-        .get('/lexemes/2500a3')
+        .get(`/lexemes/${bad_id}`)
         .expect(400)
         .end(done)
     })
 
     it('load wordforms by lexeme id', function (done) {
       request(server)
-        .get('/lexemes/wordforms/5200a366e36f237975000f26?pending=1')
+        .get(`/lexemes/wordforms/${lexeme_id}?pending=1`)
         .expect(200)
         .end(function (err, res) {
           if (err) {
@@ -144,7 +162,7 @@ describe('Search', function () {
 
     it('load wordforms by lexeme id (no pending)', function (done) {
       request(server)
-        .get('/lexemes/wordforms/5200a366e36f237975000f26')
+        .get(`/lexemes/wordforms/${lexeme_id}`)
         .expect(200)
         .end(function (err, res) {
           if (err) {
@@ -161,7 +179,7 @@ describe('Search', function () {
 
     it('load related lexemes', function (done) {
       request(server)
-        .get('/lexemes/related/5200a366e36f237975000f26')
+        .get(`/lexemes/related/${lexeme_id}`)
         .expect(200)
         .end(function (err, res) {
           if (err) {
