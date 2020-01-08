@@ -1,0 +1,88 @@
+[
+{
+    "aspect" : "imp",
+    "dir_obj" : null,
+    "generated" : true,
+    "ind_obj" : null,
+    "lexeme" : {
+      "lemma": "kiteb",
+      "pos": "NOUN"
+    },
+    "phonetic" : "ɪkdbʊ",
+    "polarity" : "pos",
+    "sources" : [
+        "Camilleri2013"
+    ],
+    "subject" : {
+        "person" : "p2",
+        "number" : "pl"
+    },
+    "surface_form" : "iktbu"
+},
+{
+    "aspect" : "imp",
+    "dir_obj" : null,
+    "generated" : true,
+    "ind_obj" : null,
+    "lexeme" : {
+      "lemma": "kiteb",
+      "pos": "NOUN"
+    },
+    "phonetic" : "tɪkdbʊʃ",
+    "polarity" : "neg",
+    "sources" : [
+        "Camilleri2013"
+    ],
+    "subject" : {
+        "person" : "p2",
+        "number" : "pl"
+    },
+    "surface_form" : "tiktbux"
+},
+{
+    "aspect" : "perf",
+    "generated" : true,
+    "lexeme" : {
+      "lemma": "kiteb",
+      "pos": "NOUN"
+    },
+    "polarity" : "pos",
+    "subject" : {
+        "person" : "p2",
+        "number" : "sg"
+    },
+    "surface_form" : "ktibtni",
+    "dir_obj" : {
+        "person" : "p1",
+        "number" : "sg"
+    },
+    "ind_obj" : null,
+    "sources" : [
+        "Camilleri2013"
+    ],
+    "pending" : true
+},
+{
+    "aspect" : "perf",
+    "generated" : true,
+    "lexeme" : {
+      "lemma": "kiteb",
+      "pos": "NOUN"
+    },
+    "polarity" : "neg",
+    "subject" : {
+        "person" : "p2",
+        "number" : "sg"
+    },
+    "surface_form" : "ktibtnix",
+    "dir_obj" : {
+        "person" : "p1",
+        "number" : "sg"
+    },
+    "ind_obj" : null,
+    "sources" : [
+        "Camilleri2013"
+    ],
+    "pending" : true
+}
+]
