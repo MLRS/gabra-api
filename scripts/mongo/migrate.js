@@ -10,10 +10,10 @@ print('Removing old collections...')
 db.getCollection('duplicate_lemmas').drop()
 
 print('Converting gloss field to glosses...')
-db.getCollection('lexemes').update({'gloss': ''}, {'$unset': {'gloss': true}}, {'multi': true})
-db.getCollection('lexemes').update({'gloss': {$exists: true, $eq: null}}, {'$unset': {'gloss': true}}, {'multi': true})
-db.getCollection('lexemes').find({'gloss': {'$exists': true}, 'glosses': {'$exists': false}}).forEach(function (e) {
-  e.glosses = [{'gloss': e.gloss}]
+db.getCollection('lexemes').update({gloss: ''}, {$unset: {gloss: true}}, {multi: true})
+db.getCollection('lexemes').update({gloss: {$exists: true, $eq: null}}, {$unset: {gloss: true}}, {multi: true})
+db.getCollection('lexemes').find({gloss: {$exists: true}, glosses: {$exists: false}}).forEach(function (e) {
+  e.glosses = e.gloss.split('\n').map((g) => { return {gloss: g.trim()} })
   delete e.gloss
   db.lexemes.save(e)
 })
