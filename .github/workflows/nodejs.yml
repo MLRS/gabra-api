@@ -32,7 +32,7 @@ jobs:
         mongodb-version: ${{ matrix.mongodb-version }}
 
     - name: Populate database
-      run: node scripts/node/populate.js test/data/*.json
+      run: node scripts/node/populate.js test/data/*.json && node scripts/node/resolve-lexeme-ids.js
 
     - name: Creating indexes
       run: node scripts/node/create-indexes.js
