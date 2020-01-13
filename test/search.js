@@ -155,7 +155,7 @@ describe('Search', function () {
           if (err) {
             throw err
           }
-          res.body.length.should.be.greaterThanOrEqual(1000)
+          res.body.length.should.be.greaterThanOrEqual(4) // amount of wordforms in test data
           done()
         })
     })
