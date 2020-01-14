@@ -112,7 +112,10 @@
     ],
     "glosses" : [
         {
-            "gloss" : "booklet\nchap book"
+            "gloss" : "booklet"
+        },
+        {
+            "gloss" : "chap book"
         }
     ]
 },
@@ -148,7 +151,10 @@
     "transitive" : true,
     "glosses" : [
         {
-            "gloss" : "to file vigorously\nto polish repeatedly"
+            "gloss" : "to file vigorously"
+        },
+        {
+            "gloss" : "to polish repeatedly"
         }
     ]
 },
