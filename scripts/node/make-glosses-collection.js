@@ -13,50 +13,25 @@ var db = monk(config.dbUrl)
 
 const coll = db.get('glosses')
 
-Promise.all([
-  // set up indices
-  // do this already now since we are querying the glosses collection in the loop below
-  coll.createIndex({gloss: 'text'}),
-  coll.createIndex({length: -1})
-]).then(() => {
-  // iterate over all lexemes with a gloss
-  const conds = {
-    'glosses': {
-      '$exists': true
-    }
+// iterate over all lexemes with a gloss
+const conds = {
+  'glosses': {
+    '$exists': true
   }
-  db.get('lexemes').find(conds).then((data) => {
-    let promises = []
-    let lexCount = 0
-    let glossCount = 0
-    for (let lex of data) {
-      lexCount++
-      for (let glossitem of lex.glosses) {
-        if (!glossitem.gloss) continue
-        glossCount++
-        let g = glossitem.gloss.toLowerCase()
+}
+db.get('lexemes').find(conds).then((data) => {
+  let promises = []
+  let lexCount = 0
+  let glossCount = 0
+  for (let lex of data) {
+    lexCount++
+    let gs = lex.glosses.map(g => g.gloss)
+    glossCount += lex.glosses.length
+    promises.push(coll.update({lexeme_id: lex._id}, {$set: {glosses: gs}}, {upsert: true}))
+  }
+  console.log(`processed ${glossCount} glosses from ${lexCount} lexemes`)
 
-        // check if gloss is in the collection already
-        promises.push(coll.findOne({'gloss': g}).then((entry) => {
-          if (entry === null) {
-            return coll.insert({
-              'gloss': g,
-              'length': g.length,
-              'lexemes': [lex._id]
-            })
-          } else {
-            return coll.update(
-              {'gloss': g},
-              {'$addToSet': {'lexemes': lex._id}}
-            )
-          }
-        }))
-      }
-    }
-    console.log(`adding ${glossCount} glosses from ${lexCount} lexemes`)
-
-    Promise.all(promises).then(() => {
-      process.exit(0)
-    })
+  Promise.all(promises).then(() => {
+    process.exit(0)
   })
 })

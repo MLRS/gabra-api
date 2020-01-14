@@ -44,17 +44,11 @@ router.get('/search_gloss', function (req, res) {
 
   var conds_g = {
     '$text': {'$search': queryObj.term} // search by text match
-    // Below throws an error
-    // '$or': [
-    //   {'$text': {'$search': queryObj.term}}, // search by text match
-    //   {'gloss': {'$regex': queryObj.term}} // also search by regex
-    // ]
   }
 
   var opts_g = {
-    // sorting for glosses is by textscore and length
     'projection': {'score': {'$meta': 'textScore'}},
-    'sort': {'score': {'$meta': 'textScore'}, 'length': 1}
+    'sort': {'score': {'$meta': 'textScore'}}
   }
 
   // Search in glosses collection first
@@ -67,17 +61,7 @@ router.get('/search_gloss', function (req, res) {
     }
 
     // collect all lexeme IDs in the order returned
-    var lex_ids = []
-    docs.forEach(function (doc) {
-      if (doc.hasOwnProperty('lexemes')) {
-        lex_ids = lex_ids.concat(doc.lexemes.map(function (s) { return s.toString() }))
-      }
-    })
-
-    // Remove duplicates
-    lex_ids = lex_ids.filter(function (elem, pos) {
-      return lex_ids.indexOf(elem) === pos
-    })
+    var lex_ids = docs.map(d => d.lexeme_id)
 
     // Slice lex_ids to current page
     var pagestart = queryObj.page_size * (queryObj.page - 1)
