@@ -57,6 +57,11 @@ app.use(function (req, res, next) {
   req.db = db
   next()
 })
+// Update glosses collection on a schedule
+var updateGlossCollection = require('./scripts/node/update-glosses-collection.js')
+require('node-schedule').scheduleJob('0 0 3 * * *', function () { // 03:00 every day
+  updateGlossCollection(db)
+})
 
 // Authentication
 var passport = require('passport')
@@ -114,7 +119,6 @@ app.use('/morpho', require('./routes/morpho'))
 // http://stackoverflow.com/a/27464258/98600
 // app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))
 // app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/'))
-// app.use('/ladda', express.static(__dirname + '/node_modules/ladda/dist/'))
 app.use('/module', express.static(path.join(__dirname, '/node_modules/'), { maxAge: cache_static }))
 
 // catch 404 and forward to error handler

@@ -38,7 +38,7 @@ jobs:
       run: node scripts/node/create-indexes.js
 
     - name: Build glosses collection
-      run: node scripts/node/make-glosses-collection.js
+      run: cd scripts/node && ./run.js make-glosses-collection.js
 
     - name: Run tests
       run: npm test
