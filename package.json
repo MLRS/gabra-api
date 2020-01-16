@@ -32,7 +32,6 @@
     "passport-http": "^0.2.2",
     "pug": "^2.0.3",
     "regexp-quote": "0.0.0",
-    "uglify-js": "^3.5.6",
     "universal-analytics": "^0.4.20"
   },
   "devDependencies": {
