@@ -1,5 +1,44 @@
 [
 {
+    "aspect": "perf",
+    "generated": true,
+    "lexeme" : {
+      "lemma": "kiteb",
+      "pos": "VERB"
+    },
+    "phonetic": "kɪdbɛt",
+    "polarity": "pos",  
+    "sources": [
+        "Camilleri2013"
+    ],
+    "subject": {
+        "person": "p3",
+        "number": "sg",
+        "gender": "f"
+    },
+    "surface_form": "kitbet"
+},
+{
+    "aspect": "perf",
+    "dir_obj": null,
+    "generated": true,
+    "lexeme" : {
+      "lemma": "kiteb",
+      "pos": "VERB"
+    },
+    "ind_obj": null,
+    "phonetic": "ktɪpt",
+    "polarity": "pos",
+    "sources": [
+        "Camilleri2013"
+    ],
+    "subject": {
+        "person": "p1",
+        "number": "sg"
+    },
+    "surface_form": "ktibt"
+},
+{
     "aspect" : "imp",
     "dir_obj" : null,
     "generated" : true,

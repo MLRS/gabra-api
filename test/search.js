@@ -32,14 +32,6 @@ describe('Search', function () {
         }
       }
 
-      // Results should contain these lemmas (in specific order)
-      if (opts.lemmas_ordered) {
-        for (let i in opts.lemmas_ordered) {
-          let lemma = opts.lemmas_ordered[i]
-          res.body.results[i].lexeme.lemma.should.equal(lemma, 'lemma "' + lemma + '" not found in position ' + i)
-        }
-      }
-
       done()
     }
   }
@@ -155,7 +147,36 @@ describe('Search', function () {
           if (err) {
             throw err
           }
-          res.body.length.should.be.greaterThanOrEqual(4) // amount of wordforms in test data
+          res.body.length.should.be.greaterThanOrEqual(6) // amount of wordforms in test data
+          done()
+        })
+    })
+
+    it('load wordforms by lexeme id are sorted', function (done) {
+      request(server)
+        .get(`/lexemes/wordforms/${lexeme_id}?pending=1`)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            throw err
+          }
+          // Results should contain these surface forms (in specific order, not strict)
+          let surface_forms_ordered = ['ktibt', 'kitbet']
+          let lastIx = -1
+          for (let sf of surface_forms_ordered) {
+            let thisIx = -1
+            let found = false
+            for (let wf of res.body) {
+              thisIx++
+              if (wf.surface_form === sf) {
+                found = true
+                break
+              }
+            }
+            found.should.be.true(`surface form ${sf} not found in results`)
+            thisIx.should.greaterThan(lastIx, `surface form ${sf} found in unexpected order`)
+            lastIx = thisIx
+          }
           done()
         })
     })

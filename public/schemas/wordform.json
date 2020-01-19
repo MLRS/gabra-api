@@ -178,14 +178,6 @@
       "description": "Flagged as incorrect or new suggestion",
       "type": "boolean",
       "format": "checkbox"
-    },
-    "created": {
-      "type": "string",
-      "format": "datetime"
-    },
-    "modified": {
-      "type": "string",
-      "format": "datetime"
     }
   },
   "definitions": {

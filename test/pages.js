@@ -3,8 +3,8 @@
 var request = require('supertest')
 require('should')
 
-/* General page tests */
-describe('General', function () {
+/* Page tests */
+describe('Pages', function () {
   const server = require('../app')
 
   it('responds to /', function (done) {
