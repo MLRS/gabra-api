@@ -272,12 +272,12 @@ router.get('/wordforms/:id', function (req, res) {
         for (var f in fields) {
           var has_a = a.hasOwnProperty(f)
           var has_b = b.hasOwnProperty(f)
-          if (!has_a && !has_b) continue
-          if (!has_a) return -1 // a is smaller
-          if (!has_b) return 1 // b is smaller
+          // if (!has_a && !has_b) continue
+          // if (!has_a) return -1 // a is smaller
+          // if (!has_b) return 1 // b is smaller
 
-          var blank_a = a[f] === null || a[f] === ''
-          var blank_b = b[f] === null || b[f] === ''
+          var blank_a = !has_a || a[f] === null || a[f] === ''
+          var blank_b = !has_b || b[f] === null || b[f] === ''
           if (blank_a && blank_b) continue
           if (blank_a) return -1 // a is smaller
           if (blank_b) return 1 // b is smaller
