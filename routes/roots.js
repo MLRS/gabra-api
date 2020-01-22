@@ -90,7 +90,7 @@ router.get('/search', function (req, res) {
       addCondition(conds_l, 'gloss', queryObj.term)
     }
 
-    coll_l.find(conds_l, ['root'], function (err, docs) {
+    coll_l.find(conds_l, { projection: {'root': true} }, function (err, docs) {
       if (err) {
         console.error(err)
         res.status(500).end()
