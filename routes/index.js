@@ -4,6 +4,8 @@ const router = express.Router()
 const fs = require('fs')
 const marked = require('marked')
 
+var config = require('../server-config')
+
 /**
  * Render a markdown feil as HTML and serve it
  * keys for `params`:
@@ -142,6 +144,33 @@ router.get('/search', function (req, res, next) {
   res.render('search', {
     title: 'Search',
     query: q
+  })
+})
+
+/* GET sitemap for Gabra site */
+router.get('/sitemap.gabra.txt', function (req, res, next) {
+  var db = req.db
+  var base = config.gabraURL
+  let t = []
+  t.push(`${base}/lexemes`)
+  t.push(`${base}/roots`)
+  t.push(`${base}/sources`)
+  let p1 = db.get('lexemes').find()
+  let p2 = db.get('roots').find()
+  Promise.all([p1, p2]).then((values) => {
+    for (let l of values[0]) {
+      t.push(`${base}/lexemes/view/${l._id}`)
+    }
+    for (let r of values[1]) {
+      let rads = encodeURIComponent(r.radicals)
+      if (r.variant) {
+        t.push(`${base}/roots/view/${rads}/${r.variant}`)
+      } else {
+        t.push(`${base}/roots/view/${rads}`)
+      }
+    }
+    res.header('Content-Type', 'text/plain')
+    res.send(t.join('\n'))
   })
 })
 
