@@ -3,6 +3,7 @@
 // Migrate DB from old MLRS server to new one, ca 2019
 // Corresponding to API version 2.9 to 2.10
 
+/*
 print('Removing all non-i18n messages...')
 db.getCollection('messages').remove({$or: [{type: 'news'}, {type: 'web'}]})
 
@@ -30,3 +31,4 @@ print('Data cleanup...')
 load('./schema-fixes.js')
 
 print('Done')
+*/
