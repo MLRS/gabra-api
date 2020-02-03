@@ -82,15 +82,17 @@ passport.use(new BasicStrategy(
 ))
 app.use(passport.initialize())
 
+// https://expressjs.com/en/guide/behind-proxies.html
+app.set('trust proxy', true)
+
 // Analytics
-if (config.analyticsCode) {
-  app.set('trust proxy', 'loopback')
-  var ua = require('universal-analytics')
-  var visitor = ua(config.analyticsCode)
-  var pageview = function (req, res, next) {
+if (config.analyticsCode && process.env.NODE_ENV === 'production') {
+  app.use('/', function (req, res, next) {
+    var ua = require('universal-analytics')
+    var visitor = ua(config.analyticsCode, req.ip, {strictCidFormat: false}) // visitors are identified by IP address, which is flawed
     var params = {
-      'dp': req.originalUrl,
-      'uip': req.ip
+      'documentPath': req.originalUrl,
+      'ipOverride': req.ip
     }
     visitor.pageview(params, function (err) {
       if (err) {
@@ -98,12 +100,7 @@ if (config.analyticsCode) {
       }
     })
     next()
-  }
-  if (process.env.NODE_ENV === 'production') {
-    app.use('/lexemes', pageview)
-    app.use('/wordforms', pageview)
-    app.use('/roots', pageview)
-  }
+  })
 }
 
 // Routing
