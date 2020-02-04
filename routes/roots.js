@@ -39,10 +39,6 @@ router.get('/search', function (req, res) {
 
       // Add all related derived verb forms
       var tasks = roots.map(function (root) {
-        // var conds = {
-        //     'root._id': root._id
-        // }
-        // This is safer than using root._id, which might not be set...
         var conds = {
           'root.radicals': root.radicals
         }
@@ -87,7 +83,7 @@ router.get('/search', function (req, res) {
       addCondition(conds_l, 'lemma', queryObj.term)
     }
     if (queryObj.search_gloss) {
-      addCondition(conds_l, 'gloss', queryObj.term)
+      addCondition(conds_l, 'glosses.gloss', queryObj.term)
     }
 
     coll_l.find(conds_l, { projection: {'root': true} }, function (err, docs) {
@@ -97,13 +93,15 @@ router.get('/search', function (req, res) {
         return
       }
       if (docs) {
-        var ds = []
         docs.forEach(function (doc) {
-          if (doc['root'] && doc['root']['_id']) {
-            ds.push(doc['root']['_id'])
+          if (doc.root) {
+            if (doc.root.variant) {
+              addOr(conds_r, '$and', [{radicals: doc.root.radicals}, {variant: doc.root.variant}])
+            } else {
+              addOr(conds_r, 'radicals', doc.root.radicals)
+            }
           }
         })
-        addOr(conds_r, '_id', { '$in': ds })
       }
       ret()
     })

@@ -279,7 +279,7 @@ describe('Search', function () {
 
   // -------------------------------------------------------------------------
 
-  describe('Search for root', function () {
+  describe('Search roots', function () {
     const path = '/roots/search'
 
     it('search for whole root', function (done) {
@@ -289,11 +289,45 @@ describe('Search', function () {
         .end(checkResponse({result_count: 1}, done))
     })
 
-    it('search by radicals', function (done) {
+    it('search by radical', function (done) {
       request(server)
         .get(path + '?c2=r')
         .expect(200)
         .end(checkResponse({result_count: 3}, done))
+    })
+
+    it('search by lemma', function (done) {
+      request(server)
+        .get(path + '?s=kiteb')
+        .expect(200)
+        .end(checkResponse({result_count: 1}, done))
+    })
+
+    it('search by gloss', function (done) {
+      request(server)
+        .get(path + '?s=published') // matches ħ-r-ġ
+        .expect(200)
+        .end(checkResponse({result_count: 1}, done))
+    })
+
+    it('search by gloss (with variant)', function (done) {
+      request(server)
+        .get(path + '?s=polish') // matches b-r-d 1 (not 2)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            throw err
+          }
+          res.body.results.should.matchEvery(function (value) {
+            // if (value.root.variant) {
+            //   value.root.variant.should.equal(1)
+            // }
+            if (value.root.radicals === 'b-r-d') {
+              value.root.variant.should.equal(1)
+            }
+          })
+          done()
+        })
     })
   })
 })
