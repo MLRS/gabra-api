@@ -327,8 +327,9 @@ router.get('/related/:id', function (req, res) {
       res.status(500).end()
       return
     }
-    if (doc && doc.root) {
+    if (doc && doc.root && doc.root.radicals) {
       var conds = {
+        'pending': {'$ne': true},
         'root.radicals': doc.root.radicals,
         '_id': {'$ne': doc._id}
       }

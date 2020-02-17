@@ -99,7 +99,7 @@ describe('Search', function () {
     // Get lexeme id for 'kiteb', to be used in test cases below
     before(function (done) {
       request(server)
-        .get('/lexemes/search?s=kiteb')
+        .get('/lexemes/search?s=kiteb&wf=0&g=0')
         .expect(200)
         .end(function (err, res) {
           if (err) {
@@ -210,6 +210,28 @@ describe('Search', function () {
             value.root.radicals.should.equal('k-t-b')
           }, 'radicals should be "k-t-b"')
           done()
+        })
+    })
+
+    it('load related lexemes for root-less lexeme', function (done) {
+      request(server)
+        .get('/lexemes/search?s=pitazz&wf=0&g=0')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            throw err
+          }
+          lexeme_id = res.body.results[0].lexeme._id
+          request(server)
+            .get(`/lexemes/related/${lexeme_id}`)
+            .expect(200)
+            .end(function (err, res) {
+              if (err) {
+                throw err
+              }
+              res.body.length.should.equal(0)
+              done()
+            })
         })
     })
 
