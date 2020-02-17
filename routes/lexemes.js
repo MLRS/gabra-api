@@ -483,6 +483,25 @@ router.get('/count', function (req, res) {
   })
 })
 
+/*
+ * GET random
+ */
+router.get('/random', function (req, res) {
+  var db = req.db
+  var coll = db.get('lexemes')
+  coll.aggregate([
+    {'$match': {'pending': {'$ne': true}}},
+    {'$sample': {'size': 1}}
+  ], function (err, result) {
+    if (err) {
+      console.error(err)
+      res.status(500).end()
+      return
+    }
+    res.json(result[0])
+  })
+})
+
 // -- Private helper methods ------------------------------------------------
 
 function boolItem (obj, key, def) {

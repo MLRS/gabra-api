@@ -235,6 +235,19 @@ describe('Search', function () {
         })
     })
 
+    it('load random lexeme', function (done) {
+      request(server)
+        .get('/lexemes/random')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            throw err
+          }
+          res.body.should.ownProperty('_id')
+          done()
+        })
+    })
+
     it('load lexemes by root (no variant)', function (done) {
       request(server)
         .get('/roots/lexemes/k-t-b')

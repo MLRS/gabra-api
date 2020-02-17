@@ -1,5 +1,5 @@
 <div class="page-header">
-<h1>Ġabra API v#{version} <small>Updated 2020-01-29</small></h1>
+<h1>Ġabra API v#{version} <small>Updated 2020-02-17</small></h1>
 </div>
 
 <div class="well">
@@ -205,3 +205,9 @@ Get counts of all entities in database. These commands take no parameters.
 > [/wordforms/count](#{baseURL}/wordforms/count)
 
 > [/roots/count](#{baseURL}/roots/count)
+
+### Random <small>Since v2.11.1</small>
+
+Get a random entry.
+
+> [/lexemes/random](#{baseURL}/lexemes/random)
