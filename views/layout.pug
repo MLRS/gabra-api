@@ -1,5 +1,5 @@
 mixin icon(name, text)
-  span(class="glyphicon glyphicon-"+name)
+  span(class="fas fa-"+name).mr-1
   |&nbsp;#{text}
 
 mixin loader(name)
@@ -31,64 +31,51 @@ html(lang="en")
         $('#loading-' + which).css('visibility','hidden')
       }
 
-    if useCDN
-      link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-      link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
-    else
-      link(rel='stylesheet', href=baseURL+'/bootstrap/css/bootstrap.min.css')
-      link(rel='stylesheet', href=baseURL+'/bootstrap/css/bootstrap-theme.min.css')
-
     style
       include ../public/stylesheets/json-pretty.css
+    style.
+      .text-red {
+        color: firebrick!important;
+      }
 
     if useCDN
       script(src='//code.jquery.com/jquery-2.1.4.min.js')
-      script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js',defer)
     else
       script(src=baseURL+'/javascripts/jquery-1.11.0.min.js')
-      script(src=baseURL+'/bootstrap/js/bootstrap.min.js',defer)
 
-  body(role="document",style="margin-top:4em")
-    nav.navbar.navbar-default.navbar-fixed-top
+    link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
+    script(src=baseURL+'/module/bootstrap/dist/js/bootstrap.min.js',defer)
+    script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
+
+  body(role="document")
+    nav.navbar.navbar-expand-lg.navbar-light.shadow-sm.sticky-top.bg-light.border-bottom.mb-4
       .container
-        .navbar-header
-          button.navbar-toggle.collapsed(type="button",data-toggle="collapse",data-target=".navbar-collapse",aria-expanded="false")
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href=baseURL+"/",style="color:firebrick")
-            span.glyphicon.glyphicon-transfer(style="vertical-align:top")
-            |  Ġabra API
-        .collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href=baseURL+"/schema") Schema
-            li
-              a(href=baseURL+"/download") Download
-            //- li
-            //-   a(href=baseURL+"/tutorial") Tutorial
+        a.navbar-brand.text-red.mr-4(href=baseURL+'/')
+          i.fas.fa-exchange-alt.mr-1
+          |  Ġabra API
+        form.mr-auto(role='search' action=baseURL+'/search')
+          .input-group
+            - var search_term = (query) ? query.s : ''
+            input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
+            .input-group-append
+              button(type="submit").btn.btn-primary
+                i.fas.fa-search
 
-            li.dropdown
-              a(href="#",class="dropdown-toggle",data-toggle="dropdown") More
+        .collapse.navbar-collapse.ml-2.d-flex
+          .navbar-nav.mr-auto.flex-row
+            a.nav-item.nav-link(href='/schema') Schema
+            a.nav-item.nav-link(href='/download') Download
+            .dropdown.nav-item
+              a.nav-link.dropdown-toggle(href="#",data-toggle="dropdown") More
                 span.caret
-              ul.dropdown-menu(role="menu")
-                li
-                  a(href=baseURL+"/lexemes/add") 
-                    +icon('plus', 'New lexeme')
-                li
-                  a(href=baseURL+"/logs")
-                    +icon('time', 'Recent changes')
-          form(role="search",action=baseURL+"/search",method="GET").navbar-form.navbar-left
-            div.input-group
-              - var search_term = (query) ? query.s : ''
-              input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
-              div.input-group-btn
-                button(type="submit").btn.btn-primary
-                  span.glyphicon.glyphicon-search
+              .dropdown-menu
+                a(href=baseURL+"/lexemes/add").dropdown-item
+                  +icon('plus', 'New lexeme')
+                a(href=baseURL+"/logs").dropdown-item
+                  +icon('history', 'Recent changes')
+
 
     .container
       block content
-    footer
-      //- p(style='margin-top:40px; color:#ccc').text-center.small Built and maintained by John J. Camilleri
-      p &nbsp;
+    //- footer
+      p.mt-5.text-muted.text-center.small Built and maintained by John J. Camilleri
