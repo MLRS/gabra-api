@@ -1,0 +1,18 @@
+.text-red {
+  color: firebrick!important;
+}
+
+h1 small,
+h2 small,
+h3 small {
+  color: #6c757d!important; /* text-muted */
+}
+
+blockquote {
+  border-left: 2px solid #dee2e6;
+  padding: .5em 1em;
+}
+
+blockquote p {
+  margin: 0;
+}
