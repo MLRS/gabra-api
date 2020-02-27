@@ -2,27 +2,36 @@ extends layout
 
 block content
   style.
-    .affix {
-      top: 8px;
-      right: 10px;
-      z-index: 10000;
+    .text-pre {
+      white-space: pre;
     }
-    .wf_container pre {
-      background-color: #fff;
-    }
+  #app
+    h3 Results:
+      span.badge.badge-secondary.ml-2
+        | {{ results.length }}
 
-  h3 Results: 
-    span.label.label-default#result-count &hellip;
-    button.btn.btn-default.btn-sm#btn-toggle-wf(data-spy="affix",data-offset-top="30") Toggle wordforms
-  div#results
-  div.text-center
-    button.btn.btn-primary#btn-load-results Load more results
-    +loader('results')
+    div(v-for="item,ix in results",v-bind:key="ix").row.border-bottom.my-2.py-2.small
+      div.col-5.d-flex
+        div.flex-shrink-1.mr-2.
+          {{ ix+1 }}.
+        div
+          div(v-for="val,field in item.lexeme",v-bind:key="field",v-bind:class="{ 'font-weight-bold': field === 'lemma' }").row
+            .col-3.text-black-50.
+              {{ field }}:
+            .col-9.text-pre.overflow-auto.
+              {{ JSON.stringify(val, null, field === 'glosses' ? 4 : null) }}
+      div.col-7
+        div(v-for="wf,ix in item.wordforms",v-bind:key="ix")
+          div(v-for="val,field in wf",v-bind:key="field",v-bind:class="{ 'font-weight-bold': field === 'surface_form' }").row
+            .col-3.text-black-50.
+              {{ field }}:
+            .col-9.overflow-auto.
+              {{ JSON.stringify(val) }}
+        
+    .text-center.my-5
+      i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
+      button.btn.btn-primary(v-show="!working && moreResults") Load more results
 
-  script.
-    var globals = {
-      query: !{JSON.stringify(query)}
-    }
-    globals.query['page'] = 1 // next page
-  script(src=baseURL+'/javascripts/json-pretty.js',defer)
+  script(src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
   script(src=baseURL+"/javascripts/search.js")
