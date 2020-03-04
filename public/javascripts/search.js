@@ -1,10 +1,11 @@
 /* globals Vue axios */
 /* eslint-disable no-new */
+const urlParams = new URLSearchParams(window.location.search)
 new Vue({
   el: '#app',
   data: {
     working: false,
-    query: 'kiteb', // TODO get from query string
+    query: urlParams.get('s'),
     page: 0,
     results: [],
     resultCount: 0
@@ -45,6 +46,7 @@ new Vue({
             axios.get(`/lexemes/wordforms/${r.lexeme._id}`)
               .then(resp => {
                 r.wordforms = resp.data
+                r.wordformFields = this.collectFields(resp.data)
               })
               .catch(error => {
                 console.error(error)
@@ -59,6 +61,18 @@ new Vue({
         .then(() => {
           this.working = false
         })
+    },
+    collectFields: function (wordforms) {
+      if (!wordforms || wordforms.length === 0) return []
+      let fields = new Set(['_id', 'surface_form'], Object.keys(wordforms[0]))
+      for (let i = 1; i < wordforms.length; i++) {
+        for (let f in wordforms[i]) {
+          fields.add(f)
+        }
+      }
+      let exclude = new Set(['lexeme_id'])
+      exclude.forEach((f) => fields.delete(f))
+      return Array.from(fields)
     }
   }
 })

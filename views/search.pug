@@ -2,31 +2,37 @@ extends layout
 
 block content
   style.
-    .text-pre {
-      white-space: pre;
+    .text-pre-wrap {
+      white-space: pre-wrap;
+    }
+    th {
+      background: #f8f9fa!important;
     }
   #app
     h3 Results:
       span.badge.badge-secondary.ml-2
         | {{ results.length }}
 
-    div(v-for="item,ix in results",v-bind:key="ix").row.border-bottom.my-2.py-2.small
-      div.col-5.d-flex
-        div.flex-shrink-1.mr-2.
-          {{ ix+1 }}.
-        div
-          div(v-for="val,field in item.lexeme",v-bind:key="field",v-bind:class="{ 'font-weight-bold': field === 'lemma' }").row
-            .col-3.text-black-50.
-              {{ field }}:
-            .col-9.text-pre.overflow-auto.
+    div(v-for="item,ix in results",v-bind:key="ix").d-flex.border-bottom.my-2.py-2.small
+      div.flex-shrink-1.mr-2.
+        {{ ix+1 }}.
+      div.d-flex.mr-3
+        table.table.table-sm.d-block
+          tr(v-for="val,field in item.lexeme",v-bind:key="field")
+            th.
+              {{ field }}
+            td.text-pre-wrap.overflow-auto(v-bind:class="{ 'font-weight-bold': field === 'lemma' }").
               {{ JSON.stringify(val, null, field === 'glosses' ? 4 : null) }}
-      div.col-7
-        div(v-for="wf,ix in item.wordforms",v-bind:key="ix")
-          div(v-for="val,field in wf",v-bind:key="field",v-bind:class="{ 'font-weight-bold': field === 'surface_form' }").row
-            .col-3.text-black-50.
-              {{ field }}:
-            .col-9.overflow-auto.
-              {{ JSON.stringify(val) }}
+      div
+        table.table.table-sm(v-if="item.wordforms")
+          thead
+            tr
+              th(v-for="field,ix in item.wordformFields", v-bind:key="ix").
+                {{ field }}
+          tbody
+            tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
+              td(v-for="field,ix in item.wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }").overflow-auto.text-truncate.
+                {{ JSON.stringify(wf[field]) }}
         
     .text-center.my-5
       i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
