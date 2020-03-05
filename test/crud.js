@@ -32,33 +32,6 @@ describe('CRUD', function () {
     })
   })
 
-  describe('Authentication', function () {
-    const path = '/lexemes/add'
-
-    it('no credentials', function (done) {
-      request(server)
-        .get(path)
-        .send({})
-        .expect(401, done)
-    })
-
-    it('wrong credentials', function (done) {
-      request(server)
-        .get(path)
-        .auth('wrong', 'password')
-        .send({})
-        .expect(401, done)
-    })
-
-    it('correct credentials', function (done) {
-      request(server)
-        .get(path)
-        .auth(username, password)
-        .send({})
-        .expect(200, done)
-    })
-  })
-
   // -------------------------------------------------------------------------
 
   describe('Lexemes', function () {
