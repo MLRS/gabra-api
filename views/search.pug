@@ -8,14 +8,25 @@ block content
     th {
       background: #f8f9fa!important;
     }
+    .btn-xs {
+      padding: .1rem .2rem;
+      font-size: .75rem;
+      line-height: 1.5;
+      border-radius: .2rem;
+    }
   #app
     h3 Results:
       span.badge.badge-secondary.ml-2
-        | {{ results.length }}
+        | {{ resultCount }}
 
     div(v-for="item,ix in results",v-bind:key="ix").d-flex.border-bottom.my-2.py-2.small
-      div.flex-shrink-1.mr-2.
-        {{ ix+1 }}.
+      div.flex-shrink-1.d-flex.flex-column.mr-2
+        div.text-center.
+          {{ ix+1 }}
+        a.btn.btn-warning.btn-xs(title="Edit",v-bind:href="'/lexemes/edit/' + item.lexeme._id").my-1
+          i.fas.fa-pen.fa-fw.fa-inverse
+        button.btn.btn-danger.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)").my-1
+          i.fas.fa-times.fa-fw.fa-inverse
       div.d-flex.mr-3
         table.table.table-sm.d-block
           tr(v-for="val,field in item.lexeme",v-bind:key="field")
@@ -27,10 +38,16 @@ block content
         table.table.table-sm(v-if="item.wordforms")
           thead
             tr
+              th
               th(v-for="field,ix in item.wordformFields", v-bind:key="ix").
                 {{ field }}
           tbody
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
+              td.text-nowrap
+                a.btn.btn-warning.btn-xs(title="Edit",v-bind:href="'/wordforms/edit/' + wf._id")
+                  i.fas.fa-pen.fa-fw.fa-inverse
+                button.btn.btn-danger.btn-xs(title="Delete",v-on:click="deleteWordform(wf.lexeme_id, wf._id)")
+                  i.fas.fa-times.fa-fw.fa-inverse
               td(v-for="field,ix in item.wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }").overflow-auto.text-truncate.
                 {{ JSON.stringify(wf[field]) }}
         

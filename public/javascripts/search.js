@@ -1,4 +1,4 @@
-/* globals Vue axios */
+/* globals Vue axios confirm alert */
 /* eslint-disable no-new */
 const urlParams = new URLSearchParams(window.location.search)
 new Vue({
@@ -73,6 +73,34 @@ new Vue({
       let exclude = new Set(['lexeme_id'])
       exclude.forEach((f) => fields.delete(f))
       return Array.from(fields)
+    },
+    deleteLexeme: function (id) {
+      if (!id) return
+      if (!confirm(`Are you sure you want to delete lexeme ${id}?`)) return
+      axios.delete(`/lexemes/${id}`)
+        .then(response => {
+          window.location.reload()
+        })
+        .catch(error => {
+          alert(error)
+        })
+    },
+    deleteWordform: function (lexeme_id, wf_id) {
+      if (!lexeme_id || !wf_id) return
+      if (!confirm(`Are you sure you want to delete wordform ${wf_id}?`)) return
+      axios.delete(`/wordforms/${wf_id}`)
+        .then(response => {
+          this.results.forEach(r => {
+            if (r.lexeme._id === lexeme_id) {
+              r.wordforms = r.wordforms.filter(wf => {
+                return wf._id !== wf_id
+              })
+            }
+          })
+        })
+        .catch(error => {
+          alert(error)
+        })
     }
   }
 })
