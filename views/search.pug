@@ -16,13 +16,18 @@ block content
     }
   #app
     h3 Results:
-      span.badge.badge-secondary.ml-2
+      span.badge.badge-secondary.badge-pill.ml-2
         | {{ resultCount }}
+      a.btn.btn-success.btn-sm(title="Add",href="/lexemes/add/").ml-2
+        i.fas.fa-plus.fa-fw.fa-inverse.mr-1
+        | Add
 
     div(v-for="item,ix in results",v-bind:key="ix").d-flex.border-bottom.my-2.py-2.small
       div.flex-shrink-1.d-flex.flex-column.mr-2
         div.text-center.
           {{ ix+1 }}
+        a.btn.btn-info.btn-xs(title="History",v-bind:href="'/lexemes/history/' + item.lexeme._id").my-1
+          i.fas.fa-history.fa-fw.fa-inverse
         a.btn.btn-warning.btn-xs(title="Edit",v-bind:href="'/lexemes/edit/' + item.lexeme._id").my-1
           i.fas.fa-pen.fa-fw.fa-inverse
         button.btn.btn-danger.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)").my-1
@@ -35,15 +40,23 @@ block content
             td.text-pre-wrap.overflow-auto(v-bind:class="{ 'font-weight-bold': field === 'lemma' }").
               {{ JSON.stringify(val, null, field === 'glosses' ? 4 : null) }}
       div
-        table.table.table-sm(v-if="item.wordforms")
+        table.table.table-sm.table-hover(v-if="item.wordforms")
           thead
             tr
               th
+                a.btn.btn-success.btn-xs(title="Add",v-bind:href="'/wordforms/add/' + item.lexeme._id")
+                  i.fas.fa-plus.fa-fw.fa-inverse
+                a.btn.btn-primary.btn-xs(title="Generate",v-bind:href="'/wordforms/generate/' + item.lexeme._id").ml-1
+                  i.fas.fa-cog.fa-fw.fa-inverse
+                a.btn.btn-warning.btn-xs(title="Bulk replace",v-bind:href="'/wordforms/replace/' + item.lexeme._id").ml-1
+                  i.fas.fa-retweet.fa-fw.fa-inverse
               th(v-for="field,ix in item.wordformFields", v-bind:key="ix").
                 {{ field }}
           tbody
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
               td.text-nowrap
+                a.btn.btn-info.btn-xs(title="History",v-bind:href="'/wordforms/history/' + wf._id").mr-1
+                  i.fas.fa-history.fa-fw.fa-inverse
                 a.btn.btn-warning.btn-xs(title="Edit",v-bind:href="'/wordforms/edit/' + wf._id")
                   i.fas.fa-pen.fa-fw.fa-inverse
                 button.btn.btn-danger.btn-xs(title="Delete",v-on:click="deleteWordform(wf.lexeme_id, wf._id)")
@@ -55,6 +68,7 @@ block content
       i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
       button.btn.btn-primary(v-show="!working && moreResults") Load more results
 
+  //- script(src="https://cdn.jsdelivr.net/npm/vue@2.6.11")
   script(src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js")
   script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
   script(src=baseURL+"/javascripts/search.js")
