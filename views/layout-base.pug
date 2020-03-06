@@ -1,0 +1,79 @@
+mixin icon(name, text)
+  if text
+    i(class="fas fa-fw fa-"+name).mr-1
+    |#{text}
+  else
+    i(class="fas fa-fw fa-"+name)
+
+mixin loader(name)
+  img(src=baseURL+"/images/ajax-loader.gif",style="visibility:hidden;height:24px;width:24px",id="loading-"+name)
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible",content="IE=edge")
+    meta(name="viewport",content="width=device-width, initial-scale=1")
+    link(rel="icon",type="image/png",href=baseURL+"/images/transfer-trans.png")
+    link(rel="shortcut icon",type="image/png",href=baseURL+"/images/transfer-trans.png")
+
+    title Ġabra API
+      if title
+        | : 
+        =title
+
+    script.
+      var GabraAPI = {
+        'baseURL': '#{baseURL}',
+        'gabraURL': '#{gabraURL}'
+      }
+      function show_loading(which) {
+        $('#loading-' + which).css('visibility','visible')
+      }
+      function hide_loading(which) {
+        $('#loading-' + which).css('visibility','hidden')
+      }
+
+    style
+      include ../public/stylesheets/styles.css
+      //- include ../public/stylesheets/json-pretty.css
+
+    //- if useCDN
+    //-   script(src='//code.jquery.com/jquery-2.1.4.min.js')
+    //- else
+    //-   script(src=baseURL+'/javascripts/jquery-1.11.0.min.js')
+
+    link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
+    //- script(src=baseURL+'/module/bootstrap/dist/js/bootstrap.min.js',defer)
+    script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
+
+  body(role="document")
+    nav.navbar.navbar-expand-lg.navbar-light.shadow-sm.sticky-top.bg-light.border-bottom.mb-4
+      .container
+        a.navbar-brand.text-red.mr-4(href=baseURL+'/')
+          +icon('exchange-alt', 'Ġabra API')
+        form.mr-auto(role='search' action=baseURL+'/search')
+          .input-group
+            - var search_term = (query) ? query.s : ''
+            input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
+            .input-group-append
+              button(type="submit").btn.btn-primary
+                +icon('search')
+
+        .collapse.navbar-collapse.ml-2.d-flex
+          .navbar-nav.mr-auto.flex-row
+            a.nav-item.nav-link(href='/schema') Schema
+            a.nav-item.nav-link(href='/download') Download
+            .dropdown.nav-item
+              a.nav-link.dropdown-toggle(href="#",data-toggle="dropdown") More
+                span.caret
+              .dropdown-menu
+                a(href=baseURL+"/lexemes/add").dropdown-item
+                  +icon('plus', 'New lexeme')
+                a(href=baseURL+"/logs").dropdown-item
+                  +icon('history', 'Recent changes')
+
+
+    block container
+    //- footer
+      p.mt-5.text-muted.text-center.small Built and maintained by John J. Camilleri
