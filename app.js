@@ -74,8 +74,9 @@ passport.use(new BasicStrategy(
       var shasum = require('crypto').createHash('sha1')
       var hashed = shasum.update(salted).digest('hex')
       if (err) { return done(err) }
-      if (!user) { return done(null, false, { message: 'Unknown user.' }) }
-      if (user.password !== hashed) { return done(null, false, { message: 'Incorrect password.' }) }
+      // if (!user) { return done(null, false, { message: 'Unknown user.' }) }
+      // if (user.password !== hashed) { return done(null, false, { message: 'Incorrect password.' }) }
+      if (!user || user.password !== hashed) { return done(null, false, { message: 'Incorrect user/password.' }) }
       return done(null, user)
     })
   }
