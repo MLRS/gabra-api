@@ -106,6 +106,7 @@ if (config.analyticsCode && process.env.NODE_ENV === 'production') {
 
 // Routing
 app.use('/', require('./routes/index'))
+app.use('/auth', require('./routes/auth'))
 app.use('/lexemes', require('./routes/lexemes'))
 app.use('/wordforms', require('./routes/wordforms'))
 app.use('/roots', require('./routes/roots'))
