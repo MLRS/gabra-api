@@ -22,7 +22,7 @@ html(lang="en")
         | : 
         =title
 
-    script.
+    //- script.
       var GabraAPI = {
         'baseURL': '#{baseURL}',
         'gabraURL': '#{gabraURL}'
@@ -36,15 +36,8 @@ html(lang="en")
 
     style
       include ../public/stylesheets/styles.css
-      //- include ../public/stylesheets/json-pretty.css
-
-    //- if useCDN
-    //-   script(src='//code.jquery.com/jquery-2.1.4.min.js')
-    //- else
-    //-   script(src=baseURL+'/javascripts/jquery-1.11.0.min.js')
 
     link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
-    //- script(src=baseURL+'/module/bootstrap/dist/js/bootstrap.min.js',defer)
     script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
 
   body(role="document")
