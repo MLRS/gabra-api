@@ -25,7 +25,30 @@ html(lang="en")
     script.
       const GabraAPI = {
         'baseURL': '#{baseURL}',
-        'gabraURL': '#{gabraURL}'
+        'gabraURL': '#{gabraURL}',
+
+        login: function () {
+          axios.get(this.baseURL+"/auth/login")
+            .then(resp => {
+              sessionStorage.setItem('user', JSON.stringify(resp.data))
+              this.checkLoggedIn()
+            })
+            .catch(err => {
+              sessionStorage.removeItem('user')
+            })
+        },
+        
+        checkLoggedIn: function () {
+          try {
+            let user = JSON.parse(sessionStorage.getItem('user'))
+            if (user) {
+              let btn = document.getElementById('btn-login')
+              btn.innerText = user.username
+              btn.classList.remove('btn-link')
+              btn.onclick = null
+            }
+          } catch {}
+        }
       }
 
     style
@@ -33,6 +56,7 @@ html(lang="en")
 
     link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
     script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
 
   body(role="document")
     nav.navbar.navbar-expand-lg.navbar-light.shadow-sm.sticky-top.bg-light.border-bottom.mb-4
@@ -51,15 +75,12 @@ html(lang="en")
           .navbar-nav.mr-auto.flex-row
             a.nav-item.nav-link(href='/schema') Schema
             a.nav-item.nav-link(href='/download') Download
-            .dropdown.nav-item
-              a.nav-link.dropdown-toggle(href="#",data-toggle="dropdown") More
-                span.caret
-              .dropdown-menu
-                a(href=baseURL+"/lexemes/add").dropdown-item
-                  +icon('plus', 'New lexeme')
-                a(href=baseURL+"/logs").dropdown-item
-                  +icon('history', 'Recent changes')
-
+            //- a.nav-item.nav-link(href=baseURL+"/lexemes/add")
+              +icon('plus', 'New lexeme')
+            //- a.nav-item.nav-link(href=baseURL+"/logs")
+              +icon('history', 'Recent changes')
+          button.btn.btn-link(onclick="GabraAPI.login()")#btn-login
+            +icon('user', 'Login')
 
     block container
     //- footer

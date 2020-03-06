@@ -7,7 +7,9 @@ router.get('/login',
     session: false
   }),
   function (req, res, next) {
-    res.sendStatus(200)
+    res.json({
+      username: req.user.username
+    })
   }
 )
 
