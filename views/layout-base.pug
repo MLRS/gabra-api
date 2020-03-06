@@ -22,16 +22,10 @@ html(lang="en")
         | : 
         =title
 
-    //- script.
-      var GabraAPI = {
+    script.
+      const GabraAPI = {
         'baseURL': '#{baseURL}',
         'gabraURL': '#{gabraURL}'
-      }
-      function show_loading(which) {
-        $('#loading-' + which).css('visibility','visible')
-      }
-      function hide_loading(which) {
-        $('#loading-' + which).css('visibility','hidden')
       }
 
     style

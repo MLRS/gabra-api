@@ -1,5 +1,6 @@
-/* globals Vue axios confirm alert */
+/* globals Vue axios confirm alert GabraAPI */
 /* eslint-disable no-new */
+const baseURL = GabraAPI.baseURL
 const urlParams = new URLSearchParams(window.location.search)
 new Vue({
   el: '#app',
@@ -30,7 +31,7 @@ new Vue({
     // get results
     loadResults: function () {
       this.working = true
-      axios.get(`/lexemes/search`, {
+      axios.get(`${baseURL}/lexemes/search`, {
         params: {
           s: this.query,
           l: 1,
@@ -43,7 +44,7 @@ new Vue({
           response.data.results.forEach(r => {
             r.wordforms = null // not loaded (yet)
             this.results.push(r)
-            axios.get(`/lexemes/wordforms/${r.lexeme._id}`)
+            axios.get(`${baseURL}/lexemes/wordforms/${r.lexeme._id}`)
               .then(resp => {
                 r.wordforms = resp.data
                 r.wordformFields = this.collectFields(resp.data)
@@ -77,7 +78,7 @@ new Vue({
     deleteLexeme: function (id) {
       if (!id) return
       if (!confirm(`Are you sure you want to delete lexeme ${id}?`)) return
-      axios.delete(`/lexemes/${id}`)
+      axios.delete(`${baseURL}/lexemes/${id}`)
         .then(response => {
           window.location.reload()
         })
@@ -88,7 +89,7 @@ new Vue({
     deleteWordform: function (lexeme_id, wf_id) {
       if (!lexeme_id || !wf_id) return
       if (!confirm(`Are you sure you want to delete wordform ${wf_id}?`)) return
-      axios.delete(`/wordforms/${wf_id}`)
+      axios.delete(`${baseURL}/wordforms/${wf_id}`)
         .then(response => {
           this.results.forEach(r => {
             if (r.lexeme._id === lexeme_id) {
