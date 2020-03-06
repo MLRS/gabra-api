@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  
+  h3 #{title}
+
+  pre
+    = JSON.stringify(schema, null, 2)

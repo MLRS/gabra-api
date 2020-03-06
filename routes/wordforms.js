@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var fs = require('fs')
 var passport = require('passport')
 var async = require('async')
 var monk = require('monk')
@@ -75,6 +76,50 @@ router.get('/count', function (req, res) {
     res.json(result)
   })
 })
+
+// -- Edit pages -------------------------------------------------------------
+
+const schema_lexeme = 'public/schemas/wordform.json'
+
+/* GET edit */
+router.get('/edit/:id',
+  passport.authenticate('basic', {
+    session: false
+  }),
+  function (req, res, next) {
+    try {
+      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      res.render('edit', {
+        title: `Edit ${req.params.id}`,
+        schema: schema,
+        id: req.params.id
+      })
+    } catch (err) {
+      console.error(err)
+      res.status(500).end()
+    }
+  }
+)
+
+/* GET add */
+router.get('/add',
+  passport.authenticate('basic', {
+    session: false
+  }),
+  function (req, res, next) {
+    try {
+      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      res.render('edit', {
+        title: `Add lexeme`,
+        schema: schema,
+        id: null
+      })
+    } catch (err) {
+      console.error(err)
+      res.status(500).end()
+    }
+  }
+)
 
 // -- CRUD Methods ----------------------------------------------------------
 

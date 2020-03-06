@@ -3,7 +3,6 @@
 var express = require('express')
 var router = express.Router()
 var fs = require('fs')
-var async = require('async')
 var passport = require('passport')
 var regexquote = require('regexp-quote')
 var monk = require('monk')
@@ -628,18 +627,24 @@ var searchConditions = function (queryObj) {
 // -- Edit pages -------------------------------------------------------------
 
 const schema_lexeme = 'public/schemas/lexeme.json'
-const schema_wordform = 'public/schemas/wordform.json'
 
-/* GET view */
-router.get('/view/:id',
+/* GET edit */
+router.get('/edit/:id',
   passport.authenticate('basic', {
     session: false
   }),
   function (req, res, next) {
-    loadSchemas(req, res, next, {
-      'title': req.params.id, // replaced with lemma on load
-      'id': req.params.id
-    })
+    try {
+      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      res.render('edit', {
+        title: `Edit ${req.params.id}`,
+        schema: schema,
+        id: req.params.id
+      })
+    } catch (err) {
+      console.error(err)
+      res.status(500).end()
+    }
   }
 )
 
@@ -649,51 +654,19 @@ router.get('/add',
     session: false
   }),
   function (req, res, next) {
-    loadSchemas(req, res, next, {
-      'title': 'New entry',
-      'id': null
-    })
+    try {
+      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      res.render('edit', {
+        title: `Add lexeme`,
+        schema: schema,
+        id: null
+      })
+    } catch (err) {
+      console.error(err)
+      res.status(500).end()
+    }
   }
 )
-
-function loadSchemas (req, res, next, params) {
-  async.parallel(
-    {
-      l: function (callback) {
-        fs.readFile(schema_lexeme, 'utf8', function (err, data) {
-          callback(err, JSON.parse(data))
-        })
-      },
-      wf: function (callback) {
-        fs.readFile(schema_wordform, 'utf8', function (err, data) {
-          // replace variables (baseURL)
-          data = data.replace(/#{(.+?)}/g, function (m, c1) {
-            return res.locals[c1]
-          })
-          callback(err, JSON.parse(data))
-        })
-      }
-    },
-    function (err, results) {
-      if (err) {
-        // Not loading schema is not fatal!
-        console.error(err)
-        results = {
-          l: {},
-          wf: {}
-        }
-      }
-      res.render('view', {
-        title: params.title,
-        schemas: JSON.stringify({
-          lexeme: results.l,
-          wordform: results.wf
-        }),
-        id: params.id
-      })
-    }
-  )
-}
 
 // -- CRUD Methods ----------------------------------------------------------
 
