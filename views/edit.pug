@@ -4,5 +4,13 @@ block content
   
   h3 #{title}
 
-  pre
-    = JSON.stringify(schema, null, 2)
+  div#editor
+
+  script(src=baseURL+'/module/@json-editor/json-editor/dist/jsoneditor.js')
+  script(src=baseURL+'/javascripts/jsoneditor-defaults.js')
+  script.
+    var editor_element = document.getElementById('editor')
+    var editor = new JSONEditor(editor_element, {
+      schema: !{JSON.stringify(schema)}
+    })
+    
