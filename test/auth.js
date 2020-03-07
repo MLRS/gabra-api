@@ -7,8 +7,8 @@ var db = monk(config.dbUrl)
 var request = require('supertest')
 require('should')
 
-const username = 'test-user'
-const password = 'test-password'
+const username = 'test-user-auth'
+const password = 'test-password-auth'
 
 /* Tests for all CRUD editing functionality */
 describe('CRUD', function () {
