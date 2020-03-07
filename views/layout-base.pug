@@ -1,7 +1,7 @@
 mixin icon(name, text)
   if text
     i(class="fas fa-fw fa-"+name).mr-1
-    |#{text}
+    span=text
   else
     i(class="fas fa-fw fa-"+name)
 
@@ -28,10 +28,10 @@ html(lang="en")
         'gabraURL': '#{gabraURL}',
 
         login: function () {
-          axios.get(this.baseURL+"/auth/login")
+          axios.get(GabraAPI.baseURL+"/auth/login")
             .then(resp => {
               sessionStorage.setItem('user', JSON.stringify(resp.data))
-              this.checkLoggedIn()
+              GabraAPI.checkLoggedIn()
             })
             .catch(err => {
               sessionStorage.removeItem('user')
@@ -39,15 +39,22 @@ html(lang="en")
         },
         
         checkLoggedIn: function () {
+          let user
           try {
-            let user = JSON.parse(sessionStorage.getItem('user'))
-            if (user) {
-              let btn = document.getElementById('btn-login')
-              btn.innerText = user.username
-              btn.classList.remove('btn-link')
-              btn.onclick = null
-            }
+            user = JSON.parse(sessionStorage.getItem('user'))
           } catch {}
+          let btn = document.getElementById('btn-user')
+          if (user) {
+            btn.children[1].innerText = user.username
+            btn.disabled = true
+            btn.removeEventListener('click', GabraAPI.login)
+            return true
+          } else {
+            btn.children[1].innerText = 'Login'
+            btn.disabled = false
+            btn.addEventListener('click', GabraAPI.login)
+            return false
+          }
         }
       }
 
@@ -58,7 +65,7 @@ html(lang="en")
     script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
 
-  body(role="document")
+  body(role="document", onload="GabraAPI.checkLoggedIn()")
     nav.navbar.navbar-expand-lg.navbar-light.shadow-sm.sticky-top.bg-light.border-bottom.mb-4
       .container
         a.navbar-brand.text-red.mr-4(href=baseURL+'/')
@@ -79,8 +86,8 @@ html(lang="en")
               +icon('plus', 'New lexeme')
             //- a.nav-item.nav-link(href=baseURL+"/logs")
               +icon('history', 'Recent changes')
-          button.btn.btn-link(onclick="GabraAPI.login()")#btn-login
-            +icon('user', 'Login')
+          button.btn.btn-link(disabled)#btn-user
+            +icon('user', '…')
 
     block container
     //- footer
