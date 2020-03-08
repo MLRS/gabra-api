@@ -1,37 +1,25 @@
 extends layout-fluid
 
 block content
-  style.
-    .text-pre-wrap {
-      white-space: pre-wrap;
-    }
-    th {
-      background: #f8f9fa!important;
-    }
-    .btn-xs {
-      padding: .1rem .2rem;
-      font-size: .75rem;
-      line-height: 1.5;
-      border-radius: .2rem;
-    }
   #app
     h3 Results:
       span.badge.badge-secondary.badge-pill.ml-2
         | {{ resultCount }}
-      a.btn.btn-success.btn-sm(title="Add",href=baseURL+"/lexemes/add/").ml-2
+      a.btn.btn-success.btn-sm(title="Add",href=baseURL+"/lexemes/add/",v-if="loggedIn").ml-2
         +icon('plus', 'Add')
 
     div(v-for="item,ix in results",v-bind:key="ix").d-flex.border-bottom.my-2.py-2.small
       //- Number and buttons
       div.flex-shrink-1.d-flex.flex-column.mr-2
-        div.text-center
+        div.badge.badge-secondary.py-1.font-size-100
           | {{ ix+1 }}
-        //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/lexemes/history/' + item.lexeme._id`).my-1
-          +icon('history')
-        a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/lexemes/edit/' + item.lexeme._id`).my-1
-          +icon('pen')
-        button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)").my-1
-          +icon('times')
+        div(v-if="loggedIn").d-flex.flex-column
+          //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/lexemes/history/' + item.lexeme._id`).my-1
+            +icon('history')
+          a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/lexemes/edit/' + item.lexeme._id`).my-1
+            +icon('pen')
+          button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)").my-1
+            +icon('times')
 
       //- Lexeme
       div.d-flex.mr-3
@@ -43,11 +31,11 @@ block content
               | {{ JSON.stringify(val, null, field === 'glosses' ? 4 : null) }}
 
       //- Wordforms
-      div.w-100
+      div.w-100.overflow-auto
         table.table.table-sm.table-hover(v-if="item.wordforms")
           thead
             tr
-              th
+              th(v-if="loggedIn")
                 a.btn.btn-success.btn-xs(title="Add",v-bind:href=`'${baseURL}/wordforms/add/' + item.lexeme._id`)
                   +icon('plus').fa-fw.fa-inverse
                 //- a.btn.btn-primary.btn-xs(title="Generate",v-bind:href=`'${baseURL}/wordforms/generate/' + item.lexeme._id`).ml-1
@@ -58,7 +46,7 @@ block content
                 | {{ field }}
           tbody
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
-              td.text-nowrap
+              td(v-if="loggedIn").text-nowrap
                 //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/wordforms/history/' + wf._id`).mr-1
                   +icon('history')
                 a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/wordforms/edit/' + wf._id`)

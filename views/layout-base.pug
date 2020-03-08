@@ -22,46 +22,16 @@ html(lang="en")
         | : 
         =title
 
+    link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
+    style
+      include ../public/stylesheets/styles.css
+
     script.
       const GabraAPI = {
         'baseURL': '#{baseURL}',
         'gabraURL': '#{gabraURL}',
-
-        login: function () {
-          axios.get(GabraAPI.baseURL+"/auth/login")
-            .then(resp => {
-              sessionStorage.setItem('user', JSON.stringify(resp.data))
-              GabraAPI.checkLoggedIn()
-            })
-            .catch(err => {
-              sessionStorage.removeItem('user')
-            })
-        },
-        
-        checkLoggedIn: function () {
-          let user
-          try {
-            user = JSON.parse(sessionStorage.getItem('user'))
-          } catch {}
-          let btn = document.getElementById('btn-user')
-          if (user) {
-            btn.children[1].innerText = user.username
-            btn.disabled = true
-            btn.removeEventListener('click', GabraAPI.login)
-            return true
-          } else {
-            btn.children[1].innerText = 'Login'
-            btn.disabled = false
-            btn.addEventListener('click', GabraAPI.login)
-            return false
-          }
-        }
       }
-
-    style
-      include ../public/stylesheets/styles.css
-
-    link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
+    script(src=baseURL+"/javascripts/base.js")
     script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
 

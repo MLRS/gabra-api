@@ -16,3 +16,19 @@ blockquote {
 blockquote p {
   margin: 0;
 }
+
+.text-pre-wrap {
+  white-space: pre-wrap;
+}
+th {
+  background: #f8f9fa!important;
+}
+.btn-xs {
+  padding: .1rem .2rem;
+  font-size: .75rem;
+  line-height: 1.5;
+  border-radius: .2rem;
+}
+.font-size-100 {
+  font-size: 100%;
+}

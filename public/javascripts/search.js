@@ -9,7 +9,8 @@ new Vue({
     query: urlParams.get('s'),
     page: 0,
     results: [],
-    resultCount: 0
+    resultCount: 0,
+    loggedIn: GabraAPI.checkLoggedIn()
   },
   computed: {
     moreResults: function () {
