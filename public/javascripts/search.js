@@ -6,8 +6,9 @@ new Vue({
   el: '#app',
   data: {
     working: false,
+    lexemeID: urlParams.get('id'),
     query: urlParams.get('s'),
-    page: 0,
+    page: 1,
     results: [],
     resultCount: 0,
     loggedIn: GabraAPI.checkLoggedIn()
@@ -18,19 +19,51 @@ new Vue({
     }
   },
   mounted: function () {
-    this.loadResults()
+    if (this.lexemeID) {
+      this.loadLexeme()
+    } else if (this.query) {
+      this.loadResults()
+    }
 
     // https://renatello.com/check-if-a-user-has-scrolled-to-the-bottom-in-vue-js/
     window.onscroll = () => {
       let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
       if (bottomOfWindow && !this.working && this.moreResults) {
-        this.loadResults()
+        this.loadResults(++this.page)
       }
     }
   },
   methods: {
-    // get results
-    loadResults: function () {
+    // get lexeme
+    loadLexeme: function () {
+      this.working = true
+      axios.get(`${baseURL}/lexemes/${this.lexemeID}`)
+        .then(response => {
+          this.resultCount = 1
+          let r = {
+            lexeme: response.data,
+            wordforms: null // not loaded (yet)
+          }
+          this.results = [r]
+          axios.get(`${baseURL}/lexemes/wordforms/${response.data._id}`)
+            .then(resp => {
+              r.wordforms = resp.data
+              r.wordformFields = this.collectFields(resp.data)
+            })
+            .catch(error => {
+              console.error(error)
+              r.wordforms = []
+            })
+        })
+        .catch(error => {
+          console.error(error)
+        })
+        .then(() => {
+          this.working = false
+        })
+    },
+    // get search results
+    loadResults: function (page = 1) {
       this.working = true
       axios.get(`${baseURL}/lexemes/search`, {
         params: {
@@ -39,9 +72,10 @@ new Vue({
           wf: 1,
           g: 1,
           pending: 1,
-          page: ++this.page
+          page: page
         } })
         .then(response => {
+          this.resultCount = response.data.query.result_count
           response.data.results.forEach(r => {
             r.wordforms = null // not loaded (yet)
             this.results.push(r)
@@ -55,7 +89,6 @@ new Vue({
                 r.wordforms = []
               })
           })
-          this.resultCount = response.data.query.result_count
         })
         .catch(error => {
           console.error(error)

@@ -2,15 +2,59 @@ extends layout
 
 block content
   
-  h3 #{title}
+  //- h3 #{title}
+  
+  div.float-right.sticky-top(style="top: 5rem")
+    button.btn.btn-success.shadow-sm(onclick="save()")
+      +icon('save', 'Save')
+    button.btn.btn-light.border.shadow-sm(onclick="cancel()")
+      | Cancel
+      
+  style.
+    .property-selector {
+      font-size: 60%;
+      font-weight: normal;
+      line-height: 1.5;
+    }
 
   div#editor
 
   script(src=baseURL+'/module/@json-editor/json-editor/dist/jsoneditor.js')
-  script(src=baseURL+'/javascripts/jsoneditor-defaults.js')
+  //- NOTE #{id} is null if we are adding; code below works in both cases
   script.
-    var editor_element = document.getElementById('editor')
-    var editor = new JSONEditor(editor_element, {
-      schema: !{JSON.stringify(schema)}
+    const editor_element = document.getElementById('editor')
+    const editor = new JSONEditor(editor_element, {
+      schema: !{JSON.stringify(schema)},
+      theme: 'bootstrap4',
+      iconlib: 'fontawesome5',
+      compact: true,
+      display_required_only: true,
+      remove_empty_properties: true,
+      // disable_edit_json: false,
     })
-    
+    function load () {
+      axios.get('#{baseURL}/lexemes/#{id}')
+        .then(resp => {
+          editor.setValue(resp.data)
+        })
+        .catch(err => {
+          alert(err)
+        })
+    }
+    if ('#{id}') load()
+    function save () {
+      axios.post('#{baseURL}/lexemes/#{id}', editor.getValue())
+        .then(resp => {
+          window.location=`#{baseURL}/search?id=${resp.data._id}`
+        })
+        .catch(err => {
+          alert(err)
+        })
+    }
+    function cancel () {
+      if ('#{id}') {
+        window.location='#{baseURL}/search?id=#{id}'
+      } else {
+        window.location='#{baseURL}/'
+      }
+    }

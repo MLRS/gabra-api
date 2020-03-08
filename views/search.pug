@@ -5,7 +5,7 @@ block content
     h3 Results:
       span.badge.badge-secondary.badge-pill.ml-2
         | {{ resultCount }}
-      a.btn.btn-success.btn-sm(title="Add",href=baseURL+"/lexemes/add/",v-if="loggedIn").ml-2
+      a.btn.btn-success.btn-sm(title="Add lexeme",href=baseURL+"/lexemes/add/",v-if="loggedIn").ml-2
         +icon('plus', 'Add')
 
     div(v-for="item,ix in results",v-bind:key="ix").d-flex.border-bottom.my-2.py-2.small
@@ -36,7 +36,7 @@ block content
           thead
             tr
               th(v-if="loggedIn")
-                a.btn.btn-success.btn-xs(title="Add",v-bind:href=`'${baseURL}/wordforms/add/' + item.lexeme._id`)
+                a.btn.btn-success.btn-xs(title="Add wordform",v-bind:href=`'${baseURL}/wordforms/add/' + item.lexeme._id`)
                   +icon('plus').fa-fw.fa-inverse
                 //- a.btn.btn-primary.btn-xs(title="Generate",v-bind:href=`'${baseURL}/wordforms/generate/' + item.lexeme._id`).ml-1
                   +icon('cog')
