@@ -13,12 +13,14 @@ block content
       div.flex-shrink-1.d-flex.flex-column.mr-2
         div.badge.badge-secondary.py-1.font-size-100
           | {{ ix+1 }}
-        div(v-if="loggedIn").d-flex.flex-column
-          //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/lexemes/history/' + item.lexeme._id`).my-1
+        div(v-if="loggedIn").d-flex.flex-column.mt-1
+          a.btn.btn-link.btn-xs(title="Link",v-bind:href=`'${baseURL}/search?id=' + item.lexeme._id`)
+            +icon('link')
+          //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/lexemes/history/' + item.lexeme._id`)
             +icon('history')
-          a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/lexemes/edit/' + item.lexeme._id`).my-1
+          a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/lexemes/edit/' + item.lexeme._id`)
             +icon('pen')
-          button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)").my-1
+          button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)")
             +icon('times')
 
       //- Lexeme

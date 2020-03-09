@@ -79,7 +79,12 @@ router.get('/count', function (req, res) {
 
 // -- Edit pages -------------------------------------------------------------
 
-const schema_lexeme = 'public/schemas/wordform.json'
+const schema_path = 'public/schemas/wordform.json'
+function getSchema () { // throws ...
+  let schema = JSON.parse(fs.readFileSync(schema_path))
+  schema.properties.lexeme_id.type = 'string' // patch type to allow string input
+  return schema
+}
 
 /* GET edit */
 router.get('/edit/:id',
@@ -88,9 +93,10 @@ router.get('/edit/:id',
   }),
   function (req, res, next) {
     try {
-      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      let schema = getSchema()
       res.render('edit', {
         title: `Edit ${req.params.id}`,
+        collection: 'wordforms',
         schema: schema,
         id: req.params.id
       })
@@ -102,16 +108,18 @@ router.get('/edit/:id',
 )
 
 /* GET add */
-router.get('/add',
+router.get('/add/:lexeme_id',
   passport.authenticate('basic', {
     session: false
   }),
   function (req, res, next) {
     try {
-      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      let schema = getSchema()
       res.render('edit', {
         title: `Add lexeme`,
+        collection: 'wordforms',
         schema: schema,
+        lexeme_id: req.params.lexeme_id,
         id: null
       })
     } catch (err) {

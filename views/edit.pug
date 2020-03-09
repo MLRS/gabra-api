@@ -30,10 +30,9 @@ block content
       compact: true,
       display_required_only: true,
       remove_empty_properties: true,
-      // disable_edit_json: false,
     })
     function load () {
-      axios.get('#{baseURL}/lexemes/#{id}')
+      axios.get('#{baseURL}/#{collection}/#{id}')
         .then(resp => {
           editor.setValue(resp.data)
         })
@@ -41,20 +40,36 @@ block content
           alert(err)
         })
     }
-    if ('#{id}') load()
     function save () {
-      axios.post('#{baseURL}/lexemes/#{id}', editor.getValue())
+      axios.post('#{baseURL}/#{collection}/#{id}', editor.getValue())
         .then(resp => {
-          window.location=`#{baseURL}/search?id=${resp.data._id}`
+          if ('#{collection}' === 'lexemes') {
+            window.location=`#{baseURL}/search?id=${resp.data._id}`
+          }
+          else if ('#{collection}' === 'wordforms') {
+            window.location=`#{baseURL}/search?id=${resp.data.lexeme_id}`
+          }
         })
         .catch(err => {
           alert(err)
         })
     }
     function cancel () {
-      if ('#{id}') {
-        window.location='#{baseURL}/search?id=#{id}'
-      } else {
-        window.location='#{baseURL}/'
+      if ('#{collection}' === 'lexemes') {
+        if ('#{id}') {
+          window.location='#{baseURL}/search?id=#{id}'
+        } else {
+          window.location='#{baseURL}/search'
+        }
+      } else if ('#{collection}' === 'wordforms') {
+        let lexeme_id = editor.getValue()['lexeme_id']
+        window.location=`#{baseURL}/search?id=${lexeme_id}`
       }
+    }
+
+    // Startup
+    if ('#{id}') {
+      load()
+    } else if ('#{collection}' === 'wordforms' && '#{lexeme_id}') {
+      editor.getEditor('root.lexeme_id').setValue('#{lexeme_id}')
     }

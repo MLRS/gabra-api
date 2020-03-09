@@ -626,7 +626,7 @@ var searchConditions = function (queryObj) {
 
 // -- Edit pages -------------------------------------------------------------
 
-const schema_lexeme = 'public/schemas/lexeme.json'
+const schema_path = 'public/schemas/lexeme.json'
 
 /* GET edit */
 router.get('/edit/:id',
@@ -635,9 +635,10 @@ router.get('/edit/:id',
   }),
   function (req, res, next) {
     try {
-      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      let schema = JSON.parse(fs.readFileSync(schema_path))
       res.render('edit', {
         title: `Edit ${req.params.id}`,
+        collection: 'lexemes',
         schema: schema,
         id: req.params.id
       })
@@ -655,9 +656,10 @@ router.get('/add',
   }),
   function (req, res, next) {
     try {
-      let schema = JSON.parse(fs.readFileSync(schema_lexeme))
+      let schema = JSON.parse(fs.readFileSync(schema_path))
       res.render('edit', {
         title: `Add lexeme`,
+        collection: 'lexemes',
         schema: schema,
         id: null
       })
