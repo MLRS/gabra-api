@@ -2,18 +2,20 @@ extends layout-fluid
 
 block content
   #app
-    h3 Results:
-      span.badge.badge-secondary.badge-pill.ml-2
-        | {{ resultCount }}
-      a.btn.btn-success.btn-sm(title="Add lexeme",href=baseURL+"/lexemes/add/",v-if="loggedIn").ml-2
+    h3
+      span(v-if="!lexemeID")
+        | Results:
+        span.badge.badge-secondary.badge-pill.ml-2
+          | {{ resultCount }}
+      a.btn.btn-success.btn-sm.ml-2(title="Add lexeme",href=baseURL+"/lexemes/add/",v-if="loggedIn")
         +icon('plus', 'Add')
 
-    div(v-for="item,ix in results",v-bind:key="ix").d-flex.border-bottom.my-2.py-2.small
+    div.d-flex.border-bottom.my-2.py-2.small(v-for="item,ix in results",v-bind:key="ix")
       //- Number and buttons
       div.flex-shrink-1.d-flex.flex-column.mr-2
-        div.badge.badge-secondary.py-1.font-size-100
+        div.badge.badge-secondary.py-1.font-size-100(v-if="!lexemeID")
           | {{ ix+1 }}
-        div(v-if="loggedIn").d-flex.flex-column.mt-1
+        div.d-flex.flex-column.mt-1(v-if="loggedIn")
           a.btn.btn-link.btn-xs(title="Link",v-bind:href=`'${baseURL}/search?id=' + item.lexeme._id`)
             +icon('link')
           //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/lexemes/history/' + item.lexeme._id`)
@@ -39,23 +41,23 @@ block content
             tr
               th(v-if="loggedIn")
                 a.btn.btn-success.btn-xs(title="Add wordform",v-bind:href=`'${baseURL}/wordforms/add/' + item.lexeme._id`)
-                  +icon('plus').fa-fw.fa-inverse
-                //- a.btn.btn-primary.btn-xs(title="Generate",v-bind:href=`'${baseURL}/wordforms/generate/' + item.lexeme._id`).ml-1
+                  +icon('plus')
+                //- a.btn.btn-primary.btn-xs(title="Generate",v-bind:href=`'${baseURL}/wordforms/generate/' + item.lexeme._id`)
                   +icon('cog')
-                //- a.btn.btn-warning.btn-xs(title="Bulk replace",v-bind:href=`'${baseURL}/wordforms/replace/' + item.lexeme._id`).ml-1
+                //- a.btn.btn-warning.btn-xs(title="Bulk replace",v-bind:href=`'${baseURL}/wordforms/replace/' + item.lexeme._id`)
                   +icon('retweet')
               th(v-for="field,ix in item.wordformFields", v-bind:key="ix")
                 | {{ field }}
           tbody
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
               td(v-if="loggedIn").text-nowrap
-                //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/wordforms/history/' + wf._id`).mr-1
+                //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/wordforms/history/' + wf._id`)
                   +icon('history')
                 a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/wordforms/edit/' + wf._id`)
                   +icon('pen')
                 button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteWordform(wf.lexeme_id, wf._id)")
                   +icon('times')
-              td(v-for="field,ix in item.wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }").overflow-auto.text-truncate
+              td.overflow-auto.text-truncate(v-for="field,ix in item.wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }")
                 | {{ JSON.stringify(wf[field]) }}
         
     .text-center.my-5
