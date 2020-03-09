@@ -97,12 +97,12 @@ block content
           td
             if item.collection === 'lexemes'
               if item.new_value
-                a(href=baseURL+"/lexemes/view/" + item.object_id)= item.new_value.lemma
+                a(href=baseURL+"/search?id=" + item.object_id)= item.new_value.lemma
               else
                 | -
             else if item.collection === 'wordforms'
               if item.new_value
-                a(href=baseURL+"/lexemes/view/" + item.new_value.lexeme_id)= item.new_value.surface_form
+                a(href=baseURL+"/search?id=" + item.new_value.lexeme_id)= item.new_value.surface_form
               else
                 | -
             //- collection is never roots...
