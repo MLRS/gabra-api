@@ -39,14 +39,15 @@ block content
         table.table.table-sm.table-hover(v-if="item.wordforms")
           thead
             tr
-              th(v-if="loggedIn")
-                a.btn.btn-success.btn-xs(title="Add wordform",v-bind:href=`'${baseURL}/wordforms/add/' + item.lexeme._id`)
+              th(v-if="loggedIn").text-nowrap
+                a.btn.btn-success.border-0.btn-xs(title="Add wordform",v-bind:href=`'${baseURL}/wordforms/add/' + item.lexeme._id`)
                   +icon('plus')
-                //- a.btn.btn-primary.btn-xs(title="Generate",v-bind:href=`'${baseURL}/wordforms/generate/' + item.lexeme._id`)
+                a.btn.btn-primary.border-0.btn-xs.ml-1(title="Generate",v-bind:href=`'${baseURL}/wordforms/generate/' + item.lexeme._id`)
                   +icon('cog')
-                //- a.btn.btn-warning.btn-xs(title="Bulk replace",v-bind:href=`'${baseURL}/wordforms/replace/' + item.lexeme._id`)
-                  +icon('retweet')
-              th(v-for="field,ix in item.wordformFields", v-bind:key="ix")
+              th(v-for="field,ix in item.wordformFields", v-bind:key="ix").text-nowrap
+                span(v-if="ix === 0 && loggedIn").mr-2
+                  a.btn.btn-warning.border-0.btn-xs(title="Bulk replace",v-bind:href=`'${baseURL}/wordforms/replace/' + item.lexeme._id`)
+                    +icon('retweet')
                 | {{ field }}
           tbody
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
@@ -60,10 +61,10 @@ block content
               td.overflow-auto.text-truncate(v-for="field,ix in item.wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }")
                 | {{ JSON.stringify(wf[field]) }}
         
+    //- Loader
     .text-center.my-5
       i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
       button.btn.btn-primary(v-show="!working && moreResults") Load more results
 
-  //- script(src="https://cdn.jsdelivr.net/npm/vue@2.6.11")
-  script(src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js")
+  +vue()
   script(src=baseURL+"/javascripts/search.js")

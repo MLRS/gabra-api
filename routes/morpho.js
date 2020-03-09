@@ -38,7 +38,7 @@ router.post('/generate/:paradigm/:lexeme_id?',
       if (lexeme_id) {
         // Insert into DB
         var lemma = req.body.lemma // 'ipparkja'
-        req.db.get('lexemes').find(lexeme_id, function (err, data) {
+        req.db.get('lexemes').findOne(lexeme_id, function (err, data) {
           if (err) {
             res.status(400).send('find error')
             return

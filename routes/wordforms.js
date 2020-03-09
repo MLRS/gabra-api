@@ -129,6 +129,23 @@ router.get('/add/:lexeme_id',
   }
 )
 
+/* GET generate */
+router.get('/generate/:lexeme_id',
+  passport.authenticate('basic', {
+    session: false
+  }),
+  function (req, res, next) {
+    try {
+      res.render('generate', {
+        lexeme_id: req.params.lexeme_id
+      })
+    } catch (err) {
+      console.error(err)
+      res.status(500).end()
+    }
+  }
+)
+
 // -- CRUD Methods ----------------------------------------------------------
 
 /* Create = POST */

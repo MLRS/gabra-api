@@ -27,8 +27,8 @@ module.exports = {
             'surface_form': sf,
             'aspect': aspect,
             'subject': convertAgr(subject),
-            'dir_obj': '',
-            'ind_obj': '',
+            'dir_obj': null,
+            'ind_obj': null,
             'polarity': pol,
             'sources': [sourceKey]
           }
