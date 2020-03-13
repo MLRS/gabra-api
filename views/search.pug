@@ -50,6 +50,8 @@ block content
                     +icon('retweet')
                 | {{ field }}
           tbody
+            tr(v-if="item.wordforms.length === 0")
+              td.font-italic.text-black-50 No wordforms
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
               td(v-if="loggedIn").text-nowrap
                 //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/wordforms/history/' + wf._id`)

@@ -10,7 +10,7 @@ new Vue({
     query: urlParams.get('s'),
     page: 1,
     results: [],
-    resultCount:'...',
+    resultCount: '…',
     loggedIn: GabraAPI.checkLoggedIn()
   },
   computed: {
