@@ -10,12 +10,12 @@ new Vue({
     query: urlParams.get('s'),
     page: 1,
     results: [],
-    resultCount: 0,
+    resultCount:'...',
     loggedIn: GabraAPI.checkLoggedIn()
   },
   computed: {
     moreResults: function () {
-      return this.results.length < this.resultCount
+      return Number.isInteger(this.resultCount) && this.results.length < this.resultCount
     }
   },
   mounted: function () {
