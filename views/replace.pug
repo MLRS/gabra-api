@@ -2,7 +2,7 @@ extends layout
 
 block content
   #app
-    h3 Generate wordforms
+    h3 Search and replace in wordforms
     
     div.alert.alert-danger(v-show="error") {{ error ? error.response.data : '' }}
     
@@ -11,17 +11,20 @@ block content
       label.col-2.col-form-label.font-weight-bold Lemma
       label.col-10.col-form-label {{ lexeme ? lexeme.lemma : '…' }}
     div.form-group.row
-      label.col-2.col-form-label.font-weight-bold Paradigm
+      label.col-2.col-form-label.font-weight-bold Search
       div.col-10
-        select.form-control(v-model="paradigm",v-on:change="tested = false")
-          option(value="")
-          option(value="loan-verb") Loan verb
-          option(value="adjective") Adjective
+        input.form-control(v-model="search", v-on:change="tested = false")
+        small.form-text.text-muted Regular expressions accepted
+    div.form-group.row
+      label.col-2.col-form-label.font-weight-bold Replace
+      div.col-10
+        input.form-control(v-model="replace", v-on:change="tested = false")
+        small.form-text.text-muted Groups: TODO
     div.form-group.row
       div.offset-2.col-10
-        button.btn.btn-primary.btn-sm(v-on:click="generateWordforms")
+        button.btn.btn-primary.btn-sm(v-on:click="previewReplace")
           +icon('check', 'Test')
-        button.btn.btn-success.btn-sm(v-bind:disabled="!tested",v-on:click="commitWordforms")
+        button.btn.btn-success.btn-sm(v-bind:disabled="!tested",v-on:click="commitReplace")
           +icon('save', 'Commit')
         button.btn.btn-light.border.btn-sm(v-on:click="cancel")
           | Cancel
@@ -43,4 +46,4 @@ block content
       i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
     
   +vue()
-  script(src=baseURL+"/javascripts/generate.js")
+  script(src=baseURL+"/javascripts/replace.js")

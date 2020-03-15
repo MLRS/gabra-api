@@ -6,6 +6,7 @@ var async = require('async')
 var monk = require('monk')
 
 var log = require('../logger').makeLogger('wordforms')
+var sortWordforms = require('./helpers/sort-wordforms')
 
 // -- Advanced manipulation -------------------------------------------------
 
@@ -32,9 +33,10 @@ router.post('/replace/:lexeme_id',
         res.status(500).send(err)
         return
       }
+      data.sort(sortWordforms)
+
       var search_regex = new RegExp(search)
       data.forEach(function (wf) {
-        // This is by reference
         wf.surface_form = wf.surface_form.replace(search_regex, replace)
       })
 
@@ -137,6 +139,23 @@ router.get('/generate/:lexeme_id',
   function (req, res, next) {
     try {
       res.render('generate', {
+        lexeme_id: req.params.lexeme_id
+      })
+    } catch (err) {
+      console.error(err)
+      res.status(500).end()
+    }
+  }
+)
+
+/* GET replace */
+router.get('/replace/:lexeme_id',
+  passport.authenticate('basic', {
+    session: false
+  }),
+  function (req, res, next) {
+    try {
+      res.render('replace', {
         lexeme_id: req.params.lexeme_id
       })
     } catch (err) {
