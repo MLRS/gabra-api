@@ -45,7 +45,7 @@ router.post('/replace/:lexeme_id',
         async.each(
           data,
           function (item, callback) {
-            collection.update(item._id, item, callback)
+            collection.update(item._id, { '$set': item }, callback)
             log(req, item._id, item, 'modified')
           },
           // All done
@@ -226,7 +226,7 @@ router.get('/:id', function (req, res, next) {
 //   }),
 //   function (req, res, next) {
 //     var collection = req.db.get('wordforms')
-//     collection.update(req.params.id, {'$set': req.body}, function (err) {
+//     collection.update(req.params.id, { '$set': req.body }, function (err) {
 //       if (err) {
 //         res.status(500).send(err)
 //         return

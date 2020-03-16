@@ -9,7 +9,8 @@ new Vue({
     lexeme: null,
     search: null, // linked to input
     replace: null, // linked to input
-    originalSurfaceForms: new Map(),
+    onlyShowChanged: false,
+    newSurfaceForms: new Map(),
     wordforms: [],
     tested: false, // when true can commit
     error: null
@@ -26,6 +27,13 @@ new Vue({
       let exclude = new Set(['lexeme_id'])
       exclude.forEach((f) => fields.delete(f))
       return Array.from(fields)
+    },
+    wordformsFiltered: function () {
+      if (this.onlyShowChanged) {
+        return this.wordforms.filter(wf => this.newSurfaceForms.has(wf._id))
+      } else {
+        return this.wordforms
+      }
     }
   },
   mounted: function () {
@@ -47,9 +55,6 @@ new Vue({
       axios.get(`${baseURL}/lexemes/wordforms/${this.lexemeID}?pending=1`)
         .then(response => {
           this.wordforms = response.data
-          response.data.forEach(wf => {
-            this.originalSurfaceForms.set(wf._id, wf.surface_form)
-          })
         })
         .catch(error => {
           console.error(error)
@@ -60,9 +65,9 @@ new Vue({
         })
     },
     previewReplace: function () {
-      if (!this.lexeme) return
       this.working = true
       this.error = null
+      this.newSurfaceForms = new Map()
       let url = `${baseURL}/wordforms/replace/${this.lexemeID}`
       axios.post(url, {
         search: this.search,
@@ -70,7 +75,9 @@ new Vue({
         commit: false
       })
         .then(response => {
-          this.wordforms = response.data
+          response.data.forEach(wf => {
+            this.newSurfaceForms.set(wf._id, wf.surface_form)
+          })
           this.tested = true
         })
         .catch(error => {
@@ -82,7 +89,6 @@ new Vue({
         })
     },
     commitReplace: function () {
-      if (!this.lexeme) return
       this.working = true
       this.error = null
       let url = `${baseURL}/wordforms/replace/${this.lexemeID}`

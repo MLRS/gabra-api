@@ -19,7 +19,9 @@ block content
       label.col-2.col-form-label.font-weight-bold Replace
       div.col-10
         input.form-control(v-model="replace", v-on:change="tested = false")
-        small.form-text.text-muted Groups: TODO
+        small.form-text.text-muted
+          | Insert parenthesized submatches with
+          code.ml-1 $n
     div.form-group.row
       div.offset-2.col-10
         button.btn.btn-primary.btn-sm(v-on:click="previewReplace")
@@ -28,6 +30,11 @@ block content
           +icon('save', 'Commit')
         button.btn.btn-light.border.btn-sm(v-on:click="cancel")
           | Cancel
+        div.form-check.form-control-sm.d-inline-block.ml-2
+          input.form-check-input(type="checkbox",v-model="onlyShowChanged")#check1
+          label.form-check-label(for="check1") Only show changed ({{ newSurfaceForms.size }})
+        //- Loader
+        i.btn.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
     
     //- Wordforms
     div.w-100.overflow-auto.small
@@ -37,13 +44,16 @@ block content
             th(v-for="field,ix in wordformFields", v-bind:key="ix").text-nowrap
               | {{ field }}
         tbody
-          tr(v-for="wf, ix in wordforms", v-bind:key="ix")
+          tr(v-for="wf, ix in wordformsFiltered", v-bind:key="ix")
             td.overflow-auto.text-truncate(v-for="field,ix in wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }")
-              | {{ JSON.stringify(wf[field]) }}
+              template(v-if="field === 'surface_form' && newSurfaceForms.has(wf._id)")
+                span.text-danger
+                  | {{ JSON.stringify(wf[field]) }}
+                span.mx-1 →
+                span.text-success
+                  | {{ JSON.stringify(newSurfaceForms.get(wf._id)) }}
+              template(v-else)
+                | {{ JSON.stringify(wf[field]) }}
 
-    //- Loader
-    .text-center.my-5
-      i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
-    
   +vue()
   script(src=baseURL+"/javascripts/replace.js")

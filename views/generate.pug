@@ -25,6 +25,8 @@ block content
           +icon('save', 'Commit')
         button.btn.btn-light.border.btn-sm(v-on:click="cancel")
           | Cancel
+        //- Loader
+        i.btn.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
     
     //- Wordforms
     div.w-100.overflow-auto.small
@@ -37,10 +39,6 @@ block content
           tr(v-for="wf, ix in wordforms", v-bind:key="ix")
             td.overflow-auto.text-truncate(v-for="field,ix in wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }")
               | {{ JSON.stringify(wf[field]) }}
-
-    //- Loader
-    .text-center.my-5
-      i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
     
   +vue()
   script(src=baseURL+"/javascripts/generate.js")
