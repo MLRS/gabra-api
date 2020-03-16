@@ -16,13 +16,14 @@ Non-public API for editing. These methods generally require authorisation.
 
 ## Wordforms
 
-| Method   | URL                             | Description                 | Payload*                                                | Return Value               |
-|:---------|:--------------------------------|:----------------------------|:--------------------------------------------------------|:---------------------------|
-| `POST`   | `/wordforms/`                   | Create                      | Entire document                                         | Document                   |
-| `GET`    | `/wordforms/:id`                | Read                        | -                                                       | Document                   |
-| `POST`   | `/wordforms/:id`                | Update                      | Entire document                                         | Document                   |
-| `DELETE` | `/wordforms/:id`                | Delete                      | -                                                       | -                          |
-| `POST`   | `/wordforms/replace/:lexeme_id` | Search/replace in wordforms | `{search: (regex), replace: (string), commit: boolean}` | List of affected documents |
+| Method   | URL                                         | Description                                                    | Payload*                                                   | Return Value        |
+|:---------|:--------------------------------------------|:---------------------------------------------------------------|:-----------------------------------------------------------|:--------------------|
+| `POST`   | `/wordforms/`                               | Create                                                         | Entire document                                            | Document            |
+| `GET`    | `/wordforms/:id`                            | Read                                                           | -                                                          | Document            |
+| `POST`   | `/wordforms/:id`                            | Update                                                         | Entire document                                            | Document            |
+| `DELETE` | `/wordforms/:id`                            | Delete                                                         | -                                                          | -                   |
+| `POST`   | `/wordforms/replace/:lexeme_id`             | Search/replace in wordforms                                    | `{search: (string), replace: (string), commit: (boolean)}` | Affected documents  |
+| `POST`   | `/wordforms/generate/:paradigm/:lexeme_id?` | Generate inflections (`lexeme_id` is required when committing) | `{lemma: (string), commit: (boolean)}`                     | Generated documents |
 
 ## Roots
 
@@ -46,10 +47,3 @@ Non-public API for editing. These methods generally require authorisation.
 | Method | URL                 | Description                         | Payload*                                                              | Return Value |
 |:-------|:--------------------|:------------------------------------|:----------------------------------------------------------------------|:-------------|
 | `POST` | `/feedback/suggest` | Add suggestion (checks for matches) | Entire document (only the fields `lemma`, `gloss` and `pos` are used) | Document     |
-
-## Morphological generation
-
-| Method | URL                                     | Description                   | Payload*           | Return Value |
-|:-------|:----------------------------------------|:------------------------------|:-------------------|:-------------|
-| `POST` | `/morpho/generate/:paradigm`            | Generate inflections          | `{ lemma: '...' }` | Documents    |
-| `POST` | `/morpho/generate/:paradigm/:lexeme_id` | Generate & insert inflections | `{ lemma: '...' }` | -            |

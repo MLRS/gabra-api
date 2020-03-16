@@ -114,7 +114,6 @@ app.use('/sources', require('./routes/sources'))
 app.use('/feedback', require('./routes/feedback'))
 app.use('/logs', require('./routes/logs'))
 app.use('/i18n', require('./routes/i18n'))
-app.use('/morpho', require('./routes/morpho'))
 
 // http://stackoverflow.com/a/27464258/98600
 // app.use('/json-editor', express.static(__dirname + '/node_modules/json-editor/dist/'))

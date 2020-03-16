@@ -51,8 +51,11 @@ new Vue({
       if (!this.lexeme) return
       this.working = true
       this.error = null
-      let url = `${baseURL}/morpho/generate/${this.paradigm}`
-      axios.post(url, this.lexeme)
+      let url = `${baseURL}/wordforms/generate/${this.paradigm}/${this.lexemeID}`
+      axios.post(url, {
+        lemma: this.lexeme.lemma,
+        commit: false
+      })
         .then(response => {
           this.wordforms = response.data
           this.tested = true
@@ -70,8 +73,11 @@ new Vue({
       if (!this.lexeme) return
       this.working = true
       this.error = null
-      let url = `${baseURL}/morpho/generate/${this.paradigm}/${this.lexemeID}`
-      axios.post(url, this.lexeme)
+      let url = `${baseURL}/wordforms/generate/${this.paradigm}/${this.lexemeID}`
+      axios.post(url, {
+        lemma: this.lexeme.lemma,
+        commit: true
+      })
         .then(response => {
           window.location = `${baseURL}/search?id=${this.lexemeID}`
         })
