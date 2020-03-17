@@ -19,7 +19,7 @@ describe('CRUD', function () {
     var salted = config.salt + password
     var shasum = require('crypto').createHash('sha1')
     var hashed = shasum.update(salted).digest('hex')
-    db.get('users').insert({
+    return db.get('users').insert({
       'username': username,
       'password': hashed
     })
@@ -27,7 +27,7 @@ describe('CRUD', function () {
 
   after(function () {
     // Remove test user
-    db.get('users').remove({
+    return db.get('users').remove({
       'username': username
     })
   })
