@@ -5,9 +5,8 @@
 **[Ġabra](http://mlrs.research.um.edu.mt/resources/gabra/)** is the main site which is intended for normal users.  
 **[Ġabra API](http://mlrs.research.um.edu.mt/resources/gabra-api/)** (this site) contains information about the technical aspects of the Ġabra database, including how to access it via the API and the structure of the data.
 
-Most of the editing features are here on the API site.
+All the editing features are here on the API site.
 It is important to realise that both sites are **using the same database**, so any content you change here will also be changed on the main Ġabra site too.
-You user login is also the same for both sites, although the login form looks a bit different (the API site uses HTTP authentication).
 
 ## 2. Structure
 
@@ -29,20 +28,18 @@ In general, every lexeme should have a wordform whose surface form is the same a
 For example, the lexeme with lemma _"ktieb"_ will have two associated wordforms, one with surface form _"ktieb"_ and another with surface form _"kotba"_.
 Thus the string _"ktieb"_ is actually stored in two places, but the feature information (e.g. `number: sg` and `gender: m`) is only stored at the wordform level.
 
-Note that some lexemes don't have any associated wordforms.
+Some lexemes don't have any associated wordforms.
 This is usually becuase no one has filled them in yet.
 The only case where it's ok not to have any wordforms is for lexemes without any inflectional forms, e.g. exclamations such as _"illallu"_.
 
-Notice that somes fields may occur in both lexeme and wordform, e.g. `alternatives` (for spelling variants) and `sources`.
+Some fields may occur in both lexeme and wordform, e.g. `alternatives` (for spelling variants) and `sources`.
 
-In general, all fields are optional and you will notice that some entries seem to have more feature information
+Most fields are optional and you will notice that some entries seem to have more feature information
 than others. This is just a result of the heterogenous nature of the data which we have; missing data is common.
 
 <div class="alert alert-info">
-
-For details about the fields we are currently using, see the **[schema](schema)** page.
+For details about the fields we are currently using, see the <a href="#{pageURL}/schema">schema</a> page.
 This page should be updated whenever we introduce a new field.
-
 </div>
 
 ### Roots
@@ -50,6 +47,8 @@ This page should be updated whenever we introduce a new field.
 Roots are identified by their radicals using the following format: `k-t-b` (triliteral) or `k-n-t-j` (quadriliteral).
 In cases where the same root has different meanings, the `variant` number distinguishes these, e.g. `għ-r-q 1` ("sink") and `għ-r-q 2` ("sweat").
 There is a separate collection in the database for roots, although this is a closed list and should not need to be modified.
+In addition, roots are not linked to lexemes by ID in the way that wordforms are.
+The root details of a lexeme are stored directly in it (this means there is a little data duplication).
 
 ## 3. Searching
 
@@ -60,7 +59,6 @@ On the Ġabra site the interface is a little nicer, whereas here you will see a 
 
 The order in the search results does not follow the Maltese alphabet correctly — the characters _ċ, ġ, ħ, ż_ are sorted after _z_.
 Also, lemmas beginning with upper-case appear before lower-cased ones.
-This will eventually be fixed.
 
 ### Pending entries
 
@@ -77,73 +75,89 @@ Thus when reviewing pending entries, you should **always perform the search your
 
 ## 4. Adding & editing entries
 
-If you are logged in on the Ġabra site, you will see **Edit** links next to each entry.
-These will bring you to the edit page here on the Ġabra API site.
-You can also search directly in the API site and click the <a class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-info-sign"></span> View/Edit</a> button beside the results.
+If you are logged in on the Ġabra API site, when searching you will see an **Edit** button
+<button class="btn btn-xs btn-outline-warning border-0"><i class="fas fa-pen"></i></button>
+next to each lexeme and its wordforms.
 
-From the view/edit page you can quickly make changes to a lexeme and its associated wordforms.
-In both cases this is done using the **JSON Editor**.
+From the edit page you can make changes to an entry using the **JSON Editor**.
 
 ### JSON Editor
 
 You can live-test the JSON editor below:
 
+<div class="row">
+<div class="col-6">
+
 <div id="editor"></div>
-<script src="#{baseURL}/module/json-editor/dist/jsoneditor.min.js"></script>
+<script src="#{baseURL}/module/@json-editor/json-editor/dist/jsoneditor.js"></script>
 <script src="#{baseURL}/javascripts/tutorial.js"></script>
+
+</div>
+<div class="col-6 pt-5">
 
 #### Add a known field
 
-1. Click the <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span> Properties</a> button
+1. Click the <button class="btn btn-sm btn-secondary"><i class="fas fa-list"></i> Properties</button> button
 2. Scroll to find the field you want to add
 3. Sheck the checkbox beside the field name
-4. Click <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span> Properties</a> again to close the box
+4. Click <button class="btn btn-sm btn-secondary"><i class="fas fa-list"></i> Properties</button> again to close the box
 
 #### Add an unknown field
 
 If you want to add a completely new field (this should be discussed first!):
 
-1. Click the <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span> Properties</a> button
+1. Click the <button class="btn btn-sm btn-secondary"><i class="fas fa-list"></i> Properties</button> button
 2. Fill in the _name_ of the field where it says "Property name..." (e.g. `number`)
-3. Click <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-plus"></span> add</a>
-4. Click <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span> Properties</a> again to close the box
+3. Click <button class="btn btn-sm btn-secondary"><i class="fas fa-plus"></i> add</button>
+4. Click <button class="btn btn-sm btn-secondary"><i class="fas fa-list"></i> Properties</button> again to close the box
 5. Change the _type_ of the field from `null`; normally you should choose `string`
 6. Fill in the _value_ of the field (e.g. `pl` for plural)
 
 #### Removing a field
 
-1. Click the <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span> Properties</a> button
+1. Click the <button class="btn btn-sm btn-secondary"><i class="fas fa-list"></i> Properties</button> button
 2. Scroll to find the field you want to add
 3. Uncheck the checkbox beside the field name
-4. Click <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span> Properties</a> again to close the box
+4. Click <button class="btn btn-sm btn-secondary"><i class="fas fa-list"></i> Properties</button> again to close the box
 
 #### Expanding/collapsing complex fields
 
 Complex fields like `root` and `sources` can be hidden to reduce clutter.
 Look out for the
-<a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-chevron-right"></span></a>
+<button class="btn btn-sm btn-secondary"><i class="fas fa-caret-right"></i></button>
 and
-<a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-chevron-down"></span></a>
+<button class="btn btn-sm btn-secondary"><i class="fas fa-caret-down"></i></button>
 buttons.
 
 #### Edit JSON directly
 
 If you know what you're doing and prefer to edit the data in JSON format directly,
-you can do so by clicking the <a class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span> JSON</a> button.
+you can do so by clicking the <button class="btn btn-sm btn-secondary"><i class="fas fa-pen"></i> JSON</button> button.
+
+</div>
+</div>
 
 ### Bulk replace
 
 When it comes to editing wordforms, you can make changes to many surface forms at once by using search & replace.
 This is useful when there are many wordforms with systematic errors (e.g. in verb conjugations).
 
-1. Click the <a class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-pencil"></span> Bulk replace</a> button
+1. Click the Search and Reaplce button <button class="btn btn-sm btn-warning"><i class="fas fa-retweet"></i></button>.
 2. Enter the search string (the string to be replaced). This can be any regular expression. Try to be as specific as possible.
-3. Enter the replace string (the string that will be inserted instead of the search string). This is not a regular expression.
-4. Click the <a class="btn btn-xs btn-primary">Test</a> button to preview the results.
-5. **If you are completely sure** that the replacement is correct, click <a class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-flash"></span> Commit</a>
+3. Enter the replace string (the string that will be inserted instead of the search string). You can reference captured groups from the search regexp with `$1` etc.
+4. Click the <button class="btn btn-sm btn-primary"><i class="fas fa-check"></i> Test</button> button to preview the results.
+5. **If you are completely sure** that the replacement is correct, click <button class="btn btn-sm btn-success"><i class="fas fa-save"></i> Commit</button>
    These changes are non-reversible, so please be careful when using this feature!
 
 ### View edit history
 
-All edits made (after 2015-09-06) are logged and can be viewed by clicking the
-<a class="btn btn-xs btn-info"><span class="glyphicon glyphicon-time"></span> History</a> button next to lexemes and wordforms.
+All edits made (after 2015-09-06) are logged and can be viewed by clicking the History button
+<button class="btn btn-sm btn-outline-info border-0"><i class="fas fa-history"></i></button>
+next to lexemes and wordforms.
+
+### Delete
+
+A lexeme or wordform can be deleted by clicking the
+<button class="btn btn-sm btn-outline-danger border-0"><i class="fas fa-times"></i></button>
+beside it.
+When a lexeme is deleted, all its wordforms are also deleted.

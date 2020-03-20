@@ -1,28 +1,9 @@
-/* global $ JSONEditor GabraAPI */
-$(document).ready(function () {
-  // Rearrange page
-  var editor = $('#editor')
-  var col_cont = $('<div>').addClass('container')
-  var col_left = $('<div>').addClass('col-md-6')
-  var col_right = $('<div>').addClass('col-md-6')
-  col_cont.append(
-    col_left,
-    col_right
-  ).insertBefore(editor)
-
-  // TODO: be less dependent on title names
-  editor.appendTo(col_left)
-  $('h4#add-a-known-field').prev().nextUntil($('#bulk-replace')).appendTo(col_right)
-
-  $.getJSON(GabraAPI.baseURL + '/schemas/lexeme.json', function (schema) {
-    JSONEditor.defaults.options.ajax = true
-    JSONEditor.defaults.options.theme = 'bootstrap3'
-    JSONEditor.defaults.options.iconlib = 'bootstrap3'
-    JSONEditor.defaults.options.remove_empty_properties = true
-    JSONEditor.defaults.options.disable_edit_json = false
-    var editor_element = document.getElementById('editor')
-    var editor = new JSONEditor(editor_element, {
-      schema: schema,
+/* global axios JSONEditor GabraAPI */
+axios.get(`${GabraAPI.baseURL}/schemas/lexeme.json`)
+  .then(response => {
+    const editor_element = document.getElementById('editor')
+    const editor = new JSONEditor(editor_element, { // eslint-disable-line no-unused-vars
+      schema: response.data,
       startval: {
         'lemma': 'kiteb',
         'pos': 'VERB',
@@ -31,7 +12,11 @@ $(document).ready(function () {
         },
         'gloss': 'write',
         'derived_form': 1
-      }
+      },
+      theme: 'bootstrap4',
+      iconlib: 'fontawesome5',
+      compact: true,
+      display_required_only: true,
+      remove_empty_properties: true
     })
   })
-})

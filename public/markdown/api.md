@@ -1,12 +1,10 @@
 <div class="page-header">
-<h1>Ġabra API v#{version} <small>Updated 2020-03-16</small></h1>
+<h1>Ġabra API v#{version} <small>Updated 2020-03-20</small></h1>
 </div>
 
-<div class="well">
-
-This page is meant for developers who want to access the Ġabra database programmatically, such as from a website or app.
-If you just want to search the database normally, you should do so from the [Ġabra website](#{gabraURL}).
-
+<div class="alert alert-secondary my-4">
+This site is aimed at developers who want to access the Ġabra database programmatically, such as from a website or app.
+If you just want to search the database normally, you should do so from the <a href="#{gabraURL}">Ġabra website</a>.
 </div>
 
 ## General
