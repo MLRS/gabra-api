@@ -34,7 +34,7 @@ This returns the lexeme entries (although it searches in wordforms too by defaul
 | `l`       | Search in lemmas?        | `0` or `1` (default)                   | Mininum length 2                       |
 | `wf`      | Search in wordforms?     | `0` or `1` (default)                   | Mininum length 3; prefix matching only |
 | `g`       | Search in gloss?         | `0` or `1` (default)                   | Mininum length 3                       |
-| `pos`     | Part of speech           | `NOUN` (see [here](#{baseURL}/schema)) |                                        |
+| `pos`     | Part of speech           | `NOUN` (see [here](#{pageURL}/schema)) |                                        |
 | `source`  | Source                   | `Ellul2013`                            |                                        |
 | `pending` | Include pending entries? | `0` (default) or `1`                   |                                        |
 | `page`    | Page number              | `1` (default), `2`, ...                | &nbsp;                                 |

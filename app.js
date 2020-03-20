@@ -30,11 +30,13 @@ app.use(function (req, res, next) {
 })
 
 // Load server-specific config
+const pagesPath = '/p'
 var config = require('./server-config')
 var package_json = require('./package.json')
 app.use(function (req, res, next) {
   res.locals = config
   res.locals.version = package_json.version
+  res.locals.pageURL = `${config.baseURL}${pagesPath}`
   next()
 })
 
@@ -106,6 +108,7 @@ if (config.analyticsCode && process.env.NODE_ENV === 'production') {
 
 // Routing
 app.use('/', require('./routes/index'))
+app.use(pagesPath, require('./routes/pages'))
 app.use('/auth', require('./routes/auth'))
 app.use('/lexemes', require('./routes/lexemes'))
 app.use('/wordforms', require('./routes/wordforms'))

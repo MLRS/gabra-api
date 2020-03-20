@@ -30,6 +30,7 @@ html(lang="en")
     script.
       const GabraAPI = {
         'baseURL': '#{baseURL}',
+        'pageURL': '#{pageURL}',
         'gabraURL': '#{gabraURL}',
       }
     script(src=baseURL+"/javascripts/base.js")
@@ -41,7 +42,7 @@ html(lang="en")
       .container
         a.navbar-brand.text-red.mr-4(href=baseURL+'/')
           +icon('exchange-alt', 'Ġabra API')
-        form.mr-auto(role='search' action=baseURL+'/search')
+        form.mr-auto(role='search' action=pageURL+'/search')
           .input-group
             - var search_term = (query) ? query.s : ''
             input(type="search",name="s",autofocus="true",placeholder="Search",value=search_term).form-control
@@ -51,12 +52,8 @@ html(lang="en")
 
         .collapse.navbar-collapse.ml-2.d-flex
           .navbar-nav.mr-auto.flex-row
-            a.nav-item.nav-link(href='/schema') Schema
-            a.nav-item.nav-link(href='/download') Download
-            //- a.nav-item.nav-link(href=baseURL+"/lexemes/add")
-              +icon('plus', 'New lexeme')
-            //- a.nav-item.nav-link(href=baseURL+"/logs")
-              +icon('history', 'Recent changes')
+            a.nav-item.nav-link(href=pageURL+'/schema') Schema
+            a.nav-item.nav-link(href=pageURL+'/download') Download
           button.btn.btn-link(disabled)#btn-user
             +icon('user', '…')
 

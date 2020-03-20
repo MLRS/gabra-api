@@ -2,7 +2,6 @@
 
 var express = require('express')
 var router = express.Router()
-var fs = require('fs')
 var passport = require('passport')
 var regexquote = require('regexp-quote')
 var monk = require('monk')
@@ -577,83 +576,6 @@ var searchConditions = function (queryObj) {
 
   return conds
 }
-
-// -- Edit pages -------------------------------------------------------------
-
-const schema_path = 'public/schemas/lexeme.json'
-
-/* GET edit */
-router.get('/edit/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    try {
-      let schema = JSON.parse(fs.readFileSync(schema_path))
-      res.render('edit', {
-        title: `Edit ${req.params.id}`,
-        collection: 'lexemes',
-        schema: schema,
-        id: req.params.id
-      })
-    } catch (err) {
-      console.error(err)
-      res.status(500).end()
-    }
-  }
-)
-
-/* GET add */
-router.get('/add',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    try {
-      let schema = JSON.parse(fs.readFileSync(schema_path))
-      res.render('edit', {
-        title: `Add lexeme`,
-        collection: 'lexemes',
-        schema: schema,
-        id: null
-      })
-    } catch (err) {
-      console.error(err)
-      res.status(500).end()
-    }
-  }
-)
-
-/* GET history */
-router.get('/history/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('logs')
-    var conds = {
-      'collection': 'lexemes',
-      'object_id': monk.id(req.params.id)
-    }
-    var opts = {
-      'sort': {
-        'date': -1
-      }
-    }
-    collection.find(conds, opts, function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      res.render('history', {
-        title: 'History',
-        collection: 'lexemes',
-        id: req.params.id,
-        logs: data
-      })
-    })
-  }
-)
 
 // -- CRUD Methods ----------------------------------------------------------
 

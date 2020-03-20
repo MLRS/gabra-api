@@ -10,18 +10,12 @@ describe('Pages', function () {
   it('responds to /', function (done) {
     request(server)
       .get('/')
-      .expect(200, done)
+      .expect(302, done)
   })
 
-  it('responds to /schema', function (done) {
+  it('responds to /p/schema', function (done) {
     request(server)
-      .get('/schema')
-      .expect(200, done)
-  })
-
-  it('responds to /download', function (done) {
-    request(server)
-      .get('/download')
+      .get('/p/schema')
       .expect(200, done)
   })
 })

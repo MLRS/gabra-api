@@ -1,6 +1,7 @@
 /* globals Vue axios GabraAPI */
 /* eslint-disable no-new */
 const baseURL = GabraAPI.baseURL
+const pageURL = GabraAPI.pageURL
 new Vue({
   el: '#app',
   data: {
@@ -79,7 +80,7 @@ new Vue({
         commit: true
       })
         .then(response => {
-          window.location = `${baseURL}/search?id=${this.lexemeID}`
+          window.location = `${pageURL}/search?id=${this.lexemeID}`
         })
         .catch(error => {
           this.error = error
@@ -90,7 +91,7 @@ new Vue({
         })
     },
     cancel: function () {
-      window.location = `${baseURL}/search?id=${this.lexemeID}`
+      window.location = `${pageURL}/search?id=${this.lexemeID}`
     }
   }
 })
