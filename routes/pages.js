@@ -153,7 +153,7 @@ router.get('/history/:collection/:id',
       }
       res.render('history', {
         title: 'History',
-        collection: req.params.collections,
+        collection: req.params.collection,
         id: req.params.id,
         logs: data
       })
