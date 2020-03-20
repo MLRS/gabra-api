@@ -238,6 +238,37 @@ router.get('/replace/:lexeme_id',
   }
 )
 
+/* GET history */
+router.get('/history/:id',
+  passport.authenticate('basic', {
+    session: false
+  }),
+  function (req, res, next) {
+    var collection = req.db.get('logs')
+    var conds = {
+      'collection': 'wordforms',
+      'object_id': monk.id(req.params.id)
+    }
+    var opts = {
+      'sort': {
+        'date': -1
+      }
+    }
+    collection.find(conds, opts, function (err, data) {
+      if (err) {
+        res.status(500).send(err)
+        return
+      }
+      res.render('history', {
+        title: 'History',
+        collection: 'wordforms',
+        id: req.params.id,
+        logs: data
+      })
+    })
+  }
+)
+
 // -- CRUD Methods ----------------------------------------------------------
 
 /* Create = POST */

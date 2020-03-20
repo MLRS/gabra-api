@@ -15,15 +15,16 @@ block content
       div.flex-shrink-1.d-flex.flex-column.mr-2
         div.badge.badge-secondary.py-1.font-size-100(v-if="!lexemeID")
           | {{ ix+1 }}
-        div.d-flex.flex-column.mt-1(v-if="loggedIn")
-          a.btn.btn-link.btn-xs(title="Link",v-bind:href=`'${baseURL}/search?id=' + item.lexeme._id`)
+        div.d-flex.flex-column.mt-1
+          a.btn.btn-link.btn-xs(title="Link",v-bind:href=`'${baseURL}/search?id=' + item.lexeme._id`,v-if="!lexemeID")
             +icon('link')
-          //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/lexemes/history/' + item.lexeme._id`)
-            +icon('history')
-          a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/lexemes/edit/' + item.lexeme._id`)
-            +icon('pen')
-          button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)")
-            +icon('times')
+          template(v-if="loggedIn")
+            a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/lexemes/history/' + item.lexeme._id`)
+              +icon('history')
+            a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/lexemes/edit/' + item.lexeme._id`)
+              +icon('pen')
+            button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)")
+              +icon('times')
 
       //- Lexeme
       div.d-flex.mr-3
@@ -44,19 +45,18 @@ block content
                   +icon('plus')
                 a.btn.btn-primary.border-0.btn-xs.ml-1(title="Generate",v-bind:href=`'${baseURL}/wordforms/generate/' + item.lexeme._id`)
                   +icon('cog')
+                a.btn.btn-warning.border-0.btn-xs.ml-1(title="Bulk replace",v-bind:href=`'${baseURL}/wordforms/replace/' + item.lexeme._id`)
+                  +icon('retweet')
               th(v-for="field,ix in item.wordformFields", v-bind:key="ix").text-nowrap
-                span(v-if="ix === 0 && loggedIn").mr-2
-                  a.btn.btn-warning.border-0.btn-xs(title="Bulk replace",v-bind:href=`'${baseURL}/wordforms/replace/' + item.lexeme._id`)
-                    +icon('retweet')
                 | {{ field }}
           tbody
             tr(v-if="item.wordforms.length === 0")
               td.font-italic.text-black-50 No wordforms
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
               td(v-if="loggedIn").text-nowrap
-                //- a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/wordforms/history/' + wf._id`)
+                a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${baseURL}/wordforms/history/' + wf._id`)
                   +icon('history')
-                a.btn.btn-outline-warning.border-0.btn-xs(title="Edit",v-bind:href=`'${baseURL}/wordforms/edit/' + wf._id`)
+                a.btn.btn-outline-warning.border-0.btn-xs.ml-1(title="Edit",v-bind:href=`'${baseURL}/wordforms/edit/' + wf._id`)
                   +icon('pen')
                 button.btn.btn-outline-danger.border-0.btn-xs(title="Delete",v-on:click="deleteWordform(wf.lexeme_id, wf._id)")
                   +icon('times')

@@ -47,3 +47,9 @@ Non-public API for editing. These methods generally require authorisation.
 | Method | URL                 | Description                         | Payload*                                                              | Return Value |
 |:-------|:--------------------|:------------------------------------|:----------------------------------------------------------------------|:-------------|
 | `POST` | `/feedback/suggest` | Add suggestion (checks for matches) | Entire document (only the fields `lemma`, `gloss` and `pos` are used) | Document     |
+
+## Logs
+
+| Method | URL                     | Description                           | Return Value                |
+|:-------|:------------------------|:--------------------------------------|:----------------------------|
+| `GET`  | `/logs/:collection/:id` | Get history for document in collectin | List of log entry documents |

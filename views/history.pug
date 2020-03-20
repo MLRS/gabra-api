@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  
+  h3 History for #{id} 
+    if collection === 'lexemes'
+      a(href=baseURL+"/search?id=" + id)
+        +icon('link')
+    else if collection === 'wordforms' && logs.length > 0 && logs[0].new_value
+      a(href=baseURL+"/search?id=" + logs[0].new_value.lexeme_id)
+        +icon('link')
+  p.text-muted Note: direct edits to the database are not recording in the history.
+
+  table.table.table-sm.small
+    thead
+      tr
+        th Edits (newest first)
+        th Data (after edit)
+    tbody
+      if logs.length === 0
+        tr
+          td(colspan="2").font-italic
+            | No history for this entry
+      for item in logs
+        tr
+          td
+            dl
+              dt Date
+              dd= item.date.toISOString()
+              
+              dt Collection
+              dd= item.collection
+              
+              dt Action
+              dd= item.action || '-'
+
+              dt User
+              dd= item.username
+              
+              dt IP
+              dd= item.ip
+
+          td
+            div.text-pre-wrap.overflow-auto
+              = JSON.stringify(item.new_value, null, 4)
