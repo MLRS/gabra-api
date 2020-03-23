@@ -46,6 +46,7 @@ Non-public API for editing. These methods generally require authorisation.
 
 | Method | URL                 | Description                         | Payload*                                                              | Return Value |
 |:-------|:--------------------|:------------------------------------|:----------------------------------------------------------------------|:-------------|
+| `GET`  | `/feedback/suggest` | Get pending suggestions (paged)     | -                                                                     | Documents    |
 | `POST` | `/feedback/suggest` | Add suggestion (checks for matches) | Entire document (only the fields `lemma`, `gloss` and `pos` are used) | Document     |
 
 ## Logs

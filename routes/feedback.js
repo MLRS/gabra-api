@@ -4,6 +4,41 @@ var log = require('../logger').makeLogger('lexemes')
 
 // -- Feedback/'crowdsourcing' methods ---------------------------------------
 
+/* GET suggestions */
+router.get('/suggest', function (req, res, next) {
+  var collection = req.db.get('lexemes')
+  var conds = {
+    pending: true,
+    sources: 'UserFeedback'
+  }
+  var page_size = 20
+  var page = req.query.page || 1
+  var opts = {
+    'limit': page_size,
+    'skip': page_size * (page - 1),
+    'sort': {'_id': -1}
+  }
+  collection.find(conds, opts, function (err, data) {
+    if (err) {
+      res.status(500).send(err)
+      return
+    }
+    collection.count(conds, function (err, count) {
+      if (err) {
+        console.error(err)
+      }
+      res.json({
+        query: {
+          page: page,
+          page_size: page_size,
+          result_count: count
+        },
+        results: data
+      })
+    })
+  })
+})
+
 /* Suggest */
 /* Content-Type: application/json */
 router.post('/suggest', function (req, res, next) {
