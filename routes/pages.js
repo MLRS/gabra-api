@@ -63,9 +63,17 @@ router.get('/download', function (req, res, next) {
 router.get('/search', function (req, res, next) {
   var q = req.query
   q['pending'] = true
-  res.render('search', {
+  res.render('results', {
     title: 'Search',
     query: q
+  })
+})
+
+/* GET view page */
+router.get('/view/:lexeme_id', function (req, res, next) {
+  res.render('results', {
+    title: 'View',
+    lexeme_id: req.params.lexeme_id
   })
 })
 

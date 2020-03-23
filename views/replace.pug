@@ -24,11 +24,11 @@ block content
           code.ml-1 $n
     div.form-group.row
       div.offset-2.col-10
-        button.btn.btn-primary.btn-sm(v-on:click="previewReplace")
+        button.btn.btn-primary(v-on:click="previewReplace")
           +icon('check', 'Test')
-        button.btn.btn-success.btn-sm(v-bind:disabled="!tested",v-on:click="commitReplace")
+        button.btn.btn-success(v-bind:disabled="!tested",v-on:click="commitReplace")
           +icon('save', 'Commit')
-        button.btn.btn-light.border.btn-sm(v-on:click="cancel")
+        button.btn.btn-light.border(v-on:click="cancel")
           | Cancel
         div.form-check.form-control-sm.d-inline-block.ml-2
           input.form-check-input(type="checkbox",v-model="onlyShowChanged")#check1

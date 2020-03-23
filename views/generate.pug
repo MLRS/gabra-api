@@ -19,11 +19,11 @@ block content
           option(value="adjective") Adjective
     div.form-group.row
       div.offset-2.col-10
-        button.btn.btn-primary.btn-sm(v-on:click="generateWordforms")
+        button.btn.btn-primary(v-on:click="generateWordforms")
           +icon('check', 'Test')
-        button.btn.btn-success.btn-sm(v-bind:disabled="!tested",v-on:click="commitWordforms")
+        button.btn.btn-success(v-bind:disabled="!tested",v-on:click="commitWordforms")
           +icon('save', 'Commit')
-        button.btn.btn-light.border.btn-sm(v-on:click="cancel")
+        button.btn.btn-light.border(v-on:click="cancel")
           | Cancel
         //- Loader
         i.btn.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")

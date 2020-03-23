@@ -44,10 +44,10 @@ block content
       axios.post('#{baseURL}/#{collection}/#{id}', editor.getValue())
         .then(resp => {
           if ('#{collection}' === 'lexemes') {
-            window.location=`#{pageURL}/search?id=${resp.data._id}`
+            window.location=`#{pageURL}/view/${resp.data._id}`
           }
           else if ('#{collection}' === 'wordforms') {
-            window.location=`#{pageURL}/search?id=${resp.data.lexeme_id}`
+            window.location=`#{pageURL}/view/${resp.data.lexeme_id}`
           }
         })
         .catch(err => {
@@ -57,13 +57,13 @@ block content
     function cancel () {
       if ('#{collection}' === 'lexemes') {
         if ('#{id}') {
-          window.location='#{pageURL}/search?id=#{id}'
+          window.location='#{pageURL}/view/#{id}'
         } else {
           window.location='#{pageURL}/search'
         }
       } else if ('#{collection}' === 'wordforms') {
         let lexeme_id = editor.getValue()['lexeme_id']
-        window.location=`#{pageURL}/search?id=${lexeme_id}`
+        window.location=`#{pageURL}/view/${lexeme_id}`
       }
     }
 

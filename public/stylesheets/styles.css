@@ -5,7 +5,8 @@
 h1 small,
 h2 small,
 h3 small {
-  color: #6c757d!important; /* text-muted */
+  /* color: #6c757d!important; /* text-muted */
+  color: rgba(0,0,0,.4)!important;
 }
 
 blockquote {

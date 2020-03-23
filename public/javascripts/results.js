@@ -6,7 +6,7 @@ new Vue({
   el: '#app',
   data: {
     working: false,
-    lexemeID: urlParams.get('id'),
+    lexemeID: GabraAPI.lexeme_id,
     query: urlParams.get('s'),
     page: 1,
     results: [],

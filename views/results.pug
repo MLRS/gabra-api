@@ -3,12 +3,14 @@ extends layout-fluid
 block content
   #app
     h3
-      span(v-if="!lexemeID")
+      span(v-if="lexemeID")
+        | View lexeme {{ lexemeID }}
+      span(v-else)
         | Results:
         span.badge.badge-secondary.badge-pill.ml-2
           | {{ resultCount }}
-      a.btn.btn-success.btn-sm.ml-2(title="Add lexeme",href=pageURL+"/add/lexemes",v-if="loggedIn")
-        +icon('plus', 'Add')
+        a.btn.btn-success.btn-sm.ml-2(title="Add lexeme",href=pageURL+"/add/lexemes",v-if="loggedIn")
+          +icon('plus', 'Add')
 
     div.d-flex.border-bottom.my-2.py-2.small(v-for="item,ix in results",v-bind:key="ix")
       //- Number and buttons
@@ -16,7 +18,7 @@ block content
         div.badge.badge-secondary.py-1.font-size-100(v-if="!lexemeID")
           | {{ ix+1 }}
         div.d-flex.flex-column.mt-1
-          a.btn.btn-link.btn-xs(title="Link",v-bind:href=`'${pageURL}/search?id=' + item.lexeme._id`,v-if="!lexemeID")
+          a.btn.btn-link.btn-xs(title="Link",v-bind:href=`'${pageURL}/view/' + item.lexeme._id`,v-if="!lexemeID")
             +icon('link')
           template(v-if="loggedIn")
             a.btn.btn-outline-info.border-0.btn-xs(title="History",v-bind:href=`'${pageURL}/history/lexemes/' + item.lexeme._id`)
@@ -69,4 +71,6 @@ block content
       button.btn.btn-primary(v-show="!working && moreResults") Load more results
 
   +vue()
-  script(src=baseURL+"/javascripts/search.js")
+  script.
+    GabraAPI.lexeme_id = "#{lexeme_id}" || null
+  script(src=baseURL+"/javascripts/results.js")

@@ -2,13 +2,15 @@ extends layout
 
 block content
   
-  h3 History for #{id} 
-    if collection === 'lexemes'
-      a(href=pageURL+"/search?id=" + id)
-        +icon('link')
-    else if collection === 'wordforms' && logs.length > 0 && logs[0].new_value
-      a(href=pageURL+"/search?id=" + logs[0].new_value.lexeme_id)
-        +icon('link')
+  h3
+    | History for #{id}
+    small.ml-1
+      if collection === 'lexemes'
+        a(href=pageURL+"/view/" + id)
+          +icon('link')
+      else if collection === 'wordforms' && logs.length > 0 && logs[0].new_value
+        a(href=pageURL+"/view/" + logs[0].new_value.lexeme_id)
+          +icon('link')
   p.text-muted Note: direct edits to the database are not recording in the history.
 
   table.table.table-sm.small

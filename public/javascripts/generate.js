@@ -80,7 +80,7 @@ new Vue({
         commit: true
       })
         .then(response => {
-          window.location = `${pageURL}/search?id=${this.lexemeID}`
+          window.location = `${pageURL}/view/${this.lexemeID}`
         })
         .catch(error => {
           this.error = error
@@ -91,7 +91,7 @@ new Vue({
         })
     },
     cancel: function () {
-      window.location = `${pageURL}/search?id=${this.lexemeID}`
+      window.location = `${pageURL}/view/${this.lexemeID}`
     }
   }
 })
