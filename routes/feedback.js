@@ -33,7 +33,9 @@ router.get('/suggest', function (req, res, next) {
           page_size: page_size,
           result_count: count
         },
-        results: data
+        results: data.map(lex => {
+          return { lexeme: lex }
+        })
       })
     })
   })

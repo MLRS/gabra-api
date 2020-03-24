@@ -77,6 +77,13 @@ router.get('/view/:lexeme_id', function (req, res, next) {
   })
 })
 
+/* GET pending page */
+router.get('/pending', function (req, res, next) {
+  res.render('results', {
+    title: 'Pending'
+  })
+})
+
 // -- Edit pages -------------------------------------------------------------
 
 function getSchema (collection) {

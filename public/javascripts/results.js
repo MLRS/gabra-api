@@ -2,6 +2,7 @@
 /* eslint-disable no-new */
 const baseURL = GabraAPI.baseURL
 const urlParams = new URLSearchParams(window.location.search)
+const isPending = window.location.pathname.includes('pending')
 new Vue({
   el: '#app',
   data: {
@@ -21,7 +22,7 @@ new Vue({
   mounted: function () {
     if (this.lexemeID) {
       this.loadLexeme()
-    } else if (this.query) {
+    } else if (isPending || this.query) {
       this.loadResults()
     }
 
@@ -62,18 +63,31 @@ new Vue({
           this.working = false
         })
     },
-    // get search results
+    // get search results / pending
     loadResults: function (page = 1) {
       this.working = true
-      axios.get(`${baseURL}/lexemes/search`, {
-        params: {
-          s: this.query,
-          l: 1,
-          wf: 1,
-          g: 1,
-          pending: 1,
-          page: page
-        } })
+      let url, opts
+      if (isPending) {
+        url = `${baseURL}/feedback/suggest`
+        opts = {
+          params: {
+            page: page
+          }
+        }
+      } else {
+        url = `${baseURL}/lexemes/search`
+        opts = {
+          params: {
+            s: this.query,
+            l: 1,
+            wf: 1,
+            g: 1,
+            pending: 1,
+            page: page
+          }
+        }
+      }
+      axios.get(url, opts)
         .then(response => {
           this.resultCount = response.data.query.result_count
           response.data.results.forEach(r => {
