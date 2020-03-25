@@ -117,8 +117,8 @@ new Vue({
     },
     collectFields: function (wordforms) {
       if (!wordforms || wordforms.length === 0) return []
-      let fields = new Set(['_id', 'surface_form'], Object.keys(wordforms[0]))
-      for (let i = 1; i < wordforms.length; i++) {
+      let fields = new Set(['_id', 'surface_form'])
+      for (let i = 0; i < wordforms.length; i++) {
         for (let f in wordforms[i]) {
           fields.add(f)
         }
