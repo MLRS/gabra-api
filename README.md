@@ -43,3 +43,14 @@ To stop on first failure, use `--bail`
 
 - `master` branch is used for development.
 - `production` branch is kept in sync with live version on MLRS.
+
+**Deploying**
+
+Assuming you're on `master`:
+```
+./deploy -wet
+git checkout production
+git merge master
+git push
+git checkout master
+```
