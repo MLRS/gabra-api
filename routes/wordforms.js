@@ -92,9 +92,9 @@ router.post('/replace/:lexeme_id',
   function (req, res, next) {
     var collection = req.db.get('wordforms')
     var search = req.body.search
-    var replace = req.body.replace
-    if (!search || !replace) {
-      res.status(400).send('Must supply search and replace fields')
+    var replace = req.body.replace || ''
+    if (!search) {
+      res.status(400).send('Must supply search field')
       return
     }
     var conds = {

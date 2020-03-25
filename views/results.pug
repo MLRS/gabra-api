@@ -47,8 +47,8 @@ block content
               th(v-if="loggedIn").text-nowrap
                 a.btn.btn-success.border-0.btn-xs(title="Add wordform",v-bind:href=`'${pageURL}/add/wordforms/' + item.lexeme._id`)
                   +icon('plus')
-                a.btn.btn-primary.border-0.btn-xs.ml-1(title="Generate",v-bind:href=`'${pageURL}/generate/' + item.lexeme._id`)
-                  +icon('cog')
+                a.btn.btn-success.border-0.btn-xs.ml-1(title="Generate",v-bind:href=`'${pageURL}/generate/' + item.lexeme._id`)
+                  +icon('list')
                 a.btn.btn-warning.border-0.btn-xs.ml-1(title="Bulk replace",v-bind:href=`'${pageURL}/replace/' + item.lexeme._id`)
                   +icon('retweet')
               th(v-for="field,ix in item.wordformFields", v-bind:key="ix").text-nowrap
