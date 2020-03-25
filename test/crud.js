@@ -36,7 +36,7 @@ describe('CRUD', function () {
 
   describe('Lexemes', function () {
     const path = '/lexemes'
-    let doc = {lemma: 'ijfp9e48fp4w90j'}
+    let doc = {lemma: 'ijfp9e48fp4w90j', pending: true}
     let doc2 = {lemma: '9e8fjk94fk09dk'}
     var id = null // ID of created test record, from create
 
@@ -49,7 +49,7 @@ describe('CRUD', function () {
           id = res.body._id
           delete res.body._id
         })
-        .expect(200, doc, done)
+        .expect(201, doc, done)
     })
 
     it('read lexeme', function (done) {
@@ -98,7 +98,7 @@ describe('CRUD', function () {
   describe('Wordforms', function () {
     const path = '/wordforms'
     let lexeme_id = '5cbf5064565ea44922694759'
-    let doc = {surface_form: 'ijfp9e48fp4w90j', lexeme_id: lexeme_id}
+    let doc = {surface_form: 'ijfp9e48fp4w90j', lexeme_id: lexeme_id, pending: true}
     let doc2 = {surface_form: '9e8fjk94fk09dk', lexeme_id: lexeme_id}
     var id = null // ID of created test record, from create
 
@@ -111,7 +111,7 @@ describe('CRUD', function () {
           id = res.body._id
           delete res.body._id
         })
-        .expect(200, doc, done)
+        .expect(201, doc, done)
     })
 
     it('read wordform', function (done) {
@@ -159,7 +159,7 @@ describe('CRUD', function () {
 
   describe('Roots', function () {
     const path = '/roots'
-    let doc = {radicals: 'ijfp9e48fp4w90j'}
+    let doc = {radicals: 'ijfp9e48fp4w90j', pending: true}
     let doc2 = {radicals: '9e8fjk94fk09dk'}
     var id = null // ID of created test record, from create
 
@@ -172,7 +172,7 @@ describe('CRUD', function () {
           id = res.body._id
           delete res.body._id
         })
-        .expect(200, doc, done)
+        .expect(201, doc, done)
     })
 
     it('read root', function (done) {

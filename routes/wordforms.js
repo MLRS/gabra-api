@@ -6,6 +6,7 @@ var monk = require('monk')
 
 var log = require('../logger').makeLogger('wordforms')
 var sortWordforms = require('./helpers/sort-wordforms')
+var updateHelper = require('./helpers/update')
 
 // -- Morphological generation -----------------------------------------------
 
@@ -168,7 +169,7 @@ router.post('/',
         return
       }
       log(req, data._id, data, 'created')
-      res.json(data)
+      res.status(201).json(data)
     })
   })
 
@@ -237,21 +238,21 @@ router.post('/:id',
   }),
   function (req, res, next) {
     var collection = req.db.get('wordforms')
-    req.body.lexeme_id = monk.id(req.body.lexeme_id)
-    collection.update(req.params.id, { '$set': req.body }, function (err) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      collection.findOne(req.params.id, function (err, data) {
-        if (err) {
-          res.status(500).send(err)
-          return
-        }
-        log(req, data._id, data, 'modified')
-        res.json(data)
+    var newDoc = req.body
+    newDoc.lexeme_id = monk.id(newDoc.lexeme_id)
+    collection.findOne(req.params.id)
+      .then(doc => {
+        var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
+        return collection.findOneAndUpdate(req.params.id, ops)
       })
-    })
+      .then(updatedDoc => {
+        log(req, updatedDoc._id, updatedDoc, 'modified')
+        res.json(updatedDoc)
+      })
+      .catch(err => {
+        console.error(err)
+        res.status(500).send(err)
+      })
   })
 
 /* Delete = DELETE with ID */
