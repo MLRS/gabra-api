@@ -111,6 +111,10 @@ new Vue({
           this.working = false
         })
     },
+    timestampFromId: function (objectId) {
+      // https://steveridout.github.io/mongo-object-time/
+      return new Date(parseInt(objectId.substring(0, 8), 16) * 1000)
+    },
     collectFields: function (wordforms) {
       if (!wordforms || wordforms.length === 0) return []
       let fields = new Set(['_id', 'surface_form'], Object.keys(wordforms[0]))
