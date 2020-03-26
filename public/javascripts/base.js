@@ -16,16 +16,14 @@ GabraAPI.checkLoggedIn = function () {
   try {
     user = JSON.parse(sessionStorage.getItem('user'))
   } catch (err) {}
-  let btn = document.getElementById('btn-user')
   if (user) {
-    btn.children[1].innerText = user.username
-    btn.disabled = true
-    btn.removeEventListener('click', GabraAPI.login)
+    document.querySelectorAll('[login-show]').forEach(elem => { elem.classList.remove('d-none') })
+    document.querySelectorAll('[login-hide]').forEach(elem => { elem.classList.add('d-none') })
+    document.querySelectorAll('[login-username]').forEach(elem => { elem.innerText = user.username })
     return true
   } else {
-    btn.children[1].innerText = 'Login'
-    btn.disabled = false
-    btn.addEventListener('click', GabraAPI.login)
+    document.querySelectorAll('[login-show]').forEach(elem => { elem.classList.add('d-none') })
+    document.querySelectorAll('[login-hide]').forEach(elem => { elem.classList.remove('d-none') })
     return false
   }
 }

@@ -52,11 +52,17 @@ html(lang="en")
 
         .collapse.navbar-collapse.ml-2.d-flex
           .navbar-nav.mr-auto.flex-row
+            a.nav-item.nav-link(href=pageURL+'/home?admin=1',login-show).d-none Internal
             a.nav-item.nav-link(href=pageURL+'/schema') Schema
             a.nav-item.nav-link(href=pageURL+'/download') Download
-          button.btn.btn-link(disabled)#btn-user
-            +icon('user', '…')
+            a.nav-item.nav-link(href=pageURL+'/pending',login-show).d-none
+              +icon('stream', 'Pending')
+            a.nav-item.nav-link(href=pageURL+'/add/lexemes',login-show).d-none
+              +icon('plus', 'Add')
+          button.btn.btn-link(login-hide,onclick="GabraAPI.login()")
+            +icon('user', 'Login')
+          button.btn.btn-link(login-show,disabled).d-none
+            +icon('user')
+            span(login-username).ml-1
 
     block container
-    //- footer
-      p.mt-5.text-muted.text-center.small Built and maintained by John J. Camilleri
