@@ -1,6 +1,8 @@
 var extend = require('extend')
 module.exports = {
 
+  sourceKey: 'Camilleri2015',
+
   inflect: function (body, callback) {
     var lemma = body.lemma // 'bravu'
     if (!lemma) {
@@ -26,7 +28,7 @@ module.exports = {
       }
     ]
     var extras = {
-      'sources': [sourceKey]
+      'sources': [this.sourceKey]
     }
     for (var f in forms) {
       extend(true, forms[f], extras)
@@ -35,8 +37,6 @@ module.exports = {
     callback(null, forms)
   }
 }
-
-const sourceKey = 'Camilleri2015'
 
 function inflections (lemma) {
   var m = lemma
