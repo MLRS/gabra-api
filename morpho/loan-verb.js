@@ -1,5 +1,7 @@
 module.exports = {
 
+  sourceKey: 'Camilleri2015',
+
   inflect: function (body, callback) {
     var lemma = body.lemma // 'ipparkja'
     if (!lemma) {
@@ -24,13 +26,13 @@ module.exports = {
 
         for (var pol in pol_tbl) {
           var obj = {
-            'surface_form': sf,
+            'surface_form': pol_tbl[pol],
             'aspect': aspect,
             'subject': convertAgr(subject),
             'dir_obj': null,
             'ind_obj': null,
             'polarity': pol,
-            'sources': [sourceKey]
+            'sources': [this.sourceKey]
           }
           forms.push(obj)
         }
@@ -65,8 +67,6 @@ module.exports = {
     callback(null, forms)
   }
 }
-
-const sourceKey = 'Camilleri2015'
 
 //  ---------------------------------------------------------------------------
 //  -- Entry processing
@@ -373,9 +373,17 @@ function objectProns (sf) { // eslint-disable-line no-unused-vars
   return sfxs
 }
 
-function polarity (sf) {
+function polarity (pos) {
+  let neg
+  if (pos.endsWith('ja')) {
+    neg = pos + 'x' // pparkjax
+  } else if (pos.endsWith('a')) {
+    neg = pos.slice(0, -1) + 'iex' // morniex
+  } else {
+    neg = pos + 'x' // sparixxejtx
+  }
   return {
-    'pos': sf,
-    'neg': (sf.slice(-1) === 'a') ? sf.slice(0, -1) + 'iex' : sf + 'x'
+    'pos': pos,
+    'neg': neg
   }
 }

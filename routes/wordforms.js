@@ -23,6 +23,7 @@ router.post('/generate/:paradigm/:lexeme_id?',
     switch (par) {
       case 'loan-verb':
       case 'adjective':
+      case 'noun':
         mg = require('../morpho/' + par)
         break
       default:

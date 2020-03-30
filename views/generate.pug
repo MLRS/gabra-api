@@ -15,8 +15,9 @@ block content
       div.col-10
         select.form-control(v-model="paradigm",v-on:change="tested = false")
           option(value="")
-          option(value="loan-verb") Loan verb
+          option(value="noun") Noun
           option(value="adjective") Adjective
+          option(value="loan-verb") Loan verb
     div.form-group.row
       div.offset-2.col-10
         button.btn.btn-primary(v-on:click="generateWordforms")
