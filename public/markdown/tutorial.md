@@ -76,7 +76,7 @@ Thus when reviewing pending entries, you should **always perform the search your
 ## 4. Adding & editing entries
 
 If you are logged in on the Ġabra API site, when searching you will see an **Edit** button
-<button class="btn btn-xs btn-outline-warning border-0"><i class="fas fa-pen"></i></button>
+<button class="btn btn-sm btn-outline-warning border-0"><i class="fas fa-pen"></i></button>
 next to each lexeme and its wordforms.
 
 From the edit page you can make changes to an entry using the **JSON Editor**.

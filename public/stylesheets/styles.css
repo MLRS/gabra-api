@@ -8,14 +8,22 @@ h3 small {
   /* color: #6c757d!important; /* text-muted */
   color: rgba(0,0,0,.4)!important;
 }
+.bootstrap-dark h1 small,
+.bootstrap-dark h2 small,
+.bootstrap-dark h3 small {
+  color: rgba(255,255,255,.4)!important;
+}
 
 blockquote {
   border-left: 2px solid #dee2e6;
   padding: .5em 1em;
 }
+.bootstrap-dark blockquote {
+  border-color: #343a40;
+}
 
 blockquote p {
-  margin: 0;
+  margin: 0!important;
 }
 
 .text-pre-wrap {
@@ -24,12 +32,18 @@ blockquote p {
 th {
   background: #f8f9fa!important;
 }
-.btn-xs {
-  padding: .1rem .2rem;
-  font-size: .75rem;
-  line-height: 1.5;
-  border-radius: .2rem;
+.bootstrap-dark th {
+  background: #343a40!important;
 }
+
+.btn-sm {
+  padding: .15rem .25rem!important;
+}
+
 .font-size-100 {
   font-size: 100%;
+}
+
+.bootstrap-dark .bg-light {
+  background: #343a40!important;
 }

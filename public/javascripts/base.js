@@ -1,4 +1,10 @@
 /* globals axios GabraAPI sessionStorage */
+GabraAPI.toggleTheme = function () {
+  let body = document.getElementsByTagName('body')[0]
+  body.classList.toggle('bootstrap')
+  body.classList.toggle('bootstrap-dark')
+}
+
 GabraAPI.login = function () {
   axios.get(GabraAPI.baseURL + '/auth/login')
     .then(resp => {

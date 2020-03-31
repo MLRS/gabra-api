@@ -23,7 +23,9 @@ html(lang="en")
         | : 
         =title
 
-    link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
+    //- link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href=baseURL+'/module/@forevolve/bootstrap-dark/dist/css/toggle-bootstrap.min.css')
+    link(rel='stylesheet', href=baseURL+'/module/@forevolve/bootstrap-dark/dist/css/toggle-bootstrap-dark.min.css')
     style
       include ../public/stylesheets/styles.css
 
@@ -37,8 +39,8 @@ html(lang="en")
     script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
 
-  body(role="document", onload="GabraAPI.checkLoggedIn()")
-    nav.navbar.navbar-expand-lg.navbar-light.shadow-sm.sticky-top.bg-light.border-bottom.mb-4
+  body.bootstrap(role="document", onload="GabraAPI.checkLoggedIn()")
+    nav.navbar.navbar-expand-lg.navbar-themed.shadow-sm.sticky-top.border-bottom.mb-4
       .container
         a.navbar-brand.text-red.mr-4(href=baseURL+'/')
           +icon('exchange-alt', 'Ġabra API')
@@ -64,5 +66,7 @@ html(lang="en")
           button.btn.btn-link(login-show,disabled).d-none
             +icon('user')
             span(login-username).ml-1
+          button.btn.btn-link(onclick="GabraAPI.toggleTheme()")
+            +icon('adjust')
 
     block container

@@ -15,6 +15,7 @@
     "lint": "npx eslint ."
   },
   "dependencies": {
+    "@forevolve/bootstrap-dark": "^1.0.0-alpha.937",
     "@json-editor/json-editor": "^2.1.0",
     "async": "^1.4.0",
     "body-parser": "^1.18.3",
