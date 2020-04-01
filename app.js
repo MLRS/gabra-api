@@ -106,6 +106,16 @@ if (config.analyticsCode && process.env.NODE_ENV === 'production') {
   })
 }
 
+// Check dark mode cookie
+app.use(function (req, res, next) {
+  if (req.cookies.theme === 'dark') {
+    res.locals.theme = 'dark'
+  } else {
+    res.locals.theme = 'light'
+  }
+  next()
+})
+
 // Routing
 app.use('/', require('./routes/index'))
 app.use(pagesPath, require('./routes/pages'))

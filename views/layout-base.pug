@@ -39,7 +39,7 @@ html(lang="en")
     script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
 
-  body.bootstrap(role="document", onload="GabraAPI.checkLoggedIn()")
+  body(class=((theme === 'dark') ? 'bootstrap-dark' : 'bootstrap'), role="document", onload="GabraAPI.checkLoggedIn()")
     nav.navbar.navbar-expand-lg.navbar-themed.shadow-sm.sticky-top.border-bottom.mb-4
       .container
         a.navbar-brand.text-red.mr-4(href=baseURL+'/')

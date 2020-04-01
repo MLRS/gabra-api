@@ -3,6 +3,11 @@ GabraAPI.toggleTheme = function () {
   let body = document.getElementsByTagName('body')[0]
   body.classList.toggle('bootstrap')
   body.classList.toggle('bootstrap-dark')
+  if (body.classList.contains('bootstrap-dark')) {
+    document.cookie = 'theme=dark'
+  } else {
+    document.cookie = 'theme=light'
+  }
 }
 
 GabraAPI.login = function () {
