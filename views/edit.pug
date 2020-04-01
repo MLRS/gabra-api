@@ -17,6 +17,21 @@ block content
       line-height: 1.5;
     }
 
+    /* Hide some fields */
+    #editor [data-schemapath="root._id"],
+    #editor [data-schemapath="root.lexeme_id"] {
+      display: none;
+    }
+    
+    /* Raw JSON editor */
+    #editor textarea.form-control {
+      font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size: .9rem;
+      color: #e83e8c;
+      white-space: pre;
+    }
+    
+
   div#editor
 
   script(src=baseURL+'/module/@json-editor/json-editor/dist/jsoneditor.js')

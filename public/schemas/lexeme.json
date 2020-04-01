@@ -65,16 +65,11 @@
       },
       "propertyOrder": 5
     },
-    "gloss": {
-      "type": "string",
-      "description": "English gloss. One sense per line. DEPRECATED",
-      "format": "textarea",
-      "propertyOrder": 6
-    },
     "glosses": {
       "description": "English glosses, with examples",
       "type": "array",
       "items": {
+        "title": "gloss",
         "type": "object",
         "required": [
           "gloss"
@@ -123,6 +118,9 @@
           "maximum": 5
         }
       },
+      "required" : [
+        "radicals"
+      ],
       "examples": [
         { "radicals": "k-t-b" },
         { "radicals": "b-ħ-b-ħ", "variant": 2 }
