@@ -36,7 +36,7 @@ block content
               | {{ field }}
             td.text-pre-wrap.overflow-auto(v-bind:class="{ 'font-weight-bold': field === 'lemma' }")
               | {{ JSON.stringify(val, null, field === 'glosses' ? 4 : null) }}
-        small.text-black-50.mx-1(title="Timestamp (from ObjectId)")
+        small.text-muted.mx-1(title="Timestamp (from ObjectId)")
           | {{ timestampFromId(item.lexeme._id).toISOString() }}
 
       //- Wordforms
@@ -55,7 +55,7 @@ block content
                 | {{ field }}
           tbody
             tr(v-if="item.wordforms.length === 0")
-              td.font-italic.text-black-50 No wordforms
+              td.font-italic.text-muted No wordforms
             tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
               td(v-if="loggedIn").text-nowrap
                 a.btn.btn-outline-info.border-0.btn-sm(title="History",v-bind:href=`'${pageURL}/history/wordforms/' + wf._id`)

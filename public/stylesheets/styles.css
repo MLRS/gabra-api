@@ -1,6 +1,9 @@
 .text-red {
   color: firebrick!important;
 }
+.bootstrap-dark .text-red {
+  color: #d32f2f!important;
+}
 
 h1 small,
 h2 small,
