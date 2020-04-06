@@ -6,8 +6,8 @@ var passport = require('passport')
 var regexquote = require('regexp-quote')
 var monk = require('monk')
 
-var log = require('../logger').makeLogger('lexemes')
-var log_wf = require('../logger').makeLogger('wordforms')
+var log = require('./helpers/logger').makeLogger('lexemes')
+var log_wf = require('./helpers/logger').makeLogger('wordforms')
 var sortWordforms = require('./helpers/sort-wordforms')
 var updateHelper = require('./helpers/update')
 

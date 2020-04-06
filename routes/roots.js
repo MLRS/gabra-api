@@ -3,7 +3,7 @@ var router = express.Router()
 var passport = require('passport')
 var monk = require('monk')
 
-var log = require('../logger').makeLogger('roots')
+var log = require('./helpers/logger').makeLogger('roots')
 var updateHelper = require('./helpers/update')
 
 // -- Search command --------------------------------------------------------

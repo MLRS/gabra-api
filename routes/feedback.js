@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-var log = require('../logger').makeLogger('lexemes')
+var log = require('./helpers/logger').makeLogger('lexemes')
 
 // -- Feedback/'crowdsourcing' methods ---------------------------------------
 

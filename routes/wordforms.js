@@ -4,7 +4,7 @@ var passport = require('passport')
 var async = require('async')
 var monk = require('monk')
 
-var log = require('../logger').makeLogger('wordforms')
+var log = require('./helpers/logger').makeLogger('wordforms')
 var sortWordforms = require('./helpers/sort-wordforms')
 var updateHelper = require('./helpers/update')
 
