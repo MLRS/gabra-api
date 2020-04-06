@@ -25,6 +25,8 @@ block content
               +icon('history')
             a.btn.btn-outline-warning.border-0.btn-sm(title="Edit",v-bind:href=`'${pageURL}/edit/lexemes/' + item.lexeme._id`)
               +icon('pen')
+            button.btn.btn-outline-success.border-0.btn-sm(title="Approve",v-on:click="approveLexeme(item.lexeme._id)",v-if="item.lexeme.pending")
+              +icon('check')
             button.btn.btn-outline-danger.border-0.btn-sm(title="Delete",v-on:click="deleteLexeme(item.lexeme._id)")
               +icon('times')
 

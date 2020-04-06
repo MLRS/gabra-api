@@ -1,6 +1,7 @@
 /* globals Vue axios confirm alert GabraAPI */
 /* eslint-disable no-new */
 const baseURL = GabraAPI.baseURL
+const pageURL = GabraAPI.pageURL
 const urlParams = new URLSearchParams(window.location.search)
 const isPending = window.location.pathname.includes('pending')
 new Vue({
@@ -126,6 +127,18 @@ new Vue({
       let exclude = new Set(['lexeme_id'])
       exclude.forEach((f) => fields.delete(f))
       return Array.from(fields)
+    },
+    approveLexeme: function (id) {
+      if (!id) return
+      axios.post(`${baseURL}/lexemes/unset/${id}`, {
+        'pending': 1
+      })
+        .then(response => {
+          window.location = `${pageURL}/view/${id}`
+        })
+        .catch(error => {
+          alert(error)
+        })
     },
     deleteLexeme: function (id) {
       if (!id) return
