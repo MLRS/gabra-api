@@ -128,7 +128,7 @@ describe('CRUD', function () {
         .then(() =>
           // check wordforms don't exist
           request(server)
-            .delete(`/wordforms/${wordform_id}`)
+            .get(`/wordforms/${wordform_id}`)
             .auth(username, password)
             .expect(404)
         )
@@ -197,8 +197,6 @@ describe('CRUD', function () {
         .auth(username, password)
         .expect(200, done)
     })
-
-    // TODO check wordforms deleted when lemma
   })
 
   // -------------------------------------------------------------------------

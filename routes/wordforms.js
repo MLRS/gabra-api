@@ -155,53 +155,10 @@ router.get('/count', function (req, res) {
 
 // -- CRUD Methods ----------------------------------------------------------
 
-require('./helpers/crud')('wordforms', router)
-
-// TODO
-/* Create = POST */
-/* Content-Type: application/json */
-// router.post('/',
-//   passport.authenticate('basic', {
-//     session: false
-//   }),
-//   function (req, res, next) {
-//     var collection = req.db.get('wordforms')
-//     req.body.lexeme_id = monk.id(req.body.lexeme_id)
-//     collection.insert(req.body, function (err, data) {
-//       if (err) {
-//         res.status(500).send(err)
-//         return
-//       }
-//       log(req, data._id, data, 'created')
-//       res.status(201).json(data)
-//     })
-//   })
-
-// TODO
-// /* Update entire document = POST with ID */
-// /* Content-Type: application/json */
-// /* _id in body should match :id or be omitted (otherwise will fail) */
-// router.post('/:id',
-//   passport.authenticate('basic', {
-//     session: false
-//   }),
-//   function (req, res, next) {
-//     var collection = req.db.get('wordforms')
-//     var newDoc = req.body
-//     newDoc.lexeme_id = monk.id(newDoc.lexeme_id)
-//     collection.findOne(req.params.id)
-//       .then(doc => {
-//         var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
-//         return collection.findOneAndUpdate(req.params.id, ops)
-//       })
-//       .then(updatedDoc => {
-//         log(req, updatedDoc._id, updatedDoc, 'modified')
-//         res.json(updatedDoc)
-//       })
-//       .catch(err => {
-//         console.error(err)
-//         res.status(500).send(err)
-//       })
-//   })
+require('./helpers/crud')('wordforms', router, {
+  withData: function (data) {
+    data.lexeme_id = monk.id(data.lexeme_id)
+  }
+})
 
 module.exports = router

@@ -6,7 +6,7 @@ var passport = require('passport')
 var regexquote = require('regexp-quote')
 var monk = require('monk')
 
-var log = require('./helpers/logger').makeLogger('lexemes')
+var log_l = require('./helpers/logger').makeLogger('lexemes')
 var log_wf = require('./helpers/logger').makeLogger('wordforms')
 var sortWordforms = require('./helpers/sort-wordforms')
 // var updateHelper = require('./helpers/update')
@@ -580,124 +580,6 @@ var searchConditions = function (queryObj) {
 
 // -- CRUD Methods ----------------------------------------------------------
 
-require('./helpers/crud')('lexemes', router)
-
-// /* Create = POST */
-// /* Content-Type: application/json */
-// router.post('/',
-//   passport.authenticate('basic', {
-//     session: false
-//   }),
-//   function (req, res, next) {
-//     var collection = req.db.get('lexemes')
-//     collection.insert(req.body, function (err, data) {
-//       if (err) {
-//         res.status(500).send(err)
-//         return
-//       }
-//       log(req, data._id, data, 'created')
-//       res.status(201).json(data)
-//     })
-//   })
-//
-// /* Index = GET */
-// router.get('/', function (req, res, next) {
-//   var collection = req.db.get('lexemes')
-//   collection.find({}, function (err, data) {
-//     if (err) {
-//       res.status(500).send(err)
-//       return
-//     }
-//     res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
-//     res.json(data)
-//   })
-// })
-//
-// /* Read = GET with ID */
-// router.get('/:id', function (req, res, next) {
-//   var collection = req.db.get('lexemes')
-//   try {
-//     monk.id(req.params.id)
-//   } catch (err) {
-//     res.status(400).send('Invalid ID')
-//     return
-//   }
-//   collection.findOne(req.params.id, function (err, data) {
-//     if (err) {
-//       res.status(500).send(err)
-//       return
-//     }
-//     if (!data) {
-//       res.status(404).end()
-//       return
-//     }
-//     res.json(data)
-//   })
-// })
-//
-// /* Update = POST with ID */
-// /* Content-Type: application/json */
-// /* _id in body should match :id or be omitted (otherwise will fail) */
-// router.post('/:id',
-//   passport.authenticate('basic', {
-//     session: false
-//   }),
-//   function (req, res, next) {
-//     var collection = req.db.get('lexemes')
-//     var newDoc = req.body
-//     collection.findOne(req.params.id)
-//       .then(doc => {
-//         var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
-//         return collection.findOneAndUpdate(req.params.id, ops)
-//       })
-//       .then(updatedDoc => {
-//         log(req, updatedDoc._id, updatedDoc, 'modified')
-//         res.json(updatedDoc)
-//       })
-//       .catch(err => {
-//         console.error(err)
-//         res.status(500).send(err)
-//       })
-//   })
-//
-// /* Set individual fields = POST with ID */
-// /* Content-Type: application/json */
-// router.post('/set/:id',
-//   passport.authenticate('basic', {
-//     session: false
-//   }),
-//   function (req, res, next) {
-//     var collection = req.db.get('lexemes')
-//     collection.findOneAndUpdate(req.params.id, { '$set': req.body })
-//       .then(data => {
-//         log(req, data._id, data, 'modified')
-//         res.json(data)
-//       })
-//       .catch(err => {
-//         console.error(err)
-//         res.status(500).send(err)
-//       })
-//   })
-//
-// /* Unset individual fields = POST with ID */
-// /* Content-Type: application/json */
-// router.post('/unset/:id',
-//   passport.authenticate('basic', {
-//     session: false
-//   }),
-//   function (req, res, next) {
-//     var collection = req.db.get('lexemes')
-//     collection.findOneAndUpdate(req.params.id, { '$unset': req.body })
-//       .then(data => {
-//         log(req, data._id, data, 'modified')
-//         res.json(data)
-//       })
-//       .catch(err => {
-//         console.error(err)
-//         res.status(500).send(err)
-//       })
-//   })
-
 /* Delete = DELETE with ID */
 router.delete('/:id',
   passport.authenticate('basic', {
@@ -707,34 +589,30 @@ router.delete('/:id',
     var coll_l = req.db.get('lexemes')
     var coll_wf = req.db.get('wordforms')
     var lexeme_id = monk.id(req.params.id)
-    coll_l.remove(lexeme_id, function (err) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      log(req, req.params.id, null, 'deleted')
-
-      // First find wordforms so we can log them
-      coll_wf.find({'lexeme_id': lexeme_id}, function (err, data) {
-        if (err) {
-          console.error(err)
-          return
-        }
-        data.forEach(function (item) {
-          log_wf(req, item._id, null, 'deleted')
-        })
-
-        // Then delete wordforms
-        coll_wf.remove({'lexeme_id': lexeme_id}, function (err) {
-          if (err) {
-            res.status(500).send(err)
-            return
-          }
-          res.end()
-        })
+    coll_l.remove(lexeme_id)
+      .then(() => {
+        log_l(req, req.params.id, null, 'deleted')
+        // First find wordforms
+        return coll_wf.find({'lexeme_id': lexeme_id})
       })
-      res.end()
-    })
+      .then(data =>
+        // Then delete and log each wordform
+        Promise.all(data.map(item =>
+          coll_wf.remove({'lexeme_id': lexeme_id})
+            .then(() => {
+              log_wf(req, item._id, null, 'deleted')
+            })
+        ))
+      )
+      .then(() => {
+        res.end()
+      })
+      .catch(err => {
+        console.error(err)
+        res.status(500).send(err)
+      })
   })
+
+require('./helpers/crud')('lexemes', router)
 
 module.exports = router

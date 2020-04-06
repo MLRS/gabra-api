@@ -1,9 +1,6 @@
 var express = require('express')
 var router = express.Router()
-// var passport = require('passport')
-// var monk = require('monk')
-// var log = require('./helpers/logger').makeLogger('roots')
-// var updateHelper = require('./helpers/update')
+var monk = require('monk')
 
 // -- Search command --------------------------------------------------------
 
@@ -244,44 +241,36 @@ var doTasks = function (tasks, callback) {
 
 // -- CRUD Methods ----------------------------------------------------------
 
-require('./helpers/crud')('roots', router)
+/* Read = GET with ID or radicals+variant */
+router.get('/:id_or_radicals/:variant?', function (req, res, next) {
+  var collection = req.db.get('roots')
+  let conds
+  try {
+    // Try by ID
+    conds = monk.id(req.params.id_or_radicals)
+  } catch (err) {
+    // Try by radicals
+    conds = {
+      'radicals': req.params.id_or_radicals
+    }
+    if (req.params.variant) {
+      conds['variant'] = parseInt(req.params.variant, 10)
+    }
+  }
+  collection.findOne(conds)
+    .then(data => {
+      if (!data) {
+        res.status(404).end()
+        return
+      }
+      res.json(data)
+    })
+    .catch(err => {
+      console.error(err)
+      res.status(500).send(err)
+    })
+})
 
-// TODO
-// /* Read = GET with ID or radicals+variant */
-// router.get('/:id_or_radicals/:variant?', function (req, res, next) {
-//   var collection = req.db.get('roots')
-//   try {
-//     // Try by ID
-//     var root_id = monk.id(req.params.id_or_radicals)
-//     collection.findOne(root_id, function (err, data) {
-//       if (err) {
-//         res.status(500).send(err)
-//         return
-//       }
-//       res.json(data)
-//     })
-//   } catch (err) {
-//     // Try by radicals
-//     var conds = {
-//       'radicals': req.params.id_or_radicals
-//     }
-//     if (req.params.variant) {
-//       conds['variant'] = parseInt(req.params.variant, 10)
-//     }
-//     var opts = {
-//     }
-//     collection.findOne(conds, opts, function (err, data) {
-//       if (err) {
-//         res.status(500).send(err)
-//         return
-//       }
-//       if (!data) {
-//         res.status(404).end()
-//         return
-//       }
-//       res.json(data)
-//     })
-//   }
-// })
+require('./helpers/crud')('roots', router)
 
 module.exports = router

@@ -1,7 +1,7 @@
 // Add CRUD methods to a route
 // TODO support overrides
 
-module.exports = function (collectionName, router) {
+module.exports = function (collectionName, router, opts) {
   var monk = require('monk')
   var passport = require('passport')
   var log = require('./logger').makeLogger(collectionName)
@@ -15,6 +15,9 @@ module.exports = function (collectionName, router) {
     }),
     function (req, res, next) {
       var collection = req.db.get(collectionName)
+      if (opts && typeof opts['withData'] === 'function') {
+        opts.withData(req.body)
+      }
       collection.insert(req.body)
         .then(data => {
           log(req, data._id, data, 'created')
@@ -73,6 +76,9 @@ module.exports = function (collectionName, router) {
     function (req, res, next) {
       var collection = req.db.get(collectionName)
       var newDoc = req.body
+      if (opts && typeof opts['withData'] === 'function') {
+        opts.withData(newDoc)
+      }
       collection.findOne(req.params.id)
         .then(doc => {
           var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
