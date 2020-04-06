@@ -6,7 +6,7 @@ var monk = require('monk')
 
 var log = require('./helpers/logger').makeLogger('wordforms')
 var sortWordforms = require('./helpers/sort-wordforms')
-var updateHelper = require('./helpers/update')
+// var updateHelper = require('./helpers/update')
 
 // -- Morphological generation -----------------------------------------------
 
@@ -155,122 +155,53 @@ router.get('/count', function (req, res) {
 
 // -- CRUD Methods ----------------------------------------------------------
 
+require('./helpers/crud')('wordforms', router)
+
+// TODO
 /* Create = POST */
 /* Content-Type: application/json */
-router.post('/',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('wordforms')
-    req.body.lexeme_id = monk.id(req.body.lexeme_id)
-    collection.insert(req.body, function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      log(req, data._id, data, 'created')
-      res.status(201).json(data)
-    })
-  })
-
-// /* Index = GET */
-// router.get('/', function (req, res, next) {
-//   var collection = req.db.get('wordforms')
-//   collection.find({}, function (err, data) {
-//     if (err) {
-//       res.status(500).send(err)
-//       return
-//     }
-//     res.json(data)
-//     res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
-//   })
-// })
-
-/* Read = GET with ID */
-router.get('/:id', function (req, res, next) {
-  var collection = req.db.get('wordforms')
-  try {
-    monk.id(req.params.id)
-  } catch (err) {
-    res.status(400).send('Invalid ID').end()
-    return
-  }
-  collection.findOne(req.params.id, function (err, data) {
-    if (err) {
-      res.status(500).send(err)
-      return
-    }
-    res.json(data)
-  })
-})
-
-/* Set individual fields = POST with ID */
-/* Content-Type: application/json */
-/* _id in body should match :id or be omitted (otherwise will fail) */
-// router.post('/set/:id',
+// router.post('/',
 //   passport.authenticate('basic', {
 //     session: false
 //   }),
 //   function (req, res, next) {
 //     var collection = req.db.get('wordforms')
-//     collection.update(req.params.id, { '$set': req.body }, function (err) {
+//     req.body.lexeme_id = monk.id(req.body.lexeme_id)
+//     collection.insert(req.body, function (err, data) {
 //       if (err) {
 //         res.status(500).send(err)
 //         return
 //       }
-//       collection.find(req.params.id, function (err, data) {
-//         if (err) {
-//           res.status(500).send(err)
-//           return
-//         }
-//         log(req, data._id, data, 'modified')
-//         res.json(data)
-//       })
+//       log(req, data._id, data, 'created')
+//       res.status(201).json(data)
 //     })
 //   })
 
-/* Update entire document = POST with ID */
-/* Content-Type: application/json */
-/* _id in body should match :id or be omitted (otherwise will fail) */
-router.post('/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('wordforms')
-    var newDoc = req.body
-    newDoc.lexeme_id = monk.id(newDoc.lexeme_id)
-    collection.findOne(req.params.id)
-      .then(doc => {
-        var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
-        return collection.findOneAndUpdate(req.params.id, ops)
-      })
-      .then(updatedDoc => {
-        log(req, updatedDoc._id, updatedDoc, 'modified')
-        res.json(updatedDoc)
-      })
-      .catch(err => {
-        console.error(err)
-        res.status(500).send(err)
-      })
-  })
-
-/* Delete = DELETE with ID */
-router.delete('/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('wordforms')
-    collection.remove(req.params.id, function (err) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      log(req, req.params.id, null, 'deleted')
-      res.end()
-    })
-  })
+// TODO
+// /* Update entire document = POST with ID */
+// /* Content-Type: application/json */
+// /* _id in body should match :id or be omitted (otherwise will fail) */
+// router.post('/:id',
+//   passport.authenticate('basic', {
+//     session: false
+//   }),
+//   function (req, res, next) {
+//     var collection = req.db.get('wordforms')
+//     var newDoc = req.body
+//     newDoc.lexeme_id = monk.id(newDoc.lexeme_id)
+//     collection.findOne(req.params.id)
+//       .then(doc => {
+//         var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
+//         return collection.findOneAndUpdate(req.params.id, ops)
+//       })
+//       .then(updatedDoc => {
+//         log(req, updatedDoc._id, updatedDoc, 'modified')
+//         res.json(updatedDoc)
+//       })
+//       .catch(err => {
+//         console.error(err)
+//         res.status(500).send(err)
+//       })
+//   })
 
 module.exports = router

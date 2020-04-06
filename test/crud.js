@@ -38,6 +38,7 @@ describe('CRUD', function () {
     const path = '/lexemes'
     let doc = {lemma: 'ijfp9e48fp4w90j', pending: true}
     let doc2 = {lemma: '9e8fjk94fk09dk'}
+    let wf = {surface_form: 'sdof8ewmf09w8m'}
     var id = null // ID of created test record, from create
 
     it('create lexeme', function (done) {
@@ -90,6 +91,49 @@ describe('CRUD', function () {
         .delete(`${path}/${id}`)
         .auth(username, password)
         .expect(200, done)
+    })
+
+    it('delete lexeme with wordforms', function (done) {
+      let lexeme_id
+      let wordform_id
+
+      // create lexeme
+      request(server)
+        .post(`/lexemes`)
+        .auth(username, password)
+        .send(doc)
+        .expect(201)
+        .then(res => {
+          lexeme_id = res.body._id
+          wf.lexeme_id = lexeme_id
+        })
+        .then(() =>
+          // add wordforms
+          request(server)
+            .post(`/wordforms`)
+            .auth(username, password)
+            .send(wf)
+            .expect(201)
+        )
+        .then(res => {
+          wordform_id = res.body._id
+        })
+        .then(() =>
+          // delete lexeme
+          request(server)
+            .delete(`/lexemes/${lexeme_id}`)
+            .auth(username, password)
+            .expect(200)
+        )
+        .then(() =>
+          // check wordforms don't exist
+          request(server)
+            .delete(`/wordforms/${wordform_id}`)
+            .auth(username, password)
+            .expect(404)
+        )
+        .then(() => { done() })
+        .catch(done)
     })
   })
 
@@ -153,6 +197,8 @@ describe('CRUD', function () {
         .auth(username, password)
         .expect(200, done)
     })
+
+    // TODO check wordforms deleted when lemma
   })
 
   // -------------------------------------------------------------------------

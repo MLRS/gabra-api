@@ -9,7 +9,7 @@ var monk = require('monk')
 var log = require('./helpers/logger').makeLogger('lexemes')
 var log_wf = require('./helpers/logger').makeLogger('wordforms')
 var sortWordforms = require('./helpers/sort-wordforms')
-var updateHelper = require('./helpers/update')
+// var updateHelper = require('./helpers/update')
 
 // -- Searching methods -----------------------------------------------------
 
@@ -580,83 +580,123 @@ var searchConditions = function (queryObj) {
 
 // -- CRUD Methods ----------------------------------------------------------
 
-/* Create = POST */
-/* Content-Type: application/json */
-router.post('/',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('lexemes')
-    collection.insert(req.body, function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      log(req, data._id, data, 'created')
-      res.status(201).json(data)
-    })
-  })
+require('./helpers/crud')('lexemes', router)
 
-/* Index = GET */
-router.get('/', function (req, res, next) {
-  var collection = req.db.get('lexemes')
-  collection.find({}, function (err, data) {
-    if (err) {
-      res.status(500).send(err)
-      return
-    }
-    res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
-    res.json(data)
-  })
-})
-
-/* Read = GET with ID */
-router.get('/:id', function (req, res, next) {
-  var collection = req.db.get('lexemes')
-  try {
-    monk.id(req.params.id)
-  } catch (err) {
-    res.status(400).send('Invalid ID')
-    return
-  }
-  collection.findOne(req.params.id, function (err, data) {
-    if (err) {
-      res.status(500).send(err)
-      return
-    }
-    if (!data) {
-      res.status(404).end()
-      return
-    }
-    res.json(data)
-  })
-})
-
-/* Update = POST with ID */
-/* Content-Type: application/json */
-/* _id in body should match :id or be omitted (otherwise will fail) */
-router.post('/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('lexemes')
-    var newDoc = req.body
-    collection.findOne(req.params.id)
-      .then(doc => {
-        var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
-        return collection.findOneAndUpdate(req.params.id, ops)
-      })
-      .then(updatedDoc => {
-        log(req, updatedDoc._id, updatedDoc, 'modified')
-        res.json(updatedDoc)
-      })
-      .catch(err => {
-        console.error(err)
-        res.status(500).send(err)
-      })
-  })
+// /* Create = POST */
+// /* Content-Type: application/json */
+// router.post('/',
+//   passport.authenticate('basic', {
+//     session: false
+//   }),
+//   function (req, res, next) {
+//     var collection = req.db.get('lexemes')
+//     collection.insert(req.body, function (err, data) {
+//       if (err) {
+//         res.status(500).send(err)
+//         return
+//       }
+//       log(req, data._id, data, 'created')
+//       res.status(201).json(data)
+//     })
+//   })
+//
+// /* Index = GET */
+// router.get('/', function (req, res, next) {
+//   var collection = req.db.get('lexemes')
+//   collection.find({}, function (err, data) {
+//     if (err) {
+//       res.status(500).send(err)
+//       return
+//     }
+//     res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
+//     res.json(data)
+//   })
+// })
+//
+// /* Read = GET with ID */
+// router.get('/:id', function (req, res, next) {
+//   var collection = req.db.get('lexemes')
+//   try {
+//     monk.id(req.params.id)
+//   } catch (err) {
+//     res.status(400).send('Invalid ID')
+//     return
+//   }
+//   collection.findOne(req.params.id, function (err, data) {
+//     if (err) {
+//       res.status(500).send(err)
+//       return
+//     }
+//     if (!data) {
+//       res.status(404).end()
+//       return
+//     }
+//     res.json(data)
+//   })
+// })
+//
+// /* Update = POST with ID */
+// /* Content-Type: application/json */
+// /* _id in body should match :id or be omitted (otherwise will fail) */
+// router.post('/:id',
+//   passport.authenticate('basic', {
+//     session: false
+//   }),
+//   function (req, res, next) {
+//     var collection = req.db.get('lexemes')
+//     var newDoc = req.body
+//     collection.findOne(req.params.id)
+//       .then(doc => {
+//         var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
+//         return collection.findOneAndUpdate(req.params.id, ops)
+//       })
+//       .then(updatedDoc => {
+//         log(req, updatedDoc._id, updatedDoc, 'modified')
+//         res.json(updatedDoc)
+//       })
+//       .catch(err => {
+//         console.error(err)
+//         res.status(500).send(err)
+//       })
+//   })
+//
+// /* Set individual fields = POST with ID */
+// /* Content-Type: application/json */
+// router.post('/set/:id',
+//   passport.authenticate('basic', {
+//     session: false
+//   }),
+//   function (req, res, next) {
+//     var collection = req.db.get('lexemes')
+//     collection.findOneAndUpdate(req.params.id, { '$set': req.body })
+//       .then(data => {
+//         log(req, data._id, data, 'modified')
+//         res.json(data)
+//       })
+//       .catch(err => {
+//         console.error(err)
+//         res.status(500).send(err)
+//       })
+//   })
+//
+// /* Unset individual fields = POST with ID */
+// /* Content-Type: application/json */
+// router.post('/unset/:id',
+//   passport.authenticate('basic', {
+//     session: false
+//   }),
+//   function (req, res, next) {
+//     var collection = req.db.get('lexemes')
+//     collection.findOneAndUpdate(req.params.id, { '$unset': req.body })
+//       .then(data => {
+//         log(req, data._id, data, 'modified')
+//         res.json(data)
+//       })
+//       .catch(err => {
+//         console.error(err)
+//         res.status(500).send(err)
+//       })
+//   })
 
 /* Delete = DELETE with ID */
 router.delete('/:id',

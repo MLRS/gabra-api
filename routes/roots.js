@@ -1,10 +1,9 @@
 var express = require('express')
 var router = express.Router()
-var passport = require('passport')
-var monk = require('monk')
-
-var log = require('./helpers/logger').makeLogger('roots')
-var updateHelper = require('./helpers/update')
+// var passport = require('passport')
+// var monk = require('monk')
+// var log = require('./helpers/logger').makeLogger('roots')
+// var updateHelper = require('./helpers/update')
 
 // -- Search command --------------------------------------------------------
 
@@ -245,115 +244,44 @@ var doTasks = function (tasks, callback) {
 
 // -- CRUD Methods ----------------------------------------------------------
 
-/* Index = GET */
-router.get('/', function (req, res, next) {
-  var collection = req.db.get('roots')
-  collection.find({}, function (err, data) {
-    if (err) {
-      res.status(500).send(err)
-      return
-    }
-    res.setHeader('Cache-Control', 'public, max-age=604800') // 7 days
-    res.json(data)
-  })
-})
+require('./helpers/crud')('roots', router)
 
-/* Create = POST */
-/* Content-Type: application/json */
-router.post('/',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('roots')
-    collection.insert(req.body, function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      log(req, data._id, data, 'created')
-      res.status(201).json(data)
-    })
-  })
-
-/* Read = GET with ID or radicals+variant */
-router.get('/:id_or_radicals/:variant?', function (req, res, next) {
-  var collection = req.db.get('roots')
-  try {
-    // Try by ID
-    var root_id = monk.id(req.params.id_or_radicals)
-    collection.findOne(root_id, function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      res.json(data)
-    })
-  } catch (err) {
-    // Try by radicals
-    var conds = {
-      'radicals': req.params.id_or_radicals
-    }
-    if (req.params.variant) {
-      conds['variant'] = parseInt(req.params.variant, 10)
-    }
-    var opts = {
-    }
-    collection.findOne(conds, opts, function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      if (!data) {
-        res.status(404).end()
-        return
-      }
-      res.json(data)
-    })
-  }
-})
-
-/* Update = POST with ID */
-/* Content-Type: application/json */
-/* _id in body should match :id or be omitted (otherwise will fail) */
-router.post('/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var collection = req.db.get('roots')
-    var newDoc = req.body
-    collection.findOne(req.params.id)
-      .then(doc => {
-        var ops = updateHelper.prepareUpdateOperations(doc, newDoc)
-        return collection.findOneAndUpdate(req.params.id, ops)
-      })
-      .then(updatedDoc => {
-        log(req, updatedDoc._id, updatedDoc, 'modified')
-        res.json(updatedDoc)
-      })
-      .catch(err => {
-        console.error(err)
-        res.status(500).send(err)
-      })
-  })
-
-/* Delete = DELETE with ID */
-router.delete('/:id',
-  passport.authenticate('basic', {
-    session: false
-  }),
-  function (req, res, next) {
-    var coll_r = req.db.get('roots')
-    var root_id = monk.id(req.params.id)
-    coll_r.remove(root_id, function (err) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-      log(req, root_id, null, 'deleted')
-      res.end()
-    })
-  })
+// TODO
+// /* Read = GET with ID or radicals+variant */
+// router.get('/:id_or_radicals/:variant?', function (req, res, next) {
+//   var collection = req.db.get('roots')
+//   try {
+//     // Try by ID
+//     var root_id = monk.id(req.params.id_or_radicals)
+//     collection.findOne(root_id, function (err, data) {
+//       if (err) {
+//         res.status(500).send(err)
+//         return
+//       }
+//       res.json(data)
+//     })
+//   } catch (err) {
+//     // Try by radicals
+//     var conds = {
+//       'radicals': req.params.id_or_radicals
+//     }
+//     if (req.params.variant) {
+//       conds['variant'] = parseInt(req.params.variant, 10)
+//     }
+//     var opts = {
+//     }
+//     collection.findOne(conds, opts, function (err, data) {
+//       if (err) {
+//         res.status(500).send(err)
+//         return
+//       }
+//       if (!data) {
+//         res.status(404).end()
+//         return
+//       }
+//       res.json(data)
+//     })
+//   }
+// })
 
 module.exports = router
