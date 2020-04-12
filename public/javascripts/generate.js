@@ -38,6 +38,17 @@ new Vue({
       axios.get(`${baseURL}/lexemes/${this.lexemeID}`)
         .then(response => {
           this.lexeme = response.data
+          switch (this.lexeme.pos) {
+            case 'NOUN':
+              this.paradigm = 'noun'
+              break
+            case 'ADJ':
+              this.paradigm = 'adjective'
+              break
+            case 'VERB':
+              this.paradigm = 'loan-verb'
+              break
+          }
         })
         .catch(error => {
           console.error(error)
