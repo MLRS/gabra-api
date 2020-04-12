@@ -27,7 +27,8 @@ block content
         button.btn.btn-light.border(v-on:click="cancel")
           | Cancel
         //- Loader
-        i.btn.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
+        .btn.py-0(v-show="working")
+          i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger
     
     //- Wordforms
     div.w-100.overflow-auto.small

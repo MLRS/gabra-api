@@ -34,7 +34,8 @@ block content
           input.form-check-input(type="checkbox",v-model="onlyShowChanged")#check1
           label.form-check-label(for="check1") Only show changed ({{ newSurfaceForms.size }})
         //- Loader
-        i.btn.fas.fa-circle-notch.fa-2x.fa-spin.text-danger(v-show="working")
+        .btn.py-0(v-show="working")
+          i.fas.fa-circle-notch.fa-2x.fa-spin.text-danger
     
     //- Wordforms
     div.w-100.overflow-auto.small
