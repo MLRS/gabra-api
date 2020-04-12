@@ -64,6 +64,8 @@ block content
                   +icon('history')
                 a.btn.btn-outline-warning.border-0.btn-sm.ml-1(title="Edit",v-bind:href=`'${pageURL}/edit/wordforms/' + wf._id`)
                   +icon('pen')
+                button.btn.btn-outline-success.border-0.btn-sm(title="Approve",v-on:click="approveWordform(wf._id)",v-if="wf.pending || wf.generated")
+                  +icon('check')
                 button.btn.btn-outline-danger.border-0.btn-sm(title="Delete",v-on:click="deleteWordform(wf.lexeme_id, wf._id)")
                   +icon('times')
               td.overflow-auto.text-truncate(v-for="field,ix in item.wordformFields", v-bind:key="ix", v-bind:class="{ 'font-weight-bold': field === 'surface_form' }")

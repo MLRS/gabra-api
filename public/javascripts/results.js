@@ -140,6 +140,19 @@ new Vue({
           alert(error)
         })
     },
+    approveWordform: function (id) {
+      if (!id) return
+      axios.post(`${baseURL}/wordforms/unset/${id}`, {
+        'pending': 1,
+        'generated': 1
+      })
+        .then(response => {
+          window.location = `${pageURL}/view/${response.data.lexeme_id}`
+        })
+        .catch(error => {
+          alert(error)
+        })
+    },
     deleteLexeme: function (id) {
       if (!id) return
       if (!confirm(`Are you sure you want to delete lexeme ${id}?`)) return
