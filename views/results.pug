@@ -50,7 +50,7 @@ block content
                 a.btn.btn-success.border-0.btn-sm(title="Add wordform",v-bind:href=`'${pageURL}/add/wordforms/' + item.lexeme._id`)
                   +icon('plus')
                 a.btn.btn-success.border-0.btn-sm.ml-1(title="Generate",v-bind:href=`'${pageURL}/generate/' + item.lexeme._id`)
-                  +icon('list')
+                  +icon('magic')
                 a.btn.btn-warning.border-0.btn-sm.ml-1(title="Bulk replace",v-bind:href=`'${pageURL}/replace/' + item.lexeme._id`)
                   +icon('retweet')
               th(v-for="field,ix in item.wordformFields", v-bind:key="ix").text-nowrap

@@ -76,6 +76,10 @@ router.post('/generate/:paradigm/:lexeme_id?',
         })
       } else {
         // Just return forms
+        forms = forms.map(wf => {
+          wf['generated'] = true
+          return wf
+        })
         res.json(forms)
       }
     })
