@@ -10,7 +10,33 @@ var sortWordforms = require('./helpers/sort-wordforms')
 
 // -- Morphological generation -----------------------------------------------
 
-/* Generate */
+// Must match filenames in ../morpho/
+const paradigms = [
+  {
+    name: 'loan-verb',
+    fields: ['lemma']
+  },
+  {
+    name: 'adjective',
+    fields: ['lemma']
+  },
+  {
+    name: 'noun',
+    fields: ['lemma']
+  },
+  {
+    name: 'noun-possessives',
+    fields: ['lemma', 'number', 'gender']
+  }
+]
+const paradigmNames = paradigms.map(p => p.name)
+
+/* List generation paradigms */
+router.get('/generate', function (req, res, next) {
+  res.json(paradigms)
+})
+
+/* Run generation */
 /* Content-Type: application/json */
 router.post('/generate/:paradigm/:lexeme_id?',
   passport.authenticate('basic', {
@@ -19,18 +45,11 @@ router.post('/generate/:paradigm/:lexeme_id?',
   function (req, res, next) {
     // Load inflector dynamically
     var par = req.params.paradigm
-    var mg
-    switch (par) {
-      case 'loan-verb':
-      case 'adjective':
-      case 'noun':
-        mg = require('../morpho/' + par)
-        break
-      default:
-        res.status(400).send('Unknown paradigm ' + par)
-        return
+    if (!paradigmNames.contains(par)) {
+      res.status(400).send('Unknown paradigm ' + par)
+      return
     }
-
+    var mg = require('../morpho/' + par)
     mg.inflect(req.body, function (err, forms) {
       if (err) {
         res.status(400).send(err)

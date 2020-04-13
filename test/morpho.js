@@ -9,6 +9,19 @@ function contains (forms, form) {
   }, `${JSON.stringify(form)} not found in forms`)
 }
 
+// Convert array index to agr object
+function toAgr (ix) {
+  return [
+    {'person': 'p1', 'number': 'sg'},
+    {'person': 'p2', 'number': 'sg'},
+    {'person': 'p3', 'number': 'sg', 'gender': 'm'},
+    {'person': 'p3', 'number': 'sg', 'gender': 'f'},
+    {'person': 'p1', 'number': 'pl'},
+    {'person': 'p2', 'number': 'pl'},
+    {'person': 'p3', 'number': 'pl'}
+  ][ix]
+}
+
 /* Tests for feedback functionality */
 describe('Morphological generation', function () {
   describe('Adjectives', function () {
@@ -96,20 +109,98 @@ describe('Morphological generation', function () {
     })
   })
 
+  describe('Noun possessives', function () {
+    const gen = require('../morpho/noun-possessives')
+
+    function check (doc, goldforms, done) {
+      gen.inflect(
+        doc,
+        function (err, forms) {
+          if (err) {
+            done(err)
+            return
+          }
+          for (let ix in goldforms) {
+            let gold = {
+              'surface_form': goldforms[ix],
+              'possessor': toAgr(ix)
+            }
+            if (doc.hasOwnProperty('gender')) gold['gender'] = doc.gender
+            if (doc.hasOwnProperty('number')) gold['number'] = doc.number
+            contains(forms, gold)
+          }
+          done()
+        }
+      )
+    }
+
+    it('omm', function (done) {
+      check({
+        'lemma': 'omm',
+        'gender': 'f',
+        'number': 'sg'
+      }, [
+        'ommi',
+        'ommok',
+        'ommu',
+        'ommha',
+        'ommna',
+        'ommkom',
+        'ommhom'
+      ],
+      done)
+    })
+    it('kelma', function (done) {
+      check({
+        'lemma': 'kelma',
+        'gender': 'f',
+        'number': 'sg'
+      }, [
+        'kelmti',
+        'kelmtek',
+        'kelmtu',
+        'kelmtha',
+        'kelmtna',
+        'kelmtkom',
+        'kelmthom'
+      ],
+      done)
+    })
+    it('nannu', function (done) {
+      check({
+        'lemma': 'nannu',
+        'gender': 'm',
+        'number': 'sg'
+      }, [
+        'nannuwi',
+        'nannuk',
+        'nannuh',
+        'nannuha',
+        'nannuna',
+        'nannukom',
+        'nannuhom'
+      ],
+      done)
+    })
+    it('nanniet', function (done) {
+      check({
+        'lemma': 'nanniet',
+        'number': 'pl'
+      }, [
+        'nannieti',
+        'nannietek',
+        'nannietu',
+        'nannietha',
+        'nannietna',
+        'nannietkom',
+        'nanniethom'
+      ],
+      done)
+    })
+  })
+
   describe('Loan verbs', function () {
     const gen = require('../morpho/loan-verb')
-
-    function toAgr (ix) {
-      return [
-        {'person': 'p1', 'number': 'sg'},
-        {'person': 'p2', 'number': 'sg'},
-        {'person': 'p3', 'number': 'sg', 'gender': 'm'},
-        {'person': 'p3', 'number': 'sg', 'gender': 'f'},
-        {'person': 'p1', 'number': 'pl'},
-        {'person': 'p2', 'number': 'pl'},
-        {'person': 'p3', 'number': 'pl'}
-      ][ix]
-    }
 
     function check (lemma, tbl, done) {
       gen.inflect(

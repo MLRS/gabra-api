@@ -12,22 +12,23 @@ Non-public API for editing. These methods generally require authorisation.
 | `GET`    | `/lexemes/:id`       | Read                         | -                                               | Document     |
 | `POST`   | `/lexemes/:id`       | Update                       | Entire document                                 | Document     |
 | `POST`   | `/lexemes/set/:id`   | Set/update individual fields | Document with fields to update                  | Document     |
-| `POST`   | `/lexemes/unset/:id` | Remove inidividual fields    | Documnet with fields to remove (values ignored) | Document     |
+| `POST`   | `/lexemes/unset/:id` | Remove inidividual fields    | Document with fields to remove (values ignored) | Document     |
 | `DELETE` | `/lexemes/:id`       | Delete (including wordforms) | -                                               | -            |
 
 
 ## Wordforms
 
-| Method   | URL                                         | Description                                                    | Payload*                                                   | Return Value        |
-|:---------|:--------------------------------------------|:---------------------------------------------------------------|:-----------------------------------------------------------|:--------------------|
-| `POST`   | `/wordforms/`                               | Create                                                         | Entire document                                            | Document            |
-| `GET`    | `/wordforms/:id`                            | Read                                                           | -                                                          | Document            |
-| `POST`   | `/wordforms/:id`                            | Update                                                         | Entire document                                            | Document            |
-| `POST`   | `/wordforms/set/:id`                        | Set/update individual fields                                   | Document with fields to update                             | Document            |
-| `POST`   | `/wordforms/unset/:id`                      | Remove inidividual fields                                      | Documnet with fields to remove (values ignored)            | Document            |
-| `DELETE` | `/wordforms/:id`                            | Delete                                                         | -                                                          | -                   |
-| `POST`   | `/wordforms/replace/:lexeme_id`             | Search/replace in wordforms                                    | `{search: (string), replace: (string), commit: (boolean)}` | Affected documents  |
-| `POST`   | `/wordforms/generate/:paradigm/:lexeme_id?` | Generate inflections (`lexeme_id` is required when committing) | `{lemma: (string), commit: (boolean)}`                     | Generated documents |
+| Method   | URL                                         | Description                                                    | Payload*                                                   | Return Value                         |
+|:---------|:--------------------------------------------|:---------------------------------------------------------------|:-----------------------------------------------------------|:-------------------------------------|
+| `POST`   | `/wordforms/`                               | Create                                                         | Entire document                                            | Document                             |
+| `GET`    | `/wordforms/:id`                            | Read                                                           | -                                                          | Document                             |
+| `POST`   | `/wordforms/:id`                            | Update                                                         | Entire document                                            | Document                             |
+| `POST`   | `/wordforms/set/:id`                        | Set/update individual fields                                   | Document with fields to update                             | Document                             |
+| `POST`   | `/wordforms/unset/:id`                      | Remove inidividual fields                                      | Documnet with fields to remove (values ignored)            | Document                             |
+| `DELETE` | `/wordforms/:id`                            | Delete                                                         | -                                                          | -                                    |
+| `POST`   | `/wordforms/replace/:lexeme_id`             | Search/replace in wordforms                                    | `{search: (string), replace: (string), commit: (boolean)}` | Affected documents                   |
+| `GET`    | `/wordforms/generate`                       | List inflection paradigms                                      | -                                                          | Paradigms with their expected fields |
+| `POST`   | `/wordforms/generate/:paradigm/:lexeme_id?` | Generate inflections (`lexeme_id` is required when committing) | `{lemma: (string), commit: (boolean)}`                     | Generated documents                  |
 
 ## Roots
 
