@@ -140,14 +140,24 @@ new Vue({
           alert(error)
         })
     },
-    approveWordform: function (id) {
-      if (!id) return
-      axios.post(`${baseURL}/wordforms/unset/${id}`, {
+    approveWordform: function (wf_id) {
+      if (!wf_id) return
+      axios.post(`${baseURL}/wordforms/unset/${wf_id}`, {
         'pending': 1,
         'generated': 1
       })
         .then(response => {
-          window.location = `${pageURL}/view/${response.data.lexeme_id}`
+          let lexeme_id = response.data.lexeme_id
+          this.results.forEach(r => {
+            if (r.lexeme._id === lexeme_id) {
+              r.wordforms.forEach(wf => {
+                if (wf._id === wf_id) {
+                  Vue.delete(wf, 'generated')
+                  Vue.delete(wf, 'pending')
+                }
+              })
+            }
+          })
         })
         .catch(error => {
           alert(error)
