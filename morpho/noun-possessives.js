@@ -48,10 +48,10 @@ module.exports = {
     var extras = {
       'sources': [this.sourceKey]
     }
-    if (body.hasOwnProperty('gender')) {
+    if (body.gender) {
       extras['gender'] = body.gender
     }
-    if (body.hasOwnProperty('number')) {
+    if (body.number) {
       extras['number'] = body.number
     }
     for (let f in forms) {

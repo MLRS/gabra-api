@@ -8,16 +8,14 @@ block content
     
     //- Form
     div.form-group.row
-      label.col-2.col-form-label.font-weight-bold Lemma
-      label.col-10.col-form-label {{ lexeme ? lexeme.lemma : '…' }}
-    div.form-group.row
       label.col-2.col-form-label.font-weight-bold Paradigm
       div.col-10
         select.form-control(v-model="paradigm",v-on:change="tested = false")
-          option(value="")
-          option(value="noun") Noun
-          option(value="adjective") Adjective
-          option(value="loan-verb") Loan verb
+          option(v-for="n,p in paradigms",v-bind:value="p") {{ n.name }}
+    div.form-group.row(v-for="f,ix in formFields",v-bind:key="ix")
+      label.col-2.col-form-label.font-weight-bold {{ f }}
+      div.col-10
+        input.form-control(type="text",v-model="lexeme[f]")
     div.form-group.row
       div.offset-2.col-10
         button.btn.btn-primary(v-on:click="generateWordforms")

@@ -10,26 +10,25 @@ var sortWordforms = require('./helpers/sort-wordforms')
 
 // -- Morphological generation -----------------------------------------------
 
-// Must match filenames in ../morpho/
-const paradigms = [
-  {
-    name: 'loan-verb',
+// Keys must match filenames in ../morpho/
+const paradigms = {
+  'loan-verb': {
+    name: 'Loan verb',
     fields: ['lemma']
   },
-  {
-    name: 'adjective',
+  'adjective': {
+    name: 'Adjective',
     fields: ['lemma']
   },
-  {
-    name: 'noun',
+  'noun': {
+    name: 'Noun',
     fields: ['lemma']
   },
-  {
-    name: 'noun-possessives',
+  'noun-possessives': {
+    name: 'Noun possessives',
     fields: ['lemma', 'number', 'gender']
   }
-]
-const paradigmNames = paradigms.map(p => p.name)
+}
 
 /* List generation paradigms */
 router.get('/generate', function (req, res, next) {
@@ -45,7 +44,7 @@ router.post('/generate/:paradigm/:lexeme_id?',
   function (req, res, next) {
     // Load inflector dynamically
     var par = req.params.paradigm
-    if (!paradigmNames.contains(par)) {
+    if (!paradigms.hasOwnProperty(par)) {
       res.status(400).send('Unknown paradigm ' + par)
       return
     }
