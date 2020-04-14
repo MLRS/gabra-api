@@ -9,6 +9,7 @@ var fields = {
   'ind_obj': agr_fields,
   'dir_obj': agr_fields,
   'subject': agr_fields,
+  'possessor': agr_fields,
   'polarity': ['pos', 'neg'],
   'number': ['sg', 'sgv', 'coll', 'dl', 'pl', 'sp'],
   'gender': ['m', 'f', 'mf']
