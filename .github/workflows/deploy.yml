@@ -18,8 +18,6 @@ jobs:
       with:
         PING_URL: '10.249.1.100'
         FILE_OVPN: '.github/vpn/config.ovpn'
-        # SECRET: ${{ secrets.SECRET_USERNAME_PASSWORD }}
-        # TLS_KEY: ${{ secrets.TLS_KEY }}
       env:
         CA_CRT: ${{ secrets.CA_CRT }}
         USER_CRT: ${{ secrets.USER_CRT }}
@@ -27,6 +25,9 @@ jobs:
         
     - name: Check Connect VPN
       run: echo ${{ steps.connect_vpn.outputs.STATUS }}
+      
+    - name: Run deploy script
+      run: ./deploy.sh
       
     - name: Close VPN
       if: always()
