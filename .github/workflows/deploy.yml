@@ -26,6 +26,15 @@ jobs:
     - name: Check Connect VPN
       run: echo ${{ steps.connect_vpn.outputs.STATUS }}
       
+    # - name: Add host key to known_hosts
+    #   run: mkdir -p ~/.ssh && ssh-keyscan 10.249.1.100 >> ~/.ssh/known_hosts
+
+    - name: Create SSH folder
+      run: mkdir -p ~/.ssh && chmod 700 ~/.ssh
+      
+    - name: Copy SSH settings
+      run: cp .github/vpn/config.ssh ~/.ssh/config && chmod 600 ~/.ssh/config
+      
     - name: Run deploy script
       run: ./deploy.sh
       
