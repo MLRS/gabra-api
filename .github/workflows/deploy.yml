@@ -16,7 +16,7 @@ jobs:
       uses: golfzaptw/action-connect-ovpn@master
       id: connect_vpn
       with:
-        PING_URL: '10.249.1.100'
+        # PING_URL: '10.249.1.100'
         FILE_OVPN: '.github/vpn/config.ovpn'
       env:
         CA_CRT: ${{ secrets.CA_CRT }}
@@ -26,14 +26,13 @@ jobs:
     - name: Check Connect VPN
       run: echo ${{ steps.connect_vpn.outputs.STATUS }}
       
-    # - name: Add host key to known_hosts
-    #   run: mkdir -p ~/.ssh && ssh-keyscan 10.249.1.100 >> ~/.ssh/known_hosts
-
-    - name: Create SSH folder
-      run: mkdir -p ~/.ssh && chmod 700 ~/.ssh
-      
-    - name: Copy SSH settings
-      run: cp .github/vpn/config.ssh ~/.ssh/config && chmod 600 ~/.ssh/config
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        cp .github/vpn/config.ssh ~/.ssh/config
+        chmod 600 ~/.ssh/config
+        ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
       
     - name: Run deploy script
       run: ./deploy.sh
