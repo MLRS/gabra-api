@@ -3,3 +3,6 @@ server-config.js
 node_modules
 public/data
 deploy*
+ca.crt
+user.crt
+user.key

@@ -46,11 +46,10 @@ To stop on first failure, use `--bail`
 
 **Deploying**
 
-Assuming you're on `master`:
+Pushing to production will trigger a deploy via GitHub actions.
+
+Assuming production can be fast-forwarded:
 ```
-./deploy -wet
-git checkout production
-git merge master
-git push
-git checkout master
+git push . master:production
+git push origin production
 ```
