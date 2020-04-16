@@ -58,18 +58,13 @@ router.post('/generate/:paradigm/:lexeme_id?',
       var lexeme_id = req.params.lexeme_id
       if (lexeme_id && req.body.commit === true) {
         // Insert into DB
-        var lemma = req.body.lemma // 'ipparkja'
         req.db.get('lexemes').findOne(lexeme_id, function (err, data) {
           if (err) {
-            res.status(400).send('find error')
+            res.status(400).send(err)
             return
           }
           if (!data) {
-            res.status(400).send('lexeme ' + lexeme_id + ' not found')
-            return
-          }
-          if (data.lemma !== lemma) {
-            res.status(400).send('Lemma mis-match: ' + lemma + ' / ' + data.lemma)
+            res.status(400).send('Lexeme ' + lexeme_id + ' not found')
             return
           }
 
