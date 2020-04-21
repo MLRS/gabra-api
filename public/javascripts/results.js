@@ -50,7 +50,7 @@ new Vue({
           axios.get(`${baseURL}/lexemes/wordforms/${response.data._id}`)
             .then(resp => {
               r.wordforms = resp.data
-              r.wordformFields = this.collectFields(resp.data)
+              r.wordformFields = this.collectWordformFields(resp.data)
             })
             .catch(error => {
               console.error(error)
@@ -97,7 +97,7 @@ new Vue({
             axios.get(`${baseURL}/lexemes/wordforms/${r.lexeme._id}`)
               .then(resp => {
                 r.wordforms = resp.data
-                r.wordformFields = this.collectFields(resp.data)
+                r.wordformFields = this.collectWordformFields(resp.data)
               })
               .catch(error => {
                 console.error(error)
@@ -116,7 +116,7 @@ new Vue({
       // https://steveridout.github.io/mongo-object-time/
       return new Date(parseInt(objectId.substring(0, 8), 16) * 1000)
     },
-    collectFields: function (wordforms) {
+    collectWordformFields: function (wordforms) {
       if (!wordforms || wordforms.length === 0) return []
       let fields = new Set(['_id', 'surface_form'])
       for (let i = 0; i < wordforms.length; i++) {
@@ -139,6 +139,13 @@ new Vue({
         .catch(error => {
           alert(error)
         })
+    },
+    approveAllWordforms: function (lexeme_id) {
+      let lexeme = this.results.find(r => r.lexeme._id === lexeme_id)
+      if (!lexeme) return
+      lexeme.wordforms.forEach(wf => {
+        this.approveWordform(wf._id)
+      })
     },
     approveWordform: function (wf_id) {
       if (!wf_id) return

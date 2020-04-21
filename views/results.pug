@@ -51,6 +51,8 @@ block content
                   +icon('plus')
                 a.btn.btn-success.border-0.btn-sm.ml-1(title="Generate",v-bind:href=`'${pageURL}/generate/' + item.lexeme._id`)
                   +icon('magic')
+                button.btn.btn-outline-success.border-0.btn-sm(title="Approve all",v-on:click="approveAllWordforms(item.lexeme._id)")
+                  +icon('check')
                 a.btn.btn-warning.border-0.btn-sm.ml-1(title="Bulk replace",v-bind:href=`'${pageURL}/replace/' + item.lexeme._id`)
                   +icon('retweet')
               th(v-for="field,ix in item.wordformFields", v-bind:key="ix").text-nowrap
