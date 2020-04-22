@@ -33,11 +33,11 @@ block content
       //- Lexeme
       div.mr-3
         table.table.table-sm.d-block.mb-0
-          tr(v-for="val,field in item.lexeme",v-bind:key="field")
+          tr(v-for="field,ix in item.lexemeFields",v-bind:key="field")
             th
               | {{ field }}
             td.text-pre-wrap.overflow-auto(v-bind:class="{ 'font-weight-bold': field === 'lemma' }")
-              | {{ JSON.stringify(val, null, field === 'glosses' ? 4 : null) }}
+              | {{ JSON.stringify(item.lexeme[field], null, field === 'glosses' ? 4 : null) }}
         small.text-muted.mx-1(title="Timestamp (from ObjectId)")
           | {{ timestampFromId(item.lexeme._id).toISOString() }}
 
@@ -60,7 +60,7 @@ block content
           tbody
             tr(v-if="item.wordforms.length === 0")
               td.font-italic.text-muted No wordforms
-            tr(v-for="wf, ix in item.wordforms", v-bind:key="ix")
+            tr(v-for="wf,ix in item.wordforms", v-bind:key="ix")
               td(v-if="loggedIn").text-nowrap
                 a.btn.btn-outline-info.border-0.btn-sm(title="History",v-bind:href=`'${pageURL}/history/wordforms/' + wf._id`)
                   +icon('history')

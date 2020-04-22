@@ -44,6 +44,7 @@ new Vue({
           this.resultCount = 1
           let r = {
             lexeme: response.data,
+            lexemeFields: this.collectLexemeFields(response.data),
             wordforms: null // not loaded (yet)
           }
           this.results = [r]
@@ -93,6 +94,7 @@ new Vue({
           this.resultCount = response.data.query.result_count
           response.data.results.forEach(r => {
             r.wordforms = null // not loaded (yet)
+            r.lexemeFields = this.collectLexemeFields(r.lexeme)
             this.results.push(r)
             axios.get(`${baseURL}/lexemes/wordforms/${r.lexeme._id}`)
               .then(resp => {
@@ -116,16 +118,32 @@ new Vue({
       // https://steveridout.github.io/mongo-object-time/
       return new Date(parseInt(objectId.substring(0, 8), 16) * 1000)
     },
+    collectLexemeFields: function (lexeme) {
+      if (!lexeme) return []
+      let fields = new Set(['lemma'])
+      for (let f in lexeme) {
+        fields.add(f)
+      }
+      let exclude = new Set(['_id'])
+      exclude.forEach((f) => fields.delete(f))
+      // TODO sort fields
+      // let sortFields = ['lemma', 'alternatives']
+      // return Array.from(fields).sort((a, b) => {
+      //
+      // })
+      return Array.from(fields)
+    },
     collectWordformFields: function (wordforms) {
       if (!wordforms || wordforms.length === 0) return []
-      let fields = new Set(['_id', 'surface_form'])
+      let fields = new Set(['surface_form'])
       for (let i = 0; i < wordforms.length; i++) {
         for (let f in wordforms[i]) {
           fields.add(f)
         }
       }
-      let exclude = new Set(['lexeme_id'])
+      let exclude = new Set(['_id', 'lexeme_id'])
       exclude.forEach((f) => fields.delete(f))
+      // TODO sort fields
       return Array.from(fields)
     },
     approveLexeme: function (id) {
