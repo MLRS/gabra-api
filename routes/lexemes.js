@@ -150,64 +150,52 @@ router.get('/search', function (req, res) {
     opts['sort'] = {'lemma': 1}
   }
 
-  // Do final search and return
-  function ret () {
-    collection.find(conds_l, opts, function (err, docs) {
-      if (err) {
-        console.error(err)
-        res.status(500).end()
-        return
-      }
-
-      // wrap in 'lexeme'
-      var docs2 = docs.map(function (doc) {
-        return {
-          'lexeme': doc
-        }
-      })
-
-      var show_count = true // always
-      // var show_count = queryObj.page === 1 // first page
-      // var show_count = false // never
-
-      if (show_count) {
-        collection.count(conds_l, function (err, count) {
-          if (err) {
-            console.error(err)
-          }
-          queryObj.result_count = count
-          res.json({
-            'results': docs2,
-            'query': queryObj
-          })
-        })
-      } else {
-        // When page > 1 don't count
-        queryObj.result_count = null
-        res.json({
-          'results': docs2,
-          'query': queryObj
-        })
-      }
-    })
-  }
-
   // Separate query to search in wordforms first
+  var wordformSearch
   if (queryObj.search_wordforms && queryObj.term && queryObj.term.length >= min_length_wf) {
     var conds_wf = {}
     addCondition(conds_wf, 'surface_form', queryObj.term, {prefix: true})
     addCondition(conds_wf, 'alternatives', queryObj.term, {prefix: true})
-    db.get('wordforms').distinct('lexeme_id', conds_wf, function (err, lex_ids) {
-      if (err) {
+    wordformSearch = db.get('wordforms').distinct('lexeme_id', conds_wf)
+      .then(lex_ids => {
+        if (lex_ids.length > 0) {
+          addOr(conds_l, '_id', {'$in': lex_ids})
+        }
+      })
+      .catch(err => {
         console.error(err)
-      } else if (lex_ids.length > 0) {
-        addOr(conds_l, '_id', {'$in': lex_ids})
-      }
-      ret()
-    })
+      })
   } else {
-    ret()
+    wordformSearch = new Promise(function (resolve, reject) {
+      resolve()
+    })
   }
+
+  // Do final search and return
+  wordformSearch
+    .then(() => {
+      return Promise.all([
+        collection.find(conds_l, opts),
+        collection.count(conds_l)
+      ])
+    .then(values => {
+      var docs = values[0]
+      var count = values[1]
+      queryObj.result_count = count
+      res.json({
+        'results': docs.map(doc => {
+          return {
+            'lexeme': doc
+          }
+        }),
+        'query': queryObj
+      })
+    })
+    .catch(err => {
+      console.error(err)
+      res.status(500).end()
+    })
+  })
 })
 
 /*
