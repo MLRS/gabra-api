@@ -73,6 +73,7 @@ new Vue({
         url = `${baseURL}/feedback/suggest`
         opts = {
           params: {
+            sort: urlParams.get('sort'), // 'oldest', 'newest'
             page: page
           }
         }

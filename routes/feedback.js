@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var log = require('./helpers/logger').makeLogger('lexemes')
+const get = require('./helpers/safe-access')
 
 // -- Feedback/'crowdsourcing' methods ---------------------------------------
 
@@ -16,7 +17,9 @@ router.get('/suggest', function (req, res, next) {
   var opts = {
     'limit': page_size,
     'skip': page_size * (page - 1),
-    'sort': {'_id': -1}
+    'sort': {
+      '_id': get(req.query, 'sort') === 'oldest' ? 1 : -1
+    }
   }
   collection.find(conds, opts, function (err, data) {
     if (err) {
