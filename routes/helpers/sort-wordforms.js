@@ -19,22 +19,22 @@ var sortF = function (a, b, fields) {
   for (var f in fields) {
     var has_a = a.hasOwnProperty(f)
     var has_b = b.hasOwnProperty(f)
-    // if (!has_a && !has_b) continue
-    // if (!has_a) return -1 // a is smaller
-    // if (!has_b) return 1 // b is smaller
 
+    // missing or empty fields
     var blank_a = !has_a || a[f] === null || a[f] === ''
     var blank_b = !has_b || b[f] === null || b[f] === ''
     if (blank_a && blank_b) continue
     if (blank_a) return -1 // a is smaller
     if (blank_b) return 1 // b is smaller
 
+    // sort recursively (agreements)
     if (typeof fields[f] === 'object' && !Array.isArray(fields[f])) {
       var s = sortF(a[f], b[f], fields[f])
       if (s === 0) continue
       else return s
     }
 
+    // sort by values specified above
     var afx = fields[f].indexOf(a[f])
     var bfx = fields[f].indexOf(b[f])
     if (afx === -1) return 1
@@ -43,7 +43,16 @@ var sortF = function (a, b, fields) {
     // otherwise keep going to next field
   }
 
-  // nothing to compare on
+  // tried all fields, sort on surface_form
+  if (a.hasOwnProperty('surface_form') && b.hasOwnProperty('surface_form')) {
+    if (a.surface_form < b.surface_form) {
+      return -1
+    } else if (a.surface_form > b.surface_form) {
+      return 1
+    }
+  }
+
+  // nothing else to sort on, must be
   return 0
 }
 

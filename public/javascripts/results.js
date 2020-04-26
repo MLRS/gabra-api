@@ -127,11 +127,6 @@ new Vue({
       }
       let exclude = new Set(['_id'])
       exclude.forEach((f) => fields.delete(f))
-      // TODO sort fields
-      // let sortFields = ['lemma', 'alternatives']
-      // return Array.from(fields).sort((a, b) => {
-      //
-      // })
       return Array.from(fields)
     },
     collectWordformFields: function (wordforms) {
