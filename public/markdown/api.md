@@ -76,13 +76,13 @@ Load the wordforms for a particular lexeme.
 
 > [/lexemes/wordforms/5200a366e36f237975000f26](#{baseURL}/lexemes/wordforms/5200a366e36f237975000f26)
 
-| Argument          | Description                               | Example                                  |
-|:------------------|:------------------------------------------|:-----------------------------------------|
-| `:id` (required)  | Lexeme ID                                 | `5200a366e36f237975000f26`               |
-| `match`           | Limit to surface forms matching substring | `kom`                                    |
-| `pending`         | Include pending entries?                  | `0` (default) or `1`                   | |
-| `exclude_sources` | Exclude wordforms from given sources      | 'Camilleri2013,Apertium2014'             |
-| `sort`            | Sort wordforms                            | `0` or `1` (default)                     |
+| Argument          | Description                               | Example                      |
+|:------------------|:------------------------------------------|:-----------------------------|
+| `:id` (required)  | Lexeme ID                                 | `5200a366e36f237975000f26`   |
+| `match`           | Limit to surface forms matching substring | `kom`                        |
+| `pending`         | Include pending entries?                  | `0` (default) or `1`         |
+| `exclude_sources` | Exclude wordforms from given sources      | `Camilleri2013,Apertium2014` |
+| `sort`            | Sort wordforms                            | `0` or `1` (default)         |
 
 ### Load related lexemes <small>Since v2.4</small>
 
