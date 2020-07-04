@@ -2,6 +2,10 @@ extends layout-fluid
 
 block content
   #app
+    div
+      div(v-for="err,ix in errors",v-bind:key="ix").alert.alert-danger
+        | {{ err }}
+    
     h3
       span(v-if="lexemeID")
         | View lexeme {{ lexemeID }}
@@ -43,7 +47,9 @@ block content
 
       //- Wordforms
       div.w-100.overflow-auto
-        table.table.table-sm.table-hover(v-if="item.wordforms")
+        div(v-show="item.error").alert.alert-danger
+          | {{ item.error }}
+        table.table.table-sm.table-hover(v-if="item.wordforms && !item.error")
           thead
             tr
               th(v-if="loggedIn").text-nowrap

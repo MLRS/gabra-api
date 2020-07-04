@@ -1,4 +1,4 @@
-/* globals Vue axios confirm alert GabraAPI */
+/* globals Vue axios confirm GabraAPI */
 /* eslint-disable no-new */
 const baseURL = GabraAPI.baseURL
 const pageURL = GabraAPI.pageURL
@@ -13,7 +13,8 @@ new Vue({
     page: 1,
     results: [],
     resultCount: '…',
-    loggedIn: GabraAPI.checkLoggedIn()
+    loggedIn: GabraAPI.checkLoggedIn(),
+    errors: []
   },
   computed: {
     moreResults: function () {
@@ -36,9 +37,17 @@ new Vue({
     }
   },
   methods: {
+    handleError: function (error) {
+      this.errors.push(error)
+    },
+    clearErrors: function () {
+      this.errors = []
+    },
+
     // get lexeme
     loadLexeme: function () {
       this.working = true
+      this.clearErrors()
       axios.get(`${baseURL}/lexemes/${this.lexemeID}`)
         .then(response => {
           this.resultCount = 1
@@ -58,9 +67,7 @@ new Vue({
               r.wordforms = []
             })
         })
-        .catch(error => {
-          console.error(error)
-        })
+        .catch(this.handleError)
         .then(() => {
           this.working = false
         })
@@ -68,6 +75,7 @@ new Vue({
     // get search results / pending
     loadResults: function (page = 1) {
       this.working = true
+      this.clearErrors()
       let url, opts
       if (isPending) {
         url = `${baseURL}/feedback/suggest`
@@ -94,6 +102,7 @@ new Vue({
         .then(response => {
           this.resultCount = response.data.query.result_count
           response.data.results.forEach(r => {
+            r.error = null
             r.wordforms = null // not loaded (yet)
             r.lexemeFields = this.collectLexemeFields(r.lexeme)
             this.results.push(r)
@@ -103,14 +112,12 @@ new Vue({
                 r.wordformFields = this.collectWordformFields(resp.data)
               })
               .catch(error => {
-                console.error(error)
+                r.error = error
                 r.wordforms = []
               })
           })
         })
-        .catch(error => {
-          console.error(error)
-        })
+        .catch(this.handleError)
         .then(() => {
           this.working = false
         })
@@ -144,15 +151,14 @@ new Vue({
     },
     approveLexeme: function (id) {
       if (!id) return
+      this.clearErrors()
       axios.post(`${baseURL}/lexemes/unset/${id}`, {
         'pending': 1
       })
         .then(response => {
           window.location = `${pageURL}/view/${id}`
         })
-        .catch(error => {
-          alert(error)
-        })
+        .catch(this.handleError)
     },
     approveAllWordforms: function (lexeme_id) {
       let lexeme = this.results.find(r => r.lexeme._id === lexeme_id)
@@ -163,6 +169,7 @@ new Vue({
     },
     approveWordform: function (wf_id) {
       if (!wf_id) return
+      this.clearErrors()
       axios.post(`${baseURL}/wordforms/unset/${wf_id}`, {
         'pending': 1,
         'generated': 1
@@ -180,24 +187,22 @@ new Vue({
             }
           })
         })
-        .catch(error => {
-          alert(error)
-        })
+        .catch(this.handleError)
     },
     deleteLexeme: function (id) {
       if (!id) return
       if (!confirm(`Are you sure you want to delete lexeme ${id}?`)) return
+      this.clearErrors()
       axios.delete(`${baseURL}/lexemes/${id}`)
         .then(response => {
           window.location.reload()
         })
-        .catch(error => {
-          alert(error)
-        })
+        .catch(this.handleError)
     },
     deleteWordform: function (lexeme_id, wf_id) {
       if (!lexeme_id || !wf_id) return
       if (!confirm(`Are you sure you want to delete wordform ${wf_id}?`)) return
+      this.clearErrors()
       axios.delete(`${baseURL}/wordforms/${wf_id}`)
         .then(response => {
           this.results.forEach(r => {
@@ -208,9 +213,7 @@ new Vue({
             }
           })
         })
-        .catch(error => {
-          alert(error)
-        })
+        .catch(this.handleError)
     }
   }
 })
