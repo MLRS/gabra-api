@@ -22,13 +22,23 @@ describe('Search', function () {
         res.body.query.result_count.should.be.greaterThanOrEqual(opts.result_count)
       }
 
-      // Results should contain these lemmas (in any order)
+      // Lexeme results should contain these lemmas (in any order)
       if (opts.lemmas) {
         for (let i in opts.lemmas) {
           let lemma = opts.lemmas[i]
           res.body.results.should.matchAny(function (value) {
             value.lexeme.lemma.should.equal(lemma)
-          }, 'lemma "' + lemma + '" not found in results')
+          }, `lemma "${lemma}" not found in results`)
+        }
+      }
+
+      // Wordform results should contain these surface forms (in any order)
+      if (opts.surface_forms) {
+        for (let i in opts.surface_forms) {
+          let sf = opts.surface_forms[i]
+          res.body.results.should.matchAny(function (value) {
+            value.wordform.surface_form.should.equal(sf)
+          }, `surface form "${sf}" not found in results`)
         }
       }
 
@@ -88,6 +98,24 @@ describe('Search', function () {
         .get(mkqs('book'))
         .expect(200)
         .end(checkResponse({lemmas: ['ktieb', 'ktejjeb', 'pitazz']}, done))
+    })
+  })
+
+  // -------------------------------------------------------------------------
+
+  describe('Search suggest', function () {
+    it('suggest lexeme', function (done) {
+      request(server)
+        .get('/lexemes/search_suggest?s=Hareg')
+        .expect(200)
+        .end(checkResponse({lemmas: ['ħareġ']}, done))
+    })
+
+    it('suggest wordform', function (done) {
+      request(server)
+        .get('/wordforms/search_suggest?s=harget')
+        .expect(200)
+        .end(checkResponse({surface_forms: ['ħarġet']}, done))
     })
   })
 

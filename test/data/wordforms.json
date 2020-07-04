@@ -123,5 +123,79 @@
         "Camilleri2013"
     ],
     "pending" : true
+},
+{
+  "aspect": "perf",
+  "dir_obj": null,
+  "generated": true,
+  "ind_obj": null,
+  "lexeme": {
+    "lemma": "ħareġ",
+    "pos": "VERB"
+  },
+  "phonetic": "hrɪʧt",
+  "polarity": "pos",
+  "sources": ["Camilleri2013"],
+  "subject": {
+    "person": "p1",
+    "number": "sg"
+  },
+  "surface_form": "ħriġt"
+},
+{
+  "aspect": "perf",
+  "dir_obj": null,
+  "generated": true,
+  "ind_obj": null,
+  "lexeme": {
+    "lemma": "ħareġ",
+    "pos": "VERB"
+  },
+  "phonetic": "hrɪʧt",
+  "polarity": "pos",
+  "sources": ["Camilleri2013"],
+  "subject": {
+    "person": "p2",
+    "number": "sg"
+  },
+  "surface_form": "ħriġt"
+},
+{
+  "aspect": "perf",
+  "dir_obj": null,
+  "generated": true,
+  "ind_obj": null,
+  "lexeme": {
+    "lemma": "ħareġ",
+    "pos": "VERB"
+  },
+  "phonetic": "hɐrɛʧ",
+  "polarity": "pos",
+  "sources": ["Camilleri2013"],
+  "subject": {
+    "person": "p3",
+    "number": "sg",
+    "gender": "m"
+  },
+  "surface_form": "ħareġ"
+},
+{
+  "aspect": "perf",
+  "dir_obj": null,
+  "generated": true,
+  "ind_obj": null,
+  "lexeme": {
+    "lemma": "ħareġ",
+    "pos": "VERB"
+  },
+  "phonetic": "hɐrʤɛt",
+  "polarity": "pos",
+  "sources": ["Camilleri2013"],
+  "subject": {
+    "person": "p3",
+    "number": "sg",
+    "gender": "f"
+  },
+  "surface_form": "ħarġet"
 }
 ]

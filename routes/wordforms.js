@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var passport = require('passport')
 var async = require('async')
+var regexquote = require('regexp-quote')
 var monk = require('monk')
 
 var log = require('./helpers/logger').makeLogger('wordforms')
@@ -153,6 +154,57 @@ router.post('/replace/:lexeme_id',
       }
     })
   })
+
+/*
+ * GET search suggest
+ */
+router.get('/search_suggest', function (req, res) {
+  var db = req.db
+
+  var orig = req.query.s
+  var s = regexquote(orig)
+
+  // Handle capitalisation
+  s = s.toLowerCase()
+  // s = s.replace(/^\[(.+?)\]/, function (m,c,o,s) { return '[' + c.toLowerCase() + c.toUpperCase() + ']'})
+  // s = s.replace(/^([^\[])/, function (m,c,o,s) { return '[' + c.toUpperCase() + ']'})
+
+  // Handle diacritics
+  s = s.replace(/c/g, 'ċ')
+  s = s.replace(/g/g, '[gġ]')
+  s = s.replace(/h/g, '[hħ]')
+  s = s.replace(/z/g, '[zż]')
+
+  // No substrings
+  s = s.replace(/^\^/, '')
+  s = s.replace(/\$$/, '')
+  s = '^' + s + '$'
+
+  var query = {
+    'surface_form': {'$regex': s, '$ne': orig},
+    'pending': {'$ne': true}
+  }
+  var opts = {
+    'projection': {
+      'surface_form': true,
+      'lexeme_id': true
+    }
+  }
+  db.get('wordforms').find(query, opts)
+    .catch(function (err) {
+      console.error(err)
+      res.status(500).end()
+    })
+    .then(function (data) {
+      res.json({
+        'results': data.map((l) => { return {'wordform': l} }),
+        'query': {
+          'term': orig,
+          'result_count': data.length
+        }
+      })
+    })
+})
 
 /*
  * GET count

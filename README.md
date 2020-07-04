@@ -39,6 +39,16 @@ Run all tests with `npm test`.
 Run an individual testsuite with `npx mocha --exit test/schema.js` or use the `--grep` flag.
 To stop on first failure, use `--bail`
 
+### Using test data
+
+1. Set DB URL in `server-config.js` to `...gabra-test` (or something else)
+2. ```
+node scripts/node/populate.js test/data/*.json
+node scripts/node/resolve-lexeme-ids.js
+node scripts/node/create-indexes.js
+(cd scripts/node && ./run.js update-glosses-collection.js)
+```
+
 ## Repository
 
 - `master` branch is used for development.

@@ -178,24 +178,24 @@ router.get('/search', function (req, res) {
         collection.find(conds_l, opts),
         collection.count(conds_l)
       ])
-    .then(values => {
-      var docs = values[0]
-      var count = values[1]
-      queryObj.result_count = count
-      res.json({
-        'results': docs.map(doc => {
-          return {
-            'lexeme': doc
-          }
-        }),
-        'query': queryObj
-      })
+        .then(values => {
+          var docs = values[0]
+          var count = values[1]
+          queryObj.result_count = count
+          res.json({
+            'results': docs.map(doc => {
+              return {
+                'lexeme': doc
+              }
+            }),
+            'query': queryObj
+          })
+        })
+        .catch(err => {
+          console.error(err)
+          res.status(500).end()
+        })
     })
-    .catch(err => {
-      console.error(err)
-      res.status(500).end()
-    })
-  })
 })
 
 /*
@@ -312,17 +312,16 @@ router.get('/search_suggest', function (req, res) {
   // s = s.replace(/^([^\[])/, function (m,c,o,s) { return '[' + c.toUpperCase() + ']'})
 
   // Handle diacritics
-  s = s.replace(/^\^/, '')
-  s = s.replace(/\$$/, '')
   s = s.replace(/c/g, 'ċ')
   s = s.replace(/g/g, '[gġ]')
   s = s.replace(/h/g, '[hħ]')
   s = s.replace(/z/g, '[zż]')
 
   // No substrings
+  s = s.replace(/^\^/, '')
+  s = s.replace(/\$$/, '')
   s = '^' + s + '$'
 
-  var collection = db.get('lexemes')
   var query = {
     '$or': [
       {
@@ -334,23 +333,24 @@ router.get('/search_suggest', function (req, res) {
     ],
     'pending': {'$ne': true}
   }
+
   var opts = {
     'projection': {'lemma': true}
   }
-  collection.find(query, opts, function (err, docs) {
-    if (err) {
+  db.get('lexemes').find(query, opts)
+    .catch(function (err) {
       console.error(err)
       res.status(500).end()
-      return
-    }
-    res.json({
-      'results': docs,
-      'query': {
-        'term': orig,
-        'result_count': docs.length
-      }
     })
-  })
+    .then(function (data) {
+      res.json({
+        'results': data.map((l) => { return {'lexeme': l} }),
+        'query': {
+          'term': orig,
+          'result_count': data.length
+        }
+      })
+    })
 })
 
 /*

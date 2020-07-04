@@ -96,11 +96,13 @@ The results are sorted by part of speech and derived form, and will not include 
 |:-----------------|:------------|:---------------------------|
 | `:id` (required) | Lexeme ID   | `5200a366e36f237975000f26` |
 
-### Search suggest
+### Search suggest <small>Changed in v2.13</small>
 
-List variations in spelling (diacritics, character case) of a search term, from lemmas:
+Find matching words which vary in spelling (diacritics, character case) of the search term, from lemmas or wordforms:
 
 > [/lexemes/search_suggest?s=Hareg](#{baseURL}/lexemes/search_suggest?s=Hareg)
+
+> [/wordforms/search_suggest?s=ohorgu](#{baseURL}/wordforms/search_suggest?s=ohorgu)
 
 | Argument       | Description  | Example |
 |:---------------|:-------------|:--------|
