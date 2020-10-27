@@ -195,14 +195,6 @@
         "f"
       ]
     },
-    "frequency": {
-      "type": "string",
-      "enum": [
-        "common",
-        "uncommon",
-        "rare"
-      ]
-    },
     "transitive": {
       "type": "boolean",
       "format": "checkbox"
