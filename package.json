@@ -17,7 +17,7 @@
   "dependencies": {
     "@forevolve/bootstrap-dark": "^1.0.0-alpha.937",
     "@json-editor/json-editor": "^2.1.0",
-    "async": "^1.4.0",
+    "async": "^3.2.2",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.4.1",
     "compression": "^1.7.4",
