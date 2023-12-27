@@ -104,18 +104,32 @@ describe('Search', function () {
   // -------------------------------------------------------------------------
 
   describe('Search suggest', function () {
-    it('suggest lexeme', function (done) {
+    it('suggest lexeme (first character maybe with diacritic)', function (done) {
       request(server)
         .get('/lexemes/search_suggest?s=Hareg')
         .expect(200)
         .end(checkResponse({lemmas: ['ħareġ']}, done))
     })
 
-    it('suggest wordform', function (done) {
+    it('suggest lexeme (first character without diacritic)', function (done) {
       request(server)
-        .get('/wordforms/search_suggest?s=harget')
+        .get('/lexemes/search_suggest?s=agGorna')
+        .expect(200)
+        .end(checkResponse({lemmas: ['aġġorna']}, done))
+    })
+
+    it('suggest wordform (first character maybe with diacritic)', function (done) {
+      request(server)
+        .get('/wordforms/search_suggest?s=hargEt')
         .expect(200)
         .end(checkResponse({surface_forms: ['ħarġet']}, done))
+    })
+
+    it('suggest wordform (first character without diacritic)', function (done) {
+      request(server)
+        .get('/wordforms/search_suggest?s=aggorNat')
+        .expect(200)
+        .end(checkResponse({surface_forms: ['aġġornat']}, done))
     })
   })
 

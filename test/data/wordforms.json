@@ -1,28 +1,28 @@
 [
-{
+  {
     "aspect": "perf",
     "generated": true,
-    "lexeme" : {
+    "lexeme": {
       "lemma": "kiteb",
       "pos": "VERB"
     },
     "phonetic": "kɪdbɛt",
-    "polarity": "pos",  
+    "polarity": "pos",
     "sources": [
-        "Camilleri2013"
+      "Camilleri2013"
     ],
     "subject": {
-        "person": "p3",
-        "number": "sg",
-        "gender": "f"
+      "person": "p3",
+      "number": "sg",
+      "gender": "f"
     },
     "surface_form": "kitbet"
-},
-{
+  },
+  {
     "aspect": "perf",
     "dir_obj": null,
     "generated": true,
-    "lexeme" : {
+    "lexeme": {
       "lemma": "kiteb",
       "pos": "VERB"
     },
@@ -30,172 +30,258 @@
     "phonetic": "ktɪpt",
     "polarity": "pos",
     "sources": [
-        "Camilleri2013"
+      "Camilleri2013"
     ],
     "subject": {
-        "person": "p1",
-        "number": "sg"
+      "person": "p1",
+      "number": "sg"
     },
     "surface_form": "ktibt"
-},
-{
-    "aspect" : "imp",
-    "dir_obj" : null,
-    "generated" : true,
-    "ind_obj" : null,
-    "lexeme" : {
+  },
+  {
+    "aspect": "imp",
+    "dir_obj": null,
+    "generated": true,
+    "ind_obj": null,
+    "lexeme": {
       "lemma": "kiteb",
       "pos": "VERB"
     },
-    "phonetic" : "ɪkdbʊ",
-    "polarity" : "pos",
-    "sources" : [
-        "Camilleri2013"
+    "phonetic": "ɪkdbʊ",
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2013"
     ],
-    "subject" : {
-        "person" : "p2",
-        "number" : "pl"
+    "subject": {
+      "person": "p2",
+      "number": "pl"
     },
-    "surface_form" : "iktbu"
-},
-{
-    "aspect" : "imp",
-    "dir_obj" : null,
-    "generated" : true,
-    "ind_obj" : null,
-    "lexeme" : {
+    "surface_form": "iktbu"
+  },
+  {
+    "aspect": "imp",
+    "dir_obj": null,
+    "generated": true,
+    "ind_obj": null,
+    "lexeme": {
       "lemma": "kiteb",
       "pos": "VERB"
     },
-    "phonetic" : "tɪkdbʊʃ",
-    "polarity" : "neg",
-    "sources" : [
-        "Camilleri2013"
+    "phonetic": "tɪkdbʊʃ",
+    "polarity": "neg",
+    "sources": [
+      "Camilleri2013"
     ],
-    "subject" : {
-        "person" : "p2",
-        "number" : "pl"
+    "subject": {
+      "person": "p2",
+      "number": "pl"
     },
-    "surface_form" : "tiktbux"
-},
-{
-    "aspect" : "perf",
-    "generated" : true,
-    "lexeme" : {
+    "surface_form": "tiktbux"
+  },
+  {
+    "aspect": "perf",
+    "generated": true,
+    "lexeme": {
       "lemma": "kiteb",
       "pos": "VERB"
     },
-    "polarity" : "pos",
-    "subject" : {
-        "person" : "p2",
-        "number" : "sg"
+    "polarity": "pos",
+    "subject": {
+      "person": "p2",
+      "number": "sg"
     },
-    "surface_form" : "ktibtni",
-    "dir_obj" : {
-        "person" : "p1",
-        "number" : "sg"
+    "surface_form": "ktibtni",
+    "dir_obj": {
+      "person": "p1",
+      "number": "sg"
     },
-    "ind_obj" : null,
-    "sources" : [
-        "Camilleri2013"
+    "ind_obj": null,
+    "sources": [
+      "Camilleri2013"
     ],
-    "pending" : true
-},
-{
-    "aspect" : "perf",
-    "generated" : true,
-    "lexeme" : {
+    "pending": true
+  },
+  {
+    "aspect": "perf",
+    "generated": true,
+    "lexeme": {
       "lemma": "kiteb",
       "pos": "VERB"
     },
-    "polarity" : "neg",
-    "subject" : {
-        "person" : "p2",
-        "number" : "sg"
+    "polarity": "neg",
+    "subject": {
+      "person": "p2",
+      "number": "sg"
     },
-    "surface_form" : "ktibtnix",
-    "dir_obj" : {
-        "person" : "p1",
-        "number" : "sg"
+    "surface_form": "ktibtnix",
+    "dir_obj": {
+      "person": "p1",
+      "number": "sg"
     },
-    "ind_obj" : null,
-    "sources" : [
-        "Camilleri2013"
+    "ind_obj": null,
+    "sources": [
+      "Camilleri2013"
     ],
-    "pending" : true
-},
-{
-  "aspect": "perf",
-  "dir_obj": null,
-  "generated": true,
-  "ind_obj": null,
-  "lexeme": {
-    "lemma": "ħareġ",
-    "pos": "VERB"
+    "pending": true
   },
-  "phonetic": "hrɪʧt",
-  "polarity": "pos",
-  "sources": ["Camilleri2013"],
-  "subject": {
-    "person": "p1",
-    "number": "sg"
+  {
+    "aspect": "perf",
+    "dir_obj": null,
+    "generated": true,
+    "ind_obj": null,
+    "lexeme": {
+      "lemma": "ħareġ",
+      "pos": "VERB"
+    },
+    "phonetic": "hrɪʧt",
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2013"
+    ],
+    "subject": {
+      "person": "p1",
+      "number": "sg"
+    },
+    "surface_form": "ħriġt"
   },
-  "surface_form": "ħriġt"
-},
-{
-  "aspect": "perf",
-  "dir_obj": null,
-  "generated": true,
-  "ind_obj": null,
-  "lexeme": {
-    "lemma": "ħareġ",
-    "pos": "VERB"
+  {
+    "aspect": "perf",
+    "dir_obj": null,
+    "generated": true,
+    "ind_obj": null,
+    "lexeme": {
+      "lemma": "ħareġ",
+      "pos": "VERB"
+    },
+    "phonetic": "hrɪʧt",
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2013"
+    ],
+    "subject": {
+      "person": "p2",
+      "number": "sg"
+    },
+    "surface_form": "ħriġt"
   },
-  "phonetic": "hrɪʧt",
-  "polarity": "pos",
-  "sources": ["Camilleri2013"],
-  "subject": {
-    "person": "p2",
-    "number": "sg"
+  {
+    "aspect": "perf",
+    "dir_obj": null,
+    "generated": true,
+    "ind_obj": null,
+    "lexeme": {
+      "lemma": "ħareġ",
+      "pos": "VERB"
+    },
+    "phonetic": "hɐrɛʧ",
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2013"
+    ],
+    "subject": {
+      "person": "p3",
+      "number": "sg",
+      "gender": "m"
+    },
+    "surface_form": "ħareġ"
   },
-  "surface_form": "ħriġt"
-},
-{
-  "aspect": "perf",
-  "dir_obj": null,
-  "generated": true,
-  "ind_obj": null,
-  "lexeme": {
-    "lemma": "ħareġ",
-    "pos": "VERB"
+  {
+    "aspect": "perf",
+    "dir_obj": null,
+    "generated": true,
+    "ind_obj": null,
+    "lexeme": {
+      "lemma": "ħareġ",
+      "pos": "VERB"
+    },
+    "phonetic": "hɐrʤɛt",
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2013"
+    ],
+    "subject": {
+      "person": "p3",
+      "number": "sg",
+      "gender": "f"
+    },
+    "surface_form": "ħarġet"
   },
-  "phonetic": "hɐrɛʧ",
-  "polarity": "pos",
-  "sources": ["Camilleri2013"],
-  "subject": {
-    "person": "p3",
-    "number": "sg",
-    "gender": "m"
+  {
+    "surface_form": "aġġornajt",
+    "aspect": "perf",
+    "subject": {
+      "person": "p1",
+      "number": "sg"
+    },
+    "dir_obj": null,
+    "ind_obj": null,
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2015"
+    ],
+    "lexeme": {
+      "lemma": "aġġorna",
+      "pos": "VERB"
+    },
+    "generated": true
   },
-  "surface_form": "ħareġ"
-},
-{
-  "aspect": "perf",
-  "dir_obj": null,
-  "generated": true,
-  "ind_obj": null,
-  "lexeme": {
-    "lemma": "ħareġ",
-    "pos": "VERB"
+  {
+    "surface_form": "aġġornajt",
+    "aspect": "perf",
+    "subject": {
+      "person": "p2",
+      "number": "sg"
+    },
+    "dir_obj": null,
+    "ind_obj": null,
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2015"
+    ],
+    "lexeme": {
+      "lemma": "aġġorna",
+      "pos": "VERB"
+    },
+    "generated": true
   },
-  "phonetic": "hɐrʤɛt",
-  "polarity": "pos",
-  "sources": ["Camilleri2013"],
-  "subject": {
-    "person": "p3",
-    "number": "sg",
-    "gender": "f"
+  {
+    "surface_form": "aġġorna",
+    "aspect": "perf",
+    "subject": {
+      "person": "p3",
+      "number": "sg",
+      "gender": "m"
+    },
+    "dir_obj": null,
+    "ind_obj": null,
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2015"
+    ],
+    "lexeme": {
+      "lemma": "aġġorna",
+      "pos": "VERB"
+    },
+    "generated": true
   },
-  "surface_form": "ħarġet"
-}
+  {
+    "surface_form": "aġġornat",
+    "aspect": "perf",
+    "subject": {
+      "person": "p3",
+      "number": "sg",
+      "gender": "f"
+    },
+    "dir_obj": null,
+    "ind_obj": null,
+    "polarity": "pos",
+    "sources": [
+      "Camilleri2015"
+    ],
+    "lexeme": {
+      "lemma": "aġġorna",
+      "pos": "VERB"
+    },
+    "generated": true
+  }
 ]

@@ -1,181 +1,199 @@
 [
-{
-    "derived_form" : 1,
-    "intransitive" : true,
-    "lemma" : "ħareġ",
-    "phonetic" : "hɐrɛʧ",
-    "pos" : "VERB",
-    "root" : {
-        "radicals" : "ħ-r-ġ"
+    {
+        "derived_form": 1,
+        "intransitive": true,
+        "lemma": "ħareġ",
+        "phonetic": "hɐrɛʧ",
+        "pos": "VERB",
+        "root": {
+            "radicals": "ħ-r-ġ"
+        },
+        "sources": [
+            "Spagnol2011",
+            "Falzon2013"
+        ],
+        "transitive": true,
+        "glosses": [
+            {
+                "gloss": "to exit",
+                "examples": []
+            },
+            {
+                "gloss": "to leave",
+                "examples": []
+            },
+            {
+                "gloss": "to go out",
+                "examples": []
+            },
+            {
+                "gloss": "to take sth. out",
+                "examples": []
+            },
+            {
+                "gloss": "to be published",
+                "examples": []
+            },
+            {
+                "gloss": "to be made public",
+                "examples": []
+            },
+            {
+                "gloss": "to stand for election",
+                "examples": []
+            }
+        ],
+        "norm_freq": 400.570786390402
     },
-    "sources" : [
-        "Spagnol2011",
-        "Falzon2013"
-    ],
-    "transitive" : true,
-    "glosses" : [
-        {
-            "gloss" : "to exit",
-            "examples" : []
+    {
+        "lemma": "kiteb",
+        "pos": "VERB",
+        "sources": [
+            "Spagnol2011"
+        ],
+        "glosses": [
+            {
+                "gloss": "to write",
+                "examples": []
+            },
+            {
+                "gloss": "to enrol sb.",
+                "examples": []
+            },
+            {
+                "gloss": "to name sb. as the heir of sth.",
+                "examples": []
+            }
+        ],
+        "root": {
+            "radicals": "k-t-b"
         },
-        {
-            "gloss" : "to leave",
-            "examples" : []
-        },
-        {
-            "gloss" : "to go out",
-            "examples" : []
-        },
-        {
-            "gloss" : "to take sth. out",
-            "examples" : []
-        },
-        {
-            "gloss" : "to be published",
-            "examples" : []
-        },
-        {
-            "gloss" : "to be made public",
-            "examples" : []
-        },
-        {
-            "gloss" : "to stand for election",
-            "examples" : []
-        }
-    ],
-    "norm_freq" : 400.570786390402
-},
-{
-    "lemma" : "kiteb",
-    "pos" : "VERB",
-    "sources" : [
-        "Spagnol2011"
-    ],
-    "glosses" : [
-        {
-            "gloss" : "to write",
-            "examples" : []
-        },
-        {
-            "gloss" : "to enrol sb.",
-            "examples" : []
-        },
-        {
-            "gloss" : "to name sb. as the heir of sth.",
-            "examples" : []
-        }
-    ],
-    "root" : {
-        "radicals" : "k-t-b"
+        "derived_form": 1,
+        "transitive": true,
+        "phonetic": "kɪtɛp",
+        "norm_freq": 211.950069057088
     },
-    "derived_form" : 1,
-    "transitive" : true,
-    "phonetic" : "kɪtɛp",
-    "norm_freq" : 211.950069057088
-},
-{
-    "lemma" : "ktieb",
-    "phonetic" : "ktɪːp",
-    "pos" : "NOUN",
-    "root" : {
-        "radicals" : "k-t-b"
-    },
-    "sources" : [
-        "Mayer2013"
-    ],
-    "glosses" : [
-        {
-            "gloss" : "book",
-            "examples" : [
-                {
-                    "example" : "It- tnedija tal- ktieb se ssir illejla f’ Dar il- Mediterran għall- Konferenzi waqt il- Festival Nazzjonali tal- Ktieb .",
-                    "type" : "full"
-                }
-            ]
+    {
+        "lemma": "ktieb",
+        "phonetic": "ktɪːp",
+        "pos": "NOUN",
+        "root": {
+            "radicals": "k-t-b"
         },
-        {
-            "gloss" : "ledger",
-            "examples" : []
-        }
-    ],
-    "norm_freq" : 200.877152331788
-},
-{
-    "lemma" : "ktejjeb",
-    "phonetic" : "ktɛɪjɛp",
-    "pos" : "NOUN",
-    "root" : {
-        "radicals" : "k-t-b"
+        "sources": [
+            "Mayer2013"
+        ],
+        "glosses": [
+            {
+                "gloss": "book",
+                "examples": [
+                    {
+                        "example": "It- tnedija tal- ktieb se ssir illejla f’ Dar il- Mediterran għall- Konferenzi waqt il- Festival Nazzjonali tal- Ktieb .",
+                        "type": "full"
+                    }
+                ]
+            },
+            {
+                "gloss": "ledger",
+                "examples": []
+            }
+        ],
+        "norm_freq": 200.877152331788
     },
-    "sources" : [
-        "DM2015"
-    ],
-    "glosses" : [
-        {
-            "gloss" : "booklet"
+    {
+        "lemma": "ktejjeb",
+        "phonetic": "ktɛɪjɛp",
+        "pos": "NOUN",
+        "root": {
+            "radicals": "k-t-b"
         },
-        {
-            "gloss" : "chap book"
-        }
-    ]
-},
-{
-    "gender" : "m",
-    "hypothetical" : false,
-    "lemma" : "pitazz",
-    "pending" : false,
-    "phonetic" : "pɪtɐtsts",
-    "pos" : "NOUN",
-    "sources" : [
-        "UserFeedback",
-        "DM2015"
-    ],
-    "glosses" : [
-        {
-            "gloss" : "exercise book"
-        }
-    ]
-},
-{
-    "derived_form" : 2,
-    "lemma" : "barrad",
-    "phonetic" : "bɐrrɐt",
-    "pos" : "VERB",
-    "root" : {
-        "radicals" : "b-r-d",
-        "variant" : 1
+        "sources": [
+            "DM2015"
+        ],
+        "glosses": [
+            {
+                "gloss": "booklet"
+            },
+            {
+                "gloss": "chap book"
+            }
+        ]
     },
-    "sources" : [
-        "Spagnol2011"
-    ],
-    "transitive" : true,
-    "glosses" : [
-        {
-            "gloss" : "to file vigorously"
+    {
+        "gender": "m",
+        "hypothetical": false,
+        "lemma": "pitazz",
+        "pending": false,
+        "phonetic": "pɪtɐtsts",
+        "pos": "NOUN",
+        "sources": [
+            "UserFeedback",
+            "DM2015"
+        ],
+        "glosses": [
+            {
+                "gloss": "exercise book"
+            }
+        ]
+    },
+    {
+        "derived_form": 2,
+        "lemma": "barrad",
+        "phonetic": "bɐrrɐt",
+        "pos": "VERB",
+        "root": {
+            "radicals": "b-r-d",
+            "variant": 1
         },
-        {
-            "gloss" : "to polish repeatedly"
-        }
-    ]
-},
-{
-    "derived_form" : 2,
-    "lemma" : "berred",
-    "phonetic" : "bɛrrɛt",
-    "pos" : "VERB",
-    "root" : {
-        "radicals" : "b-r-d",
-        "variant" : 2
+        "sources": [
+            "Spagnol2011"
+        ],
+        "transitive": true,
+        "glosses": [
+            {
+                "gloss": "to file vigorously"
+            },
+            {
+                "gloss": "to polish repeatedly"
+            }
+        ]
     },
-    "sources" : [
-        "Spagnol2011",
-        "Falzon2013"
-    ],
-    "transitive" : true,
-    "glosses" : [
-        {
-            "gloss" : "to cool sth."
-        }
-    ]
-}
+    {
+        "derived_form": 2,
+        "lemma": "berred",
+        "phonetic": "bɛrrɛt",
+        "pos": "VERB",
+        "root": {
+            "radicals": "b-r-d",
+            "variant": 2
+        },
+        "sources": [
+            "Spagnol2011",
+            "Falzon2013"
+        ],
+        "transitive": true,
+        "glosses": [
+            {
+                "gloss": "to cool sth."
+            }
+        ]
+    },
+    {
+        "lemma": "aġġorna",
+        "pos": "VERB",
+        "sources": [
+            "Falzon2013"
+        ],
+        "phonetic": "ɐʤʤɔrnɐ",
+        "glosses": [
+            {
+                "gloss": "to adjourn",
+                "examples": []
+            },
+            {
+                "gloss": "to update",
+                "examples": []
+            }
+        ]
+    }
 ]

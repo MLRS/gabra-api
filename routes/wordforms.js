@@ -180,16 +180,46 @@ router.get('/search_suggest', function (req, res) {
   s = s.replace(/\$$/, '')
   s = '^' + s + '$'
 
-  var query = {
-    'surface_form': {'$regex': s, '$ne': orig},
-    'pending': {'$ne': true}
+  /*
+  Optimisation: If the search term's first character is a set,
+  split the regular expression into two, one for each choice.
+  Example: ^[hħ]ar[gġ]et$ -> ^har[gġ]et$ / ^ħar[gġ]et$
+  Let MongoDB search for each separate regex using $in.
+  This is to provide a fixed prefix in the regular expression
+  which makes use of the index and thus speeds up the search.
+  */
+  var query
+  if (s.startsWith('^[')) {
+    const opt1 = s.charAt(2) // Example: h
+    const opt2 = s.charAt(3) // Example: ħ
+    const tail = s.substr(5) // Example: ar[gġ]et$
+    query = {
+      'surface_form': {
+        '$in': [
+          new RegExp('^' + opt1 + tail),
+          new RegExp('^' + opt2 + tail)
+        ],
+        '$ne': orig
+      },
+      'pending': {'$ne': true}
+    }
+  } else {
+    query = {
+      'surface_form': {
+        '$regex': new RegExp(s),
+        '$ne': orig
+      },
+      'pending': {'$ne': true}
+    }
   }
+
   var opts = {
     'projection': {
       'surface_form': true,
       'lexeme_id': true
     }
   }
+
   db.get('wordforms').find(query, opts)
     .catch(function (err) {
       console.error(err)
