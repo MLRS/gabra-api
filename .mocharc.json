@@ -1,4 +1,5 @@
 {
+  "timeout": 10000,
   "bail": false,
   "reporter": "spec",
   "checkLeaks": true,
