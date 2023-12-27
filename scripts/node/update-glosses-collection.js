@@ -7,7 +7,7 @@
  */
 
 module.exports = function (db) {
-  console.log(`Updating glosses collection...`)
+  console.log('Updating glosses collection...')
 
   const coll = db.get('glosses')
   const conds = {

@@ -11,7 +11,7 @@ var path = require('path')
 var fs = require('fs')
 
 if (process.argv.length < 3) {
-  console.error(`Must specify input script`)
+  console.error('Must specify input script')
   process.exit(1)
 }
 

@@ -1,2 +1,3 @@
 public/bootstrap/
 node_modules/
+scripts/mongo/migrate.js

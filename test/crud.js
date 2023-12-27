@@ -99,7 +99,7 @@ describe('CRUD', function () {
 
       // create lexeme
       request(server)
-        .post(`/lexemes`)
+        .post('/lexemes')
         .auth(username, password)
         .send(doc)
         .expect(201)
@@ -110,7 +110,7 @@ describe('CRUD', function () {
         .then(() =>
           // add wordforms
           request(server)
-            .post(`/wordforms`)
+            .post('/wordforms')
             .auth(username, password)
             .send(wf)
             .expect(201)

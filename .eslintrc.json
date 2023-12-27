@@ -2,6 +2,13 @@
   "extends": "standard",
   "rules": {
     "camelcase": "off",
-    "object-curly-spacing": "off"
+    "object-curly-spacing": "off",
+    "no-var": "off",
+    "quote-props": "off",
+    "prefer-const": "off",
+    "object-shorthand": "off",
+    "dot-notation": "off",
+    "n/handle-callback-err": "off",
+    "no-prototype-builtins": "off"
   }
 }
