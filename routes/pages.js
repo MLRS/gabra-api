@@ -232,7 +232,7 @@ function markdownPage (req, res, next, params) {
     data = data.replace(/#{(.+?)}/g, function (m, c1) {
       return res.locals[c1]
     })
-    var content = marked(data)
+    var content = marked.parse(data)
     content = content.replace(/<table>/g, '<table class="table">')
     if (typeof params.replacer === 'function') {
       content = params.replacer(content)
