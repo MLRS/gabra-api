@@ -12,8 +12,7 @@
         "kiteb",
         "ħarġa"
       ],
-      "type": "string",
-      "propertyOrder": 2
+      "type": "string"
     },
     "alternatives": {
       "description": "List of spelling alternatives",
@@ -25,8 +24,7 @@
       "items": {
         "title": "alternative",
         "type": "string"
-      },
-      "propertyOrder": 3
+      }
     },
     "pos": {
       "description": "Part of speech",
@@ -49,8 +47,7 @@
         "SYM",
         "VERB",
         "X"
-      ],
-      "propertyOrder": 4
+      ]
     },
     "sources": {
       "description": "Source keys",
@@ -62,8 +59,7 @@
       "items": {
         "title": "source",
         "type": "string"
-      },
-      "propertyOrder": 5
+      }
     },
     "glosses": {
       "description": "English glosses, with examples",
@@ -100,8 +96,7 @@
             }
           }
         }
-      },
-      "propertyOrder": 6
+      }
     },
     "root": {
       "description": "Root of entry",
