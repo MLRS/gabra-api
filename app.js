@@ -2,7 +2,6 @@ var express = require('express')
 var path = require('path')
 var logger = require('morgan')
 var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
 var compression = require('compression')
 var helmet = require('helmet')
 var app = express()
@@ -16,8 +15,8 @@ app.locals.pretty = true
 
 app.use(helmet())
 app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 var cache_static = '7 days'
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: cache_static }))
