@@ -1,11 +1,9 @@
-API for Ġabra
--------------
+# API for Ġabra
 
 Ġabra is an open lexicon for Maltese.
 
 This repository contains the source code for the Ġabra API at
 <http://mlrs.research.um.edu.mt/resources/gabra-api/>
-
 
 ## Installation
 
@@ -41,8 +39,9 @@ To stop on first failure, use `--bail`
 
 ### Using test data
 
-1. Set DB URL in `server-config.js` to `...gabra-test` (or something else)
-2. ```
+Set `dbUrl` in `server-config.js` to `...gabra-test` (or something else)
+
+```sh
 node scripts/node/populate.js test/data/*.json
 node scripts/node/resolve-lexeme-ids.js
 node scripts/node/create-indexes.js
@@ -54,12 +53,13 @@ node scripts/node/create-indexes.js
 - `master` branch is used for development.
 - `production` branch is kept in sync with live version on MLRS.
 
-**Deploying**
+### Deploying
 
 Pushing to production will trigger a deploy via GitHub actions.
 
 Assuming production can be fast-forwarded:
-```
+
+```sh
 git push . master:production
 git push origin production
 ```

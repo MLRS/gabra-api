@@ -4,8 +4,7 @@
 // Usage:
 // scripts/node/run.js scripts/node/update-glosses-collection.js
 
-// Module should export a function which takes db as argument
-// and returns a promise
+// Module should export a function which takes db as argument and returns a promise
 
 var path = require('path')
 var fs = require('fs')

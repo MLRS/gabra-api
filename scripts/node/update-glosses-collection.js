@@ -3,7 +3,9 @@
 /*
  * Populate glosses collection, which serves as an index from gloss to lexeme.
  * The glosses collection is used specifically by the search_glosses API call.
- * This script should be run periodicllay on a cron job or similar.
+ * This script should be run periodically on a cron job or similar.
+ *
+ * Must be run with ./run.js
  */
 
 module.exports = function (db) {

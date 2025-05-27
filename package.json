@@ -1,6 +1,6 @@
 {
   "name": "gabra-api",
-  "version": "2.13.0",
+  "version": "2.14.0",
   "description": "Ġabra: an open lexicon for Maltese",
   "author": "John J. Camilleri <john@johnjcamilleri.com> (http://johnjcamilleri.com/)",
   "license": "MIT",
@@ -15,25 +15,25 @@
     "lint": "npx eslint ."
   },
   "dependencies": {
-    "@forevolve/bootstrap-dark": "^1.0.0-alpha.937",
+    "@forevolve/bootstrap-dark": "^4.0.2",
     "@json-editor/json-editor": "^2.1.0",
     "async": "^1.4.0",
     "body-parser": "^1.18.3",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.6.2",
     "compression": "^1.7.4",
-    "cookie-parser": "~1.3.5",
+    "cookie-parser": "^1.4.7",
     "express": "^4.16.4",
     "extend": "^3.0.2",
     "helmet": "^3.21.2",
-    "marked": "^0.7.0",
-    "monk": "^7.1.2",
+    "marked": "^15.0.12",
+    "monk": "^7.3.4",
     "morgan": "^1.9.1",
     "node-schedule": "^1.3.2",
-    "passport": "^0.2.2",
-    "passport-http": "^0.2.2",
-    "pug": "^2.0.3",
+    "passport": "^0.7.0",
+    "passport-http": "^0.3.0",
+    "pug": "^3.0.3",
     "regexp-quote": "0.0.0",
-    "universal-analytics": "^0.4.20"
+    "universal-analytics": "^0.5.3"
   },
   "devDependencies": {
     "ajv": "^6.10.0",
@@ -44,8 +44,13 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^6.2.2",
+    "mocha": "^11.5.0",
     "should": "^8.2.2",
     "supertest": "^3.4.2"
+  },
+  "overrides": {
+    "monk": {
+      "mongodb": "~3.5.7"
+    }
   }
 }

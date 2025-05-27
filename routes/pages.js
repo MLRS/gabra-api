@@ -3,7 +3,7 @@ const router = express.Router()
 
 var monk = require('monk')
 const fs = require('fs')
-const marked = require('marked')
+const { marked } = require('marked')
 const passport = require('passport')
 const loadSchemaAsHTML = require('./helpers/render-schema')
 
