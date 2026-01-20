@@ -26,6 +26,8 @@ html(lang="en")
     //- link(rel='stylesheet', href=baseURL+'/module/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href=baseURL+'/module/@forevolve/bootstrap-dark/dist/css/toggle-bootstrap.min.css')
     link(rel='stylesheet', href=baseURL+'/module/@forevolve/bootstrap-dark/dist/css/toggle-bootstrap-dark.min.css')
+    link(rel='stylesheet', href=baseURL+'/fontawesome/fontawesome.min.css')
+    link(rel='stylesheet', href=baseURL+'/fontawesome/solid.min.css')
     style
       include ../public/stylesheets/styles.css
 
@@ -36,7 +38,6 @@ html(lang="en")
         'gabraURL': '#{gabraURL}',
       }
     script(src=baseURL+"/javascripts/base.js")
-    script(src="https://kit.fontawesome.com/452e791a35.js" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous")
 
   body(class=((theme === 'dark') ? 'bootstrap-dark' : 'bootstrap'), role="document", onload="GabraAPI.checkLoggedIn()")
