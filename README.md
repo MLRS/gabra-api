@@ -16,8 +16,20 @@ This repository contains the source code for the Ġabra API at
 ### Database
 
 - You will need a MongoDB installation.
-  See <http://mlrs.research.um.edu.mt/resources/gabra-api/download> for data dumps you can use to get started.
-  TODO: non-data tables
+- See <http://mlrs.research.um.edu.mt/resources/gabra-api/download> for data dumps you can use to get started.
+  Use these with the `mongorestore` tool.
+- After restoring data, you will need to create indices:
+
+  ```sh
+  $ cd scripts/nodes
+  
+  $ ./create-indexes.js
+  creating 16 indexes
+
+  $ ./run.js update-glosses-collection.js 
+  Updating glosses collection...
+  ...processed 29866 glosses from 19890 lexemes
+  ```
 
 ## Running
 
