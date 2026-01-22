@@ -1,4 +1,4 @@
-<h1>Ġabra API v#{version} <small>Updated 2025-05-27</small></h1>
+<h1>Ġabra API v#{version} <small>Updated 2026-01-22</small></h1>
 
 <div class="alert alert-light bg-light border my-4">
 This site is aimed at developers who want to access the Ġabra database programmatically, such as from a website or app.
