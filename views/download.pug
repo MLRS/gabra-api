@@ -25,7 +25,7 @@ block content
             a(href=baseURL+'/data/'+f.name )= f.name
             if i === 1
               |  
-              span.label.label-primary Latest
+              span.badge.badge-primary Latest
           td= (f.size / (1024 * 1024)).toFixed(2)
             |  MB
           td= f.mtime
