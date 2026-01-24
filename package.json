@@ -47,10 +47,5 @@
     "mocha": "^11.5.0",
     "should": "^8.2.2",
     "supertest": "^3.4.2"
-  },
-  "overrides": {
-    "monk": {
-      "mongodb": "~3.5.7"
-    }
   }
 }
