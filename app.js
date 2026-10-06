@@ -6,6 +6,7 @@ var bodyParser = require('body-parser')
 var compression = require('compression')
 var helmet = require('helmet')
 var app = express()
+// require('dotenv').config()
 
 app.use(compression()) // compress all requests
 
@@ -29,32 +30,21 @@ app.use(function (req, res, next) {
   next()
 })
 
-// Load server-specific config
 const pagesPath = '/p'
-var config = require('./server-config')
 var package_json = require('./package.json')
 app.use(function (req, res, next) {
-  res.locals = config
+  res.locals = {}
   res.locals.version = package_json.version
-  res.locals.pageURL = `${config.baseURL}${pagesPath}`
+  res.locals.baseURL = process.env.BASE_URL
+  res.locals.fullBaseURL = process.env.FULL_BASE_URL
+  res.locals.gabraURL = process.env.GABRA_URL
+  res.locals.pageURL = `${process.env.BASE_URL}${pagesPath}`
   next()
-})
-
-// Stop if maintenance mode
-app.use(function (req, res, next) {
-  if (config.maintenanceMode) {
-    res.status(503)
-    res.header('Retry-After', 120) // two minutes
-    res.send('Ġabra is down for maintenance, please try again later.')
-    res.end()
-  } else {
-    next()
-  }
 })
 
 // Database
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 // Make our db accessible to our router
 app.use(function (req, res, next) {
   req.db = db
@@ -72,7 +62,7 @@ var BasicStrategy = require('passport-http').BasicStrategy
 passport.use(new BasicStrategy(
   function (username, password, done) {
     db.get('users').findOne({ username: username }, function (err, user) {
-      var salted = config.salt + password
+      var salted = process.env.SALT + password
       var shasum = require('crypto').createHash('sha1')
       var hashed = shasum.update(salted).digest('hex')
       if (err) { return done(err) }
@@ -89,10 +79,10 @@ app.use(passport.initialize())
 app.set('trust proxy', true)
 
 // Analytics
-if (config.analyticsCode && process.env.NODE_ENV === 'production') {
+if (process.env.ANALYTICS_CODE && process.env.NODE_ENV === 'production') {
   app.use('/', function (req, res, next) {
     var ua = require('universal-analytics')
-    var visitor = ua(config.analyticsCode, req.ip, {strictCidFormat: false}) // visitors are identified by IP address, which is flawed
+    var visitor = ua(process.env.ANALYTICS_CODE, req.ip, {strictCidFormat: false}) // visitors are identified by IP address, which is flawed
     var params = {
       'documentPath': req.originalUrl,
       'ipOverride': req.ip

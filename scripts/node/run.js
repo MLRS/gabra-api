@@ -20,9 +20,8 @@ if (!fs.existsSync(script)) {
   process.exit(1)
 }
 
-var config = require('../../server-config.js')
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 
 var fun = require(script)
 fun(db).then(() => {

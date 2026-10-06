@@ -8,13 +8,12 @@ if (process.argv.length < 4) {
   process.exit(1)
 }
 
-var config = require('../../server-config')
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 
 const username = process.argv[2]
 const password = process.argv[3]
-const salted = config.salt + password
+const salted = process.env.SALT + password
 const shasum = require('crypto').createHash('sha1')
 const hashed = shasum.update(salted).digest('hex')
 

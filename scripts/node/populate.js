@@ -8,9 +8,8 @@
 
 var path = require('path')
 var fs = require('fs')
-var config = require('../../server-config.js')
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 
 let promises = []
 

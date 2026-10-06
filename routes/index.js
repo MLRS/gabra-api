@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-var config = require('../server-config')
-
 /* GET home page */
 router.get('/', function (req, res, next) {
   res.redirect(`${res.locals.pageURL}/home`)
@@ -11,7 +9,7 @@ router.get('/', function (req, res, next) {
 /* GET sitemap for Gabra site */
 router.get('/sitemap.gabra.txt', function (req, res, next) {
   var db = req.db
-  var base = config.gabraURL
+  var base = process.env.GABRA_URL
   let t = []
   t.push(`${base}/lexemes`)
   t.push(`${base}/roots`)

@@ -10,8 +10,14 @@ This repository contains the source code for the Ġabra API at
 ### Web app
 
 - You need [Node.js](https://nodejs.org). After cloning the repo run `npm install` to install Node packages locally.
-- You will need a file `server-config.js` containing the relevant details for your host.
-  Start by copying `server-config.sample.js`.
+- You will need to set the following environment variables, e.g. using a `.env` file:
+  ```env
+  DB_URL=mongodb://user:pass@db:27017/gabra?authSource=admin
+  BASE_URL=
+  FULL_BASE_URL=http://localhost:3000
+  GABRA_URL=http://mlrs.research.um.edu.mt/resources/gabra
+  SALT=somerandomstring
+  ```
 
 ### Database
 
@@ -21,7 +27,7 @@ This repository contains the source code for the Ġabra API at
 - After restoring data, you will need to create indices:
 
   ```sh
-  $ cd scripts/nodes
+  $ cd scripts/node
   
   $ ./create-indexes.js
   creating 16 indexes
@@ -51,7 +57,7 @@ To stop on first failure, use `--bail`
 
 ### Using test data
 
-Set `dbUrl` in `server-config.js` to `...gabra-test` (or something else)
+Set `DB_URL` in envoronment to `...gabra-test` (or something else)
 
 ```sh
 node scripts/node/populate.js test/data/*.json

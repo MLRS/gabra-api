@@ -7,9 +7,8 @@
 // }
 // With lexeme_id fields
 
-var config = require('../../server-config.js')
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 
 const coll_l = db.get('lexemes')
 const coll_wf = db.get('wordforms')

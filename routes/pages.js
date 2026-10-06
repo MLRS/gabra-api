@@ -23,7 +23,7 @@ router.get('/schema', function (req, res, next) {
     title: 'Schema',
     replacer: content =>
       content.replace(/{{(.+\.json)}}/g, (full, g1) =>
-        loadSchemaAsHTML(g1, res.locals.baseURL)
+        loadSchemaAsHTML(g1, process.env.BASE_URL)
       )
   })
 })

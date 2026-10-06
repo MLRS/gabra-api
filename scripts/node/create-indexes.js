@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-var config = require('../../server-config.js')
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 
 let promises = [
   db.get('glosses').createIndex({ lexeme_id: 1 }),

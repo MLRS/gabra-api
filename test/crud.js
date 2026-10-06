@@ -1,8 +1,7 @@
 /* globals describe it before after */
 
-var config = require('../server-config.js')
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 
 var request = require('supertest')
 require('should')
@@ -16,7 +15,7 @@ describe('CRUD', function () {
 
   before(function () {
     // Create test user
-    var salted = config.salt + password
+    var salted = process.env.SALT + password
     var shasum = require('crypto').createHash('sha1')
     var hashed = shasum.update(salted).digest('hex')
     return db.get('users').insert({

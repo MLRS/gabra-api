@@ -1,9 +1,8 @@
 /* globals describe it */
 
 require('should')
-var config = require('../server-config.js')
 var monk = require('monk')
-var db = monk(config.dbUrl)
+var db = monk(process.env.DB_URL)
 
 var fs = require('fs')
 var Ajv = require('ajv')
